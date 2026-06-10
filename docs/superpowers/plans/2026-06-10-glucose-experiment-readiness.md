@@ -183,7 +183,9 @@ source-patient groups, split into 80 train, 10 validation, and 10 test groups
 with seed 42, input horizon 12, and output horizon 6. Training and baseline
 entrypoints now consume this artifact in smoke mode only. Full baseline parity,
 main-model rerun budget, and result summary artifacts are still required before
-any result upgrade.
+any result upgrade. Full baseline parity has since been executed for
+persistence, LinearRegression, GBM, and MLPRegressor, with aggregate metrics
+recorded in `glucose_baseline_parity_result_summary.json`.
 
 ### Task 5: Result Summary And Ledger Update
 
@@ -226,5 +228,6 @@ rg -n "Glucose 结果|下一步证据 gate|glucose-experiment-readiness" RESULTS
 Expected: ledger references the gate and keeps current evidence at B until all future artifacts exist.
 
 Observed: `glucose_result_summary_schema.md` is scaffolded. The ledger records
-smoke baseline and training outputs as local, ignored artifacts only. Current
-Glucose evidence remains B-level.
+smoke baseline, smoke training, and full baseline parity outputs without claim
+upgrade. Current Glucose evidence remains B-level because candidate-model rerun,
+leakage audit pass, and data availability audit are still missing.

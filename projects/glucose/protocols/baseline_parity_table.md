@@ -1,16 +1,18 @@
 # Glucose Baseline Parity Table
 
-Status: smoke-run completed, full parity not passed.
+Status: full baseline parity run completed, gate not passed.
 
 ## Verdict
 
 Baseline parity is not complete.
 
-The baseline entrypoint can now consume
-`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`,
-and a source-aware smoke baseline has been executed with a dependency-complete
-local venv. The smoke run verifies the split, train-only scaler, metric export,
-and JSON report path. It does not replace a full same-split baseline rerun.
+The baseline entrypoint consumed
+`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
+on the full split for persistence, LinearRegression, GBM, and MLPRegressor.
+This satisfies the baseline-parity execution requirement for these four
+baselines, but it does not pass the overall Glucose experiment-readiness gate.
+Canonical data availability, leakage audit, seed policy, and main-model rerun
+requirements remain unresolved.
 
 ## Current Split Contract
 
@@ -46,14 +48,39 @@ Smoke test metrics on the first 512 test windows:
 | persistence | 11.6648 | 17.7028 | 0.4079 | smoke only |
 | LinearRegression | 15.3053 | 19.2317 | 0.3012 | smoke only |
 
+## Full Baseline Parity Run
+
+| Field | Value |
+|---|---|
+| command | `/home/data/xzy/MyProject-Guochuang/gluformer_plus/.venv/bin/python projects/glucose/src/external_validation_and_baselines.py --split-dataset /home/data/xzy/system/projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json --split-manifest projects/glucose/protocols/public_glucose_source_aware_split_manifest.json --output outputs/glucose_baselines_source_aware_full --input-horizon 12 --output-horizon 6 --models persistence,linear,gbm,mlp` |
+| output | `outputs/glucose_baselines_source_aware_full/split_manifest_baseline_report.json` |
+| output SHA-256 | `e5447e5ed76a8fd2403755c31cd3ace55d532b0dac0ecea5e70624dadb276bfb` |
+| lightweight summary | `projects/glucose/protocols/glucose_baseline_parity_result_summary.json` |
+| artifact status | full output ignored by Git via `**/outputs/`; lightweight summary committed |
+| evaluation scope | `full_split` |
+| train windows | 159920 |
+| validation windows | 19990 |
+| test windows | 19990 |
+| normalization | train sequences only |
+| GBM backend | sklearn `GradientBoostingRegressor` wrapped by `MultiOutputRegressor` |
+
+Full-split test metrics:
+
+| Baseline | Test MAE | Test RMSE | Test R2 | Claim level |
+|---|---:|---:|---:|---|
+| persistence | 12.6028 | 18.3948 | 0.5246 | local |
+| LinearRegression | 11.4788 | 16.4071 | 0.6218 | local |
+| GBM | 9.8045 | 14.2221 | 0.7158 | local |
+| MLPRegressor | 9.1583 | 13.4614 | 0.7454 | local |
+
 ## Baseline Matrix
 
 | Baseline | Same split | Same input horizon | Same output horizon | Same metrics | Status |
 |---|---|---|---|---|---|
-| naive persistence | smoke-run on subset | yes | yes | MAE, RMSE, R2, per horizon | full run required |
-| LinearRegression | smoke-run on subset | yes | yes | MAE, RMSE, R2, per horizon | full run required |
-| GBM | wired to split artifact | yes | yes | MAE, RMSE, R2, per horizon | full run required |
-| MLPRegressor | wired to split artifact | yes | yes | MAE, RMSE, R2, per horizon | full run required |
+| naive persistence | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
+| LinearRegression | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
+| GBM | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
+| MLPRegressor | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
 | Enhanced Glucose ensemble | smoke-run on LSTM subset | yes | yes | ensemble test metrics | full run required |
 | GluFormer candidate | not separately audited | not yet audited | not yet audited | not yet audited | pending |
 
@@ -76,8 +103,6 @@ python3 projects/glucose/src/run_glucose_training.py \
 
 ## Remaining Blockers
 
-- Full same-split baseline reruns are still required for persistence,
-  LinearRegression, GBM, and MLPRegressor.
 - A full or predefined budget Enhanced Glucose rerun is still required after
   the smoke training path.
 - The public-preprocessed dataset source, licence, and access route still need

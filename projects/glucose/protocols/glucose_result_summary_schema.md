@@ -38,6 +38,7 @@ summary and does not upgrade any claim level.
 |---|---|---|---|---|
 | source-aware baseline smoke | `outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json` | 512 windows per split, persistence and LinearRegression | ignored output, not committed | smoke |
 | source-aware LSTM training smoke | `TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json` | 32 windows per split, 1 epoch, LSTM only | ignored output, not committed | smoke |
+| source-aware full baseline parity | `projects/glucose/protocols/glucose_baseline_parity_result_summary.json` | full split, persistence, LinearRegression, GBM, MLPRegressor | committed lightweight summary | local |
 
 ## Non-Requirements
 

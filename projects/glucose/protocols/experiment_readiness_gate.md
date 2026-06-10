@@ -23,10 +23,10 @@ Status: not passed.
 | canonical dataset manifest | path, source, access route, raw/derived status, sample count, patient/user count, timestamp coverage, hash strategy | preliminary manifest created: `projects/glucose/protocols/canonical_dataset_manifest.md`; canonical dataset not frozen |
 | split manifest | train/validation/test policy, patient/user exclusivity, time-order rule, seed list | preliminary group split artifact created: `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`; baseline and training smoke runs consumed it |
 | seed record | all random seeds and deterministic settings used for each run | missing |
-| baseline parity table | same split, same input horizon, same output horizon, same metric definitions | smoke-run recorded: `projects/glucose/protocols/baseline_parity_table.md`; full baseline parity not passed |
+| baseline parity table | same split, same input horizon, same output horizon, same metric definitions | full baseline parity completed for persistence, LinearRegression, GBM, and MLPRegressor; see `projects/glucose/protocols/baseline_parity_table.md` |
 | metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | missing |
 | leakage audit | duplicates, overlapping windows, patient overlap, generated IDs, scaler leakage, target leakage, test reuse | preliminary audit created: `projects/glucose/protocols/leakage_audit.md`; audit does not pass |
-| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | schema scaffolded; full result summary missing |
+| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary created: `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`; main-model summary missing |
 | claim boundary | local, dataset-level, external-validation, or clinical claim level | missing |
 
 ## Default Protocol
@@ -77,4 +77,5 @@ Do not commit raw glucose data, processed large datasets, model checkpoints, row
 - `public_glucose_source_aware_split_manifest.json` records a deterministic group-disjoint split for `public_glucose_preprocessed.json`: 80 train groups, 10 validation groups, 10 test groups, seed 42, input horizon 12, output horizon 6.
 - `run_glucose_training.py` and `external_validation_and_baselines.py` now have source-aware split-manifest modes that build windows after group assignment and use train-sequence-only scaling.
 - Smoke execution has verified the split-manifest baseline path on `persistence` and `LinearRegression` with 512 windows per split, and the training path on one LSTM model for 1 epoch with 32 windows per split.
-- The gate remains not passed until full same-split baselines, a predefined main-model budget, metric definitions, source/licence audit, and leakage audit all pass.
+- Full baseline parity has now been run on the same split for persistence, LinearRegression, GBM, and MLPRegressor. Test MAE/RMSE/R2 are recorded in `glucose_baseline_parity_result_summary.json`.
+- The gate remains not passed until a predefined main-model budget, metric definitions for candidate model comparison, source/licence audit, and leakage audit all pass.

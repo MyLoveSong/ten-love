@@ -1,0 +1,118 @@
+{
+  "run_id": "glucose_baseline_parity_public_source_aware_20260610_175513",
+  "generated_at": "2026-06-10T17:55:13+08:00",
+  "git_commit": "f9f54db",
+  "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
+  "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
+  "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
+  "dataset_sha256": "c40ff621d3ff3a82e45bb69981a5df8b365407170a3e27057d232170a3cefd36",
+  "source_report_path": "outputs/glucose_baselines_source_aware_full/split_manifest_baseline_report.json",
+  "source_report_sha256": "e5447e5ed76a8fd2403755c31cd3ace55d532b0dac0ecea5e70624dadb276bfb",
+  "artifact_policy": "source report is gitignored; this file contains only aggregate metrics",
+  "seed": 42,
+  "group_key": "source + patient_id",
+  "input_horizon": 12,
+  "output_horizon": 6,
+  "normalization_scope": "train_sequences_only",
+  "training_budget": {
+    "evaluation_scope": "full_split",
+    "max_windows_per_split": null,
+    "train_windows": 159920,
+    "validation_windows": 19990,
+    "test_windows": 19990,
+    "baselines": [
+      "persistence",
+      "linear",
+      "gbm",
+      "mlp"
+    ],
+    "gbm_backend": "sklearn.ensemble.GradientBoostingRegressor wrapped by MultiOutputRegressor",
+    "mlp_backend": "sklearn.neural_network.MLPRegressor",
+    "xgboost_available": false,
+    "lightgbm_available": false
+  },
+  "metric_unit": "mg/dL after inverse scaling",
+  "validation_metrics": {
+    "persistence": {
+      "mae": 12.635461,
+      "rmse": 18.423762,
+      "r2": 0.429501
+    },
+    "linear": {
+      "mae": 11.322725,
+      "rmse": 16.276463,
+      "r2": 0.554736
+    },
+    "gbm": {
+      "mae": 9.676485,
+      "rmse": 13.918408,
+      "r2": 0.674405
+    },
+    "mlp": {
+      "mae": 9.185383,
+      "rmse": 13.464692,
+      "r2": 0.695287
+    }
+  },
+  "test_metrics": {
+    "persistence": {
+      "mae": 12.60281,
+      "rmse": 18.394754,
+      "r2": 0.524626,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 10.35647, "rmse": 14.188901},
+        "t+2": {"mae": 11.313238, "rmse": 16.019386},
+        "t+3": {"mae": 12.194704, "rmse": 17.648272},
+        "t+4": {"mae": 13.009159, "rmse": 19.154637},
+        "t+5": {"mae": 13.905028, "rmse": 20.5033},
+        "t+6": {"mae": 14.838264, "rmse": 21.76027}
+      }
+    },
+    "linear": {
+      "mae": 11.478772,
+      "rmse": 16.407058,
+      "r2": 0.621811,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 9.251688, "rmse": 12.861035},
+        "t+2": {"mae": 10.236138, "rmse": 14.565691},
+        "t+3": {"mae": 11.158399, "rmse": 15.935896},
+        "t+4": {"mae": 11.972892, "rmse": 17.103124},
+        "t+5": {"mae": 12.748043, "rmse": 18.112967},
+        "t+6": {"mae": 13.50547, "rmse": 19.053464}
+      }
+    },
+    "gbm": {
+      "mae": 9.804473,
+      "rmse": 14.22212,
+      "r2": 0.715831,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 8.322097, "rmse": 11.54092},
+        "t+2": {"mae": 8.971425, "rmse": 12.797759},
+        "t+3": {"mae": 9.519127, "rmse": 13.788864},
+        "t+4": {"mae": 10.104676, "rmse": 14.738265},
+        "t+5": {"mae": 10.669702, "rmse": 15.581874},
+        "t+6": {"mae": 11.239814, "rmse": 16.324603}
+      }
+    },
+    "mlp": {
+      "mae": 9.158295,
+      "rmse": 13.461425,
+      "r2": 0.745417,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 7.815171, "rmse": 10.835543},
+        "t+2": {"mae": 8.368231, "rmse": 12.030316},
+        "t+3": {"mae": 8.870922, "rmse": 13.018495},
+        "t+4": {"mae": 9.469054, "rmse": 13.969968},
+        "t+5": {"mae": 9.95696, "rmse": 14.801371},
+        "t+6": {"mae": 10.469434, "rmse": 15.537069}
+      }
+    }
+  },
+  "selection_rule": "No winner is promoted to manuscript claim; all four baselines are recorded under the same split and prediction horizon.",
+  "leakage_audit": {
+    "path": "projects/glucose/protocols/leakage_audit.md",
+    "status": "blocked-unverified"
+  },
+  "data_availability_status": "blocked-unverified: source, licence, and access route are not Nature-ready",
+  "claim_level": "local"
+}

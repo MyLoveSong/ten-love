@@ -17,16 +17,18 @@
 - [x] 3.2 Create preliminary split manifest with observed split and leakage risks.
 - [ ] 3.3 Freeze the canonical dataset selection and hash or sampling-hash strategy.
 - [x] 3.4 Generate preliminary source-aware group split artifact for `public_glucose_preprocessed.json`, with hashed `source + patient_id` groups and time-order metadata.
-- [ ] 3.5 Run baseline parity checks on the same split and prediction horizon.
+- [x] 3.5 Run baseline parity checks on the same split and prediction horizon.
   - [x] 3.5.a Run source-aware smoke baseline on `persistence` and `LinearRegression` with 512 windows per split.
-  - [ ] 3.5.b Run full same-split baseline parity for persistence, LinearRegression, GBM, and MLPRegressor.
+  - [x] 3.5.b Run full same-split baseline parity for persistence, LinearRegression, GBM, and MLPRegressor.
 - [x] 3.6 Run preliminary leakage audit for duplicate rows, overlapping windows, patient overlap, generated patient IDs, normalization scope, target leakage, and test-set reuse; audit does not pass.
 - [ ] 3.7 Export lightweight manuscript-facing result summaries.
   - [x] 3.7.a Scaffold `projects/glucose/protocols/glucose_result_summary_schema.md`.
-  - [ ] 3.7.b Populate a full rerun summary after baseline parity and main-model budget execution.
+  - [x] 3.7.b Populate a full baseline-parity summary.
+  - [ ] 3.7.c Populate a candidate-model rerun summary after main-model budget execution.
 - [ ] 3.8 Update `RESULTS_LEDGER.md` only after the gate artifacts exist.
   - [x] 3.8.a Record smoke-only outputs in `RESULTS_LEDGER.md` without claim upgrade.
-  - [ ] 3.8.b Record full rerun results only after all required gate artifacts exist.
+  - [x] 3.8.b Record full baseline parity results without claim upgrade.
+  - [ ] 3.8.c Record candidate-model rerun results only after all required gate artifacts exist.
 
 ## 4. Verification
 

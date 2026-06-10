@@ -82,14 +82,16 @@ metric definitions、leakage audit 和轻量 result summary，再决定哪些结
 该 artifact 使用 `source + patient_id` 作为 group key，记录 80/10/10 个
 train/validation/test group，不包含逐行血糖值或原始 patient ID。它是下一轮
 重跑的输入协议。baseline 和训练入口已在 smoke mode 消费该 artifact，
-但 full baseline parity、主模型预算、metric definition、leakage audit pass
-和数据可用性审计仍未完成，因此尚未让 gate 通过。
+full baseline parity 已完成并写入轻量 summary，但主模型预算、
+candidate rerun、metric definition、leakage audit pass 和数据可用性审计
+仍未完成，因此尚未让 gate 通过。
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
 - `projects/glucose/protocols/experiment_readiness_gate.md`
 - `projects/glucose/protocols/baseline_parity_table.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
+- `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
 - `docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md`
 - `docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md`
@@ -116,8 +118,8 @@ train/validation/test group，不包含逐行血糖值或原始 patient ID。它
 
 ## 后续建议
 
-1. 运行 full same-split baseline parity：persistence、LinearRegression、GBM、MLPRegressor。
-2. 固定主模型训练预算，基于 split artifact 做可复现 rerun。
-3. 将结果按 `glucose_result_summary_schema.md` 导出轻量 summary，避免保存逐样本预测和模型权重字符串。
+1. 固定主模型训练预算，基于 split artifact 做可复现 rerun。
+2. 将 candidate 结果按 `glucose_result_summary_schema.md` 导出轻量 summary。
+3. 做 candidate-vs-baseline 同 split 对比，避免保存逐样本预测和模型权重字符串。
 4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
 5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

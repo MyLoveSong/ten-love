@@ -49,8 +49,9 @@
 - preliminary leakage audit：`projects/glucose/protocols/leakage_audit.md`，审计未通过，`unified_cleaned_glucose.json` 因大量空时间戳和重复键被阻断。
 - source-aware smoke baseline：`outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json`，512 windows per split，persistence test MAE 11.6648、RMSE 17.7028、R2 0.4079；LinearRegression test MAE 15.3053、RMSE 19.2317、R2 0.3012。该输出被 Git 忽略，只能证明入口可运行。
 - source-aware LSTM training smoke：`TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json`，32 windows per split，1 epoch，LSTM only。该输出被 Git 忽略，只能证明训练入口可运行。
+- full source-aware baseline parity：`projects/glucose/protocols/glucose_baseline_parity_result_summary.json`，full split，train/validation/test windows 为 159920/19990/19990，test metrics：persistence MAE 12.6028、RMSE 18.3948、R2 0.5246；LinearRegression MAE 11.4788、RMSE 16.4071、R2 0.6218；GBM MAE 9.8045、RMSE 14.2221、R2 0.7158；MLPRegressor MAE 9.1583、RMSE 13.4614、R2 0.7454。该结果是同 split baseline 证据，但仍是 local claim。
 - OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
-- 在 full baseline parity、主模型训练预算、metric definition、leakage audit pass、数据可用性审计和 result summary 完成前，Glucose 结果保持 B 级本地证据。
+- 在主模型训练预算、metric definition、leakage audit pass、数据可用性审计和 candidate-vs-baseline result summary 完成前，Glucose 结果保持 B 级本地证据。
 
 可写结论：
 - 已有多步血糖预测本地训练结果，t+1 到 t+6 有指标。
@@ -90,8 +91,8 @@
 
 ## 下一步证据 gate
 
-1. 让训练和 baseline 入口消费 `public_glucose_source_aware_split_manifest.json`。
-2. 将 scaler 和 feature normalization 限定为 train-only，并记录时间序列窗口边界。
-3. 为大结果生成轻量摘要 JSON，避免提交逐样本预测和模型权重字符串。
+1. 固定 Glucose candidate model 的主训练预算和模型集合。
+2. 在同一 split artifact 上运行 candidate rerun，并生成轻量 result summary。
+3. 将 candidate 与 full baseline parity 做同 metric 对比，避免提交逐样本预测和模型权重字符串。
 4. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
 5. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。
