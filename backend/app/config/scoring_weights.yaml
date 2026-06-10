@@ -1,0 +1,51 @@
+# 推荐评分权重配置
+scoring_weights:
+  # 文化适配权重
+  cultural: 0.4
+  # 健康适配权重
+  health: 0.4
+  # 营养适配权重
+  nutritional: 0.2
+  # 降级时的默认文化分数
+  fallback_cultural_score: 0.8
+
+# 功能开关配置
+feature_flags:
+  # 是否使用Stage1模型
+  use_stage1_model: true
+  # 灰度发布百分比（0-100）
+  stage1_model_rollout_percentage: 100
+  # 是否启用缓存
+  enable_cache: true
+  # 是否启用监控
+  enable_metrics: true
+
+# 缓存配置
+cache_config:
+  # 最大缓存条目数
+  maxsize: 1000
+  # 缓存TTL（秒）
+  ttl: 3600
+
+# 超时配置
+timeout_config:
+  # 文化评分超时时间（秒）
+  cultural_scoring_timeout: 5.0
+
+# 不同用户群体的权重配置
+user_group_weights:
+  # 糖尿病患者
+  diabetes:
+    cultural: 0.3
+    health: 0.5
+    nutritional: 0.2
+  # 健康用户
+  healthy:
+    cultural: 0.5
+    health: 0.3
+    nutritional: 0.2
+  # 默认配置
+  default:
+    cultural: 0.4
+    health: 0.4
+    nutritional: 0.2

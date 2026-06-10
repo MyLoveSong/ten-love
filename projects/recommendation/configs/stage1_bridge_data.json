@@ -1,0 +1,44 @@
+{
+  "clinical_constraints": {
+    "diabetes": {
+      "max_sugar_g": 25,
+      "max_carb_g": 50,
+      "min_fiber_g": 10,
+      "max_glycemic_index": 55
+    },
+    "hypertension": {
+      "max_sodium_mg": 1500,
+      "min_potassium_mg": 3500,
+      "max_saturated_fat_g": 13
+    },
+    "obesity": {
+      "max_calories_kcal": 400,
+      "min_protein_g": 15,
+      "max_fat_g": 12
+    },
+    "heart_disease": {
+      "max_cholesterol_mg": 50,
+      "max_saturated_fat_g": 10,
+      "min_omega3_g": 0.5
+    }
+  },
+  "nutrition_thresholds": {
+    "calories": {"min": 50, "max": 600},
+    "protein": {"min": 5, "max": 50},
+    "carbohydrates": {"min": 10, "max": 80},
+    "fat": {"min": 2, "max": 35},
+    "fiber": {"min": 3, "max": 15},
+    "sugar": {"min": 0, "max": 40},
+    "sodium": {"min": 0, "max": 2300},
+    "cholesterol": {"min": 0, "max": 300},
+    "vitamin_c": {"min": 0, "max": 200},
+    "calcium": {"min": 0, "max": 1300}
+  },
+  "constraint_weights": {
+    "diabetes": 0.95,
+    "hypertension": 0.90,
+    "obesity": 0.85,
+    "heart_disease": 0.92,
+    "default": 0.70
+  }
+}
