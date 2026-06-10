@@ -2,7 +2,7 @@
 
 ## 结论
 
-`system/` 是一个旧研究工程快照，对应 GitHub 仓库 `ten-love` 的本地整理对象。当前项目包含营养健康建模、文化感知推荐、血糖预测、前端演示、后端服务、大型数据和历史实验产物。第一轮整理已经把项目定位为“研究整理阶段”，不再把历史目标、局部诊断或单次结果写成最终临床或顶会结论。
+`system/` 是一个旧研究工程快照，对应 GitHub 仓库 `ten-love` 的本地整理对象。当前 active scope 已调整为营养健康建模、文化感知推荐、血糖预测、后端研究服务、数据治理、结果账本和论文证据边界。前端演示已从 active scope 中移除，后续以 Git 历史作为 provenance。
 
 ## 当前结构
 
@@ -12,33 +12,30 @@
 | `projects/recommendation/` | 文化感知推荐系统 | 目前主要有配置、预训练模型和约束门控诊断 |
 | `projects/glucose/` | 血糖预测、GluFormer、LoRA 个性化 | 有多步预测、数据清洗和微调评估产物 |
 | `backend/app/` | FastAPI 风格后端服务 | 与研究实验模块混合，仍需进一步分层 |
-| `frontend/` | Vue 3 + Vite 前端演示 | 使用 Element Plus、Pinia、Vue Router |
 | `data/`、`dataset/` | 大型数据集和派生数据 | 不适合直接纳入 Git |
 | `docs/` | 项目文档 | 新增第一轮治理文档 |
+| `openspec/` | 结构变更记录 | 记录 active scope 和验证 gate |
 
 ## 真实技术栈
 
 | 区域 | 技术 |
 |---|---|
 | Python | 当前环境 `python3` 为 3.12.3，`python` 命令不可用 |
-| 前端 | Vue 3、Vite、Element Plus、Pinia、Vue Router |
 | 后端 | FastAPI 风格应用，核心入口在 `backend/app/main.py` |
 | 训练与实验 | PyTorch、NumPy、Pandas、scikit-learn 等，依赖需按子项目确认 |
-| 包管理 | `node` 可用，当前环境未安装 `pnpm` |
+| 规范管理 | OpenSpec 1.3.1，Superpowers 计划文档 |
 
 ## 快速环境检查
 
 ```bash
 cd /home/data/xzy/system
 python3 --version
-node --version
-pnpm --version
+openspec --version
 ```
 
 当前已观察结果：
 - `python3 --version`：Python 3.12.3
-- `node --version`：v20.18.2
-- `pnpm --version`：当前环境未找到 `pnpm`
+- `openspec --version`：1.3.1
 
 ## 最小静态验证
 
@@ -85,6 +82,9 @@ python3 -m compileall -q \
 - `RESULTS_LEDGER.md`：已有结果、证据等级和 claim 边界。
 - `docs/superpowers/specs/2026-06-09-system-simplification-design.md`：方案 A 设计边界。
 - `docs/superpowers/plans/2026-06-09-system-simplification.md`：方案 A 执行计划。
+- `docs/superpowers/specs/2026-06-10-prune-frontend-research-focus-design.md`：前端移出 active scope 的设计边界。
+- `docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md`：前端移出 active scope 的执行计划。
+- `openspec/changes/prune-frontend-research-focus/`：OpenSpec 变更记录。
 
 ## 后续建议
 
@@ -92,4 +92,4 @@ python3 -m compileall -q \
 2. 为大结果生成轻量 summary JSON，避免保存逐样本预测和模型权重字符串。
 3. 审计 train、validation、test split，优先确认 user-level 或 patient-level 互斥。
 4. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。
-5. 在 `ten-love` GitHub 仓库中只保留源码、轻量文档、配置模板和可复现入口。
+5. 在 `ten-love` GitHub 仓库中只保留源码、轻量文档、配置模板、可复现入口和 OpenSpec 变更记录。

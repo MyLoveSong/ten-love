@@ -40,7 +40,7 @@
 
 最小验证包括：
 - `python3 -m compileall -q` 覆盖已修复文件和核心源码目录。
-- `node --version`、`python3 --version`、`pnpm --version` 环境事实记录。
+- `node --version`、`python3 --version`、`pnpm --version` 环境事实记录。Historical note: frontend package checks were removed from active scope on 2026-06-10.
 - 清理 `__pycache__`，不保留验证生成缓存。
 
 若依赖缺失导致运行测试不可行，文档中记录未验证项。

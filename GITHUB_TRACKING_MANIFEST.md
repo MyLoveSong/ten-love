@@ -2,7 +2,7 @@
 
 ## 结论
 
-不要直接运行 `git add system`。当前 `system/` 是一个包含大数据、环境目录、历史报告、实验输出和源码的旧工程快照。推荐先按本清单显式纳入轻量源码和治理文档，再分阶段处理历史材料。
+不要直接运行 `git add system`。当前 `system/` 是一个包含大数据、环境目录、历史报告、实验输出和源码的旧工程快照。推荐先按本清单显式纳入轻量源码、OpenSpec 变更和治理文档，再分阶段处理历史材料。前端演示已从 active scope 中移除，不再作为后续源码批次纳入。
 
 ## 第一批建议纳入
 
@@ -17,8 +17,11 @@ git add \
   system/DATA_INVENTORY.md \
   system/RESULTS_LEDGER.md \
   system/GITHUB_TRACKING_MANIFEST.md \
+  system/openspec/changes/prune-frontend-research-focus \
   system/docs/superpowers/specs/2026-06-09-system-simplification-design.md \
-  system/docs/superpowers/plans/2026-06-09-system-simplification.md
+  system/docs/superpowers/plans/2026-06-09-system-simplification.md \
+  system/docs/superpowers/specs/2026-06-10-prune-frontend-research-focus-design.md \
+  system/docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md
 ```
 
 ### 本轮修复过的源码
@@ -46,10 +49,6 @@ git add \
   system/projects/recommendation/README.md \
   system/projects/recommendation/configs \
   system/backend/app \
-  system/frontend/src \
-  system/frontend/package.json \
-  system/frontend/vite.config.ts \
-  system/frontend/tsconfig.json \
   system/utils \
   system/models/*.py
 ```
@@ -66,6 +65,7 @@ git add \
 | `system/models/cache/`、`system/models/pretrained/` | 权重和缓存 |
 | `system/projects/*/models/pretrained/` | 预训练权重 |
 | `system/projects/*/outputs/`、`system/**/results/` | 历史输出和大结果 |
+| `system/frontend/`、`system/apps/frontend/` | 旧前端演示，已移出 active research scope |
 | `*.pt`、`*.pth`、`*.ckpt`、`*.bin`、`*.onnx`、`*.pkl`、`*.h5` | 模型权重或二进制产物 |
 | `*.db`、`*.sqlite`、`*.sqlite3` | 本地数据库 |
 | `.env`、`configs/api_keys.yaml` | 本地密钥配置 |
@@ -89,5 +89,5 @@ git add \
 
 1. 对第一批建议纳入清单先运行 `git add -n`。
 2. 确认 dry-run 只包含清单内文件后，再提交治理文档和本轮修复源码。
-3. 第二批再决定是否纳入完整 `backend/app`、`frontend/src`、`projects/*/src`。
+3. 第二批再决定是否纳入完整 `backend/app`、`projects/*/src`。
 4. 大数据去重必须走 `DATA_INVENTORY.md` 中的 hash 清单 gate。

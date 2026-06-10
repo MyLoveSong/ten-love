@@ -252,7 +252,7 @@ def show_project_status():
     print("1. 运行 GluFormer 模型训练")
     print("2. 测试 API 服务功能")
     print("3. 收集多模态数据")
-    print("4. 开发前端界面")
+    print("4. 固化可复现实验命令和结果摘要")
 
 def main():
     """主函数"""
@@ -316,4 +316,4 @@ def main():
             print(f"❌ 发生错误: {e}")
 
 if __name__ == "__main__":
-    main() 
+    main()

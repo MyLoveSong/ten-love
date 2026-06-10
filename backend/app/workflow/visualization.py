@@ -355,7 +355,7 @@ class WorkflowVisualizationEngine:
 
         workflow = self.workflows[workflow_id]
 
-        # 转换为前端可视化格式
+        # 转换为研究可视化数据格式
         nodes_data = []
         for node in workflow.nodes:
             node_data = {

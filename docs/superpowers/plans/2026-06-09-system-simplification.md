@@ -6,7 +6,7 @@
 
 **Architecture:** Keep the current three research tracks in place: nutrition, recommendation, and glucose. Add lightweight governance documents and fix only syntax/import/secret issues that block static verification.
 
-**Tech Stack:** Python 3.12, Vue/Vite frontend, FastAPI-style backend modules, local Markdown documentation.
+**Tech Stack:** Python 3.12, FastAPI-style backend modules, local Markdown documentation. Historical note: Vue/Vite existed during first-round audit and was removed from active scope on 2026-06-10.
 
 ---
 
@@ -49,7 +49,7 @@
 - Modify: `README.md`
 - Modify: `.gitignore`
 
-- [x] Correct tech stack mismatch: frontend is Vue/Vite, not React/Ant Design.
+- [x] Correct first-round tech stack mismatch observed before frontend pruning.
 - [x] Add first-round status, known issues, and verification commands.
 - [x] Ignore large data, model checkpoints, env folders, outputs, cache, and local secrets.
 

@@ -3,8 +3,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-学术级智能健康监测集成系统 - 前端可视化界面
-基于Streamlit，支持血糖预测、图像识别、健康评估和结果可视化
+学术级智能健康监测集成系统 - 研究可视化界面
+基于Streamlit，支持血糖预测、图像识别、健康评估和结果查看
 """
 
 import streamlit as st
@@ -18,7 +18,7 @@ import json
 API_BASE = "http://localhost:8000"
 
 st.set_page_config(page_title="学术级健康监测集成系统", layout="wide")
-st.title("🩺 学术级智能健康监测集成系统 前端可视化 (Streamlit)")
+st.title("🩺 学术级智能健康监测集成系统 研究可视化 (Streamlit)")
 st.markdown("---")
 
 # 侧边栏导航
