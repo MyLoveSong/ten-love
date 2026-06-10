@@ -1,0 +1,88 @@
+# system 项目审计
+
+## 结论
+
+`system/` 是一个旧研究工程快照，包含智能健康监测应用、营养健康模型、文化感知推荐、血糖预测、前端演示、后端服务、大量数据和历史实验产物。第一轮整理的重点应是建立边界和证据链，先修复会阻断静态验证的问题，再逐步把研究代码、服务代码、数据和结果分层管理。
+
+## 当前仓库状态
+
+| 项目项 | 观察结果 |
+|---|---|
+| 本地路径 | `/home/data/xzy/system` |
+| Git 顶层 | `/home/data/xzy` |
+| Git 状态 | `system/` 当前在父仓库中整体显示为未跟踪目录 |
+| 前端事实 | `frontend/package.json` 显示 Vue 3、Vite、Element Plus |
+| README 风险 | 根 README 曾写 React/Ant Design，与实际前端依赖不一致 |
+| Python 命令 | `python` 不存在，`python3` 为 3.12.3 |
+| Node 命令 | `node` 为 v20.18.2 |
+| PNPM 命令 | 当前环境中 `pnpm` 不存在 |
+
+## 研究主线
+
+### Nutrition
+
+位置：`projects/nutrition/`
+
+观察结果：
+- 面向营养健康多任务建模，包含健康分、口味分、临床指标、细粒度营养特征、数据增强和消融脚本。
+- `projects/nutrition/outputs/evaluation_results.json` 记录单次评估结果。
+- `projects/nutrition/outputs/multi_seed_evaluation_results.json` 记录 3 个 seed 的评估摘要。
+
+边界：
+- 可以声明已有本地评估产物。
+- 不能只依据旧报告中的积极表述升级为发表级结论，因为数据采集、专家标注、外部验证仍有缺口。
+
+### Recommendation
+
+位置：`projects/recommendation/`
+
+观察结果：
+- 该目录主要包含文化感知推荐系统说明、配置、Food101 预训练模型和 `constraint_gate_diagnosis.json`。
+- 当前可直接读取的结果更接近模块诊断，不是完整推荐系统离线评估。
+
+边界：
+- 可以声明存在文化约束门控诊断。
+- 不能声明 Recall@K、NDCG@K、临床遵循率等完整推荐效果已经被该目录证实。
+
+### Glucose
+
+位置：`projects/glucose/`
+
+观察结果：
+- 面向血糖预测、GluFormer、LoRA 个性化、多步预测、数据清洗、真实数据接入和 API 数据采集。
+- `projects/glucose/outputs/enhanced_glucose_prediction/training_results_20251030_000534.json` 记录多步预测训练和评估结果。
+- `projects/glucose/outputs/final_evaluation/final_evaluation_report.json` 记录文化适配数据清洗后模型结果。
+
+边界：
+- 可以声明已有本地训练和评估产物。
+- 需要继续审计数据来源、拆分方式、泄漏风险和样本独立性，才可升级为可靠科研结论。
+
+## 应用与服务代码
+
+| 区域 | 观察结果 | 初步处理建议 |
+|---|---|---|
+| `frontend/` | Vue/Vite 前端演示 | 保留为演示应用，README 改为真实技术栈 |
+| `backend/app/` | FastAPI 风格后端与大量实验模块混合 | 先修语法和导入，后续分离 service 与 research |
+| `main.py` | Stage2 推荐训练入口，但路径仍引用旧 `stage2` 包名 | 第一轮仅记录，后续再决定兼容层或迁移 |
+| `utils/` | Stage2 数据加载和指标工具 | 保留为共享研究工具，后续拆小文件 |
+
+## 已定位问题
+
+| 严重级别 | 问题 | 文件 |
+|---|---|---|
+| P0 | Python 语法错误，阻断编译 | `projects/glucose/src/real_data_collector.py` |
+| P0 | 非法 `from app..` 导入，阻断编译 | `backend/app/modules/*.py` |
+| P0 | 拼接错误或非法相对导入，阻断后续维护 | `backend/app/data_integration/workflow_integration.py` |
+| P0 | 源码中存在硬编码外部 API key fallback | `projects/glucose/src/real_data_collector.py` |
+| P0 | 测试脚本中存在硬编码外部 API key fallback | `projects/glucose/src/test_api_connection.py` |
+| P1 | README 技术栈与实际前端不一致 | `README.md`、`frontend/package.json` |
+| P1 | 数据和模型体量过大，包含重复镜像 | `data/`、`dataset/`、`projects/glucose/data/` |
+| P1 | 文档中存在过度积极的效果表述 | 多个历史报告 |
+
+## 第一轮整理策略
+
+1. 修复会阻断静态验证的代码错误。
+2. 移除源码硬编码密钥，改为本地环境变量。
+3. 建立 `DATA_INVENTORY.md` 和 `RESULTS_LEDGER.md`，避免后续误删或过度声称。
+4. 更新 README 和 `.gitignore`，让 GitHub 仓库只承载代码、轻量文档和可复现入口。
+5. 大数据、模型权重、历史输出暂不移动，先以 manifest 方式治理。

@@ -1,0 +1,100 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+logs/
+**/logs/
+
+# Dependency directories
+node_modules/
+**/node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+configs/api_keys.yaml
+**/configs/api_keys.yaml
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+
+# Task files
+# tasks.json
+# tasks/
+
+# Python cache and local environments
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+XZY/
+XZY2/
+academic_env/
+recbole310/
+venv/
+**/venv/
+.venv/
+**/.venv/
+
+# Large datasets and generated data
+data/
+dataset/
+data_nutrition/
+projects/*/data/
+projects/*/Mydata/
+backend/world-food-facts_data.tsv
+backend/fooddata-central_data.csv
+*.jsonl
+*.db
+*.sqlite
+*.sqlite3
+
+# Models, checkpoints, and experiment outputs
+models/cache/
+models/pretrained/
+projects/*/models/pretrained/
+projects/*/suya_model/
+outputs/
+**/outputs/
+results/
+**/results/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.onnx
+*.pkl
+*.h5
+
+# Frontend build artifacts
+dist/
+**/dist/
+.vite/
+**/.vite/
+
+# Local uploads and temporary files
+uploads/
+**/uploads/
+temp/
+**/temp/
+cache/
+**/cache/
