@@ -10,6 +10,7 @@ from collections import defaultdict
 import numpy as np
 import torch
 
+from analysis.source_aware_split_dataset import load_source_aware_split_windows
 from enhanced_glucose_system import EnhancedGlucosePredictionSystem
 
 logging.basicConfig(level=logging.INFO)
@@ -340,11 +341,163 @@ def get_default_config(output_dir: Path) -> Dict[str, Any]:
     }
 
 
+def to_native(obj):
+    import numpy as _np
+    import torch as _torch
+    if isinstance(obj, dict):
+        return {k: to_native(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [to_native(v) for v in obj]
+    if isinstance(obj, (_np.integer,)):
+        return int(obj)
+    if isinstance(obj, (_np.floating,)):
+        return float(obj)
+    if isinstance(obj, _np.ndarray):
+        return obj.tolist()
+    if isinstance(obj, _torch.Tensor):
+        return obj.detach().cpu().tolist()
+    return obj
+
+
+def split_to_tensor_dict(split_data: Dict[str, Any]) -> Dict[str, torch.Tensor]:
+    tensor_dict = {
+        'train_sequences': torch.FloatTensor(np.asarray(split_data['sequences']['train'], dtype=np.float32)),
+        'train_targets': torch.FloatTensor(np.asarray(split_data['targets']['train'], dtype=np.float32)),
+        'val_sequences': torch.FloatTensor(np.asarray(split_data['sequences']['val'], dtype=np.float32)),
+        'val_targets': torch.FloatTensor(np.asarray(split_data['targets']['val'], dtype=np.float32)),
+        'test_sequences': torch.FloatTensor(np.asarray(split_data['sequences']['test'], dtype=np.float32)),
+        'test_targets': torch.FloatTensor(np.asarray(split_data['targets']['test'], dtype=np.float32)),
+    }
+    for key, value in tensor_dict.items():
+        if value.numel() == 0:
+            raise ValueError(f"Split-aware training requires non-empty {key}")
+    return tensor_dict
+
+
+def limit_split_windows(split_data: Dict[str, Any], max_windows_per_split: int | None) -> Dict[str, Any]:
+    if max_windows_per_split is None:
+        return split_data
+    if max_windows_per_split <= 0:
+        raise ValueError('--max_windows_per_split must be positive')
+
+    limited = dict(split_data)
+    for section in ('sequences', 'targets', 'raw_sequences', 'raw_targets'):
+        if section in split_data:
+            limited[section] = {
+                partition: values[:max_windows_per_split]
+                for partition, values in split_data[section].items()
+            }
+    metadata = dict(split_data.get('metadata', {}))
+    metadata['training_scope'] = 'smoke_subset'
+    metadata['max_windows_per_split'] = max_windows_per_split
+    metadata['effective_partitions'] = {
+        partition: {
+            'window_count': len(limited['sequences'][partition]),
+            'target_count': len(limited['targets'][partition]),
+        }
+        for partition in ('train', 'val', 'test')
+    }
+    limited['metadata'] = metadata
+    return limited
+
+
+def parse_training_models(models_arg: str | None, available_models: Dict[str, Any]) -> List[str] | None:
+    if not models_arg:
+        return None
+    requested = [name.strip() for name in models_arg.split(',') if name.strip()]
+    if not requested:
+        raise ValueError('--models must name at least one model')
+    invalid = sorted(set(requested) - set(available_models))
+    if invalid:
+        raise ValueError(f"Unsupported model(s): {', '.join(invalid)}")
+    return requested
+
+
+def train_with_split_manifest(
+    dataset_path: Path,
+    manifest_path: Path,
+    in_len: int,
+    out_len: int,
+    out_dir: Path,
+    max_windows_per_split: int | None = None,
+    epochs: int | None = None,
+    model_names: List[str] | None = None,
+) -> Dict[str, Any]:
+    logger.info("Loading source-aware split manifest...")
+    split_data = load_source_aware_split_windows(
+        dataset_path,
+        manifest_path,
+        input_horizon=in_len,
+        output_horizon=out_len,
+    )
+    split_data = limit_split_windows(split_data, max_windows_per_split)
+    data_dict = split_to_tensor_dict(split_data)
+
+    config = get_default_config(out_dir)
+    if epochs is not None:
+        if epochs <= 0:
+            raise ValueError('--epochs must be positive')
+        config['training']['epochs'] = epochs
+        config['training']['patience'] = min(config['training']['patience'], epochs)
+        config['training']['lr_scheduler']['warmup_epochs'] = min(
+            config['training']['lr_scheduler']['warmup_epochs'],
+            epochs,
+        )
+        config['training']['early_stopping']['burn_in_epochs'] = min(
+            config['training']['early_stopping']['burn_in_epochs'],
+            epochs,
+        )
+    if model_names is not None:
+        config['models'] = {name: config['models'][name] for name in model_names}
+    config['augmentation']['enabled'] = False
+    config['rare_event_augmentation']['enabled'] = False
+    config['feature_engineering']['enabled'] = False
+    config['monitoring']['enabled'] = False
+    config['anomaly_detection']['enabled'] = False
+
+    system = EnhancedGlucosePredictionSystem(config)
+    system._update_model_input_dims(int(data_dict['train_sequences'].shape[-1]))
+    system.create_models()
+    training_results = system.train_models(data_dict)
+    system.create_ensemble(data_dict)
+    system.setup_monitoring(data_dict['train_sequences'])
+    test_metrics = system.evaluate_ensemble(data_dict['test_sequences'], data_dict['test_targets'])
+    system.save_system_state()
+    system.is_trained = True
+
+    results = {
+        'training_mode': 'source_aware_split_manifest',
+        'split_manifest': str(manifest_path),
+        'dataset': str(dataset_path),
+        'split_metadata': split_data['metadata'],
+        'scaler': split_data['scaler'],
+        'training_scope': 'smoke_subset' if max_windows_per_split is not None else 'full_split',
+        'max_windows_per_split': max_windows_per_split,
+        'epochs': config['training']['epochs'],
+        'models': list(config['models'].keys()),
+        'individual_models': training_results,
+        'test_metrics': test_metrics,
+        'ensemble_weights': system.ensemble.get_model_weights(),
+        'training_completed': True,
+        'timestamp': datetime.now().isoformat(),
+    }
+    metrics_path = out_dir / 'split_manifest_training_results.json'
+    with open(metrics_path, 'w', encoding='utf-8') as f:
+        json.dump(to_native(results), f, ensure_ascii=False, indent=2)
+    logger.info(f"Split-aware results saved: {metrics_path}")
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--inputs', nargs='+', required=True, help='List of CSV/JSON data files')
+    parser.add_argument('--inputs', nargs='+', default=[], help='List of CSV/JSON data files')
+    parser.add_argument('--split_manifest', type=str, default=None, help='Source-aware split manifest JSON')
+    parser.add_argument('--split_dataset', type=str, default=None, help='Dataset JSON matching --split_manifest')
     parser.add_argument('--in_len', type=int, default=12)
     parser.add_argument('--out_len', type=int, default=6)
+    parser.add_argument('--max_windows_per_split', type=int, default=None, help='Deterministic smoke limit per split')
+    parser.add_argument('--epochs', type=int, default=None, help='Override training epochs for split-manifest runs')
+    parser.add_argument('--models', type=str, default=None, help='Comma-separated model names for split-manifest runs')
     parser.add_argument('--run_lora', action='store_true')
     parser.add_argument('--use_patient_ids', action='store_true', help='Group personalization by real patient IDs if available')
     args = parser.parse_args()
@@ -352,6 +505,26 @@ def main():
     ts = datetime.now().strftime('%Y%m%d_%H%M%S')
     out_dir = Path('TRAIN/outputs') / f'exp_{ts}'
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.split_manifest:
+        dataset_arg = args.split_dataset or (args.inputs[0] if args.inputs else None)
+        if not dataset_arg:
+            parser.error('--split_manifest requires --split_dataset or one --inputs path')
+        train_with_split_manifest(
+            Path(dataset_arg),
+            Path(args.split_manifest),
+            args.in_len,
+            args.out_len,
+            out_dir,
+            max_windows_per_split=args.max_windows_per_split,
+            epochs=args.epochs,
+            model_names=parse_training_models(args.models, get_default_config(out_dir)['models']),
+        )
+        logger.info(f'All done. Results at: {out_dir}')
+        return 0
+
+    if not args.inputs:
+        parser.error('--inputs is required unless --split_manifest is provided')
 
     logger.info('Loading datasets...')
     if args.use_patient_ids:
@@ -381,23 +554,6 @@ def main():
     if args.run_lora and config['lora']['personalization']['enabled']:
         logger.info('Setting up LoRA personalization...')
         system.setup_personalization()
-
-        def to_native(obj):
-            import numpy as _np
-            import torch as _torch
-            if isinstance(obj, dict):
-                return {k: to_native(v) for k, v in obj.items()}
-            if isinstance(obj, list):
-                return [to_native(v) for v in obj]
-            if isinstance(obj, (_np.integer,)):
-                return int(obj)
-            if isinstance(obj, (_np.floating,)):
-                return float(obj)
-            if isinstance(obj, _np.ndarray):
-                return obj.tolist()
-            if isinstance(obj, _torch.Tensor):
-                return obj.detach().cpu().tolist()
-            return obj
 
         lora_report: Dict[str, Any] = {}
         if args.use_patient_ids and per_patient:

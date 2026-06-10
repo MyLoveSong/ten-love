@@ -18,10 +18,30 @@ git add \
   system/RESULTS_LEDGER.md \
   system/GITHUB_TRACKING_MANIFEST.md \
   system/openspec/changes/prune-frontend-research-focus \
+  system/openspec/changes/glucose-experiment-readiness \
   system/docs/superpowers/specs/2026-06-09-system-simplification-design.md \
   system/docs/superpowers/plans/2026-06-09-system-simplification.md \
   system/docs/superpowers/specs/2026-06-10-prune-frontend-research-focus-design.md \
-  system/docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md
+  system/docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md \
+  system/docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md \
+  system/docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md \
+  system/projects/glucose/protocols/experiment_readiness_gate.md \
+  system/projects/glucose/protocols/canonical_dataset_manifest.md \
+  system/projects/glucose/protocols/split_manifest.md \
+  system/projects/glucose/protocols/leakage_audit.md \
+  system/projects/glucose/protocols/baseline_parity_table.md \
+  system/projects/glucose/protocols/glucose_result_summary_schema.md \
+  system/projects/glucose/protocols/public_glucose_source_aware_split_manifest.json \
+  system/projects/glucose/src/analysis/source_aware_split_manifest.py \
+  system/projects/glucose/src/analysis/source_aware_split_dataset.py \
+  system/projects/glucose/src/test_source_aware_split_manifest.py \
+  system/projects/glucose/src/test_source_aware_split_dataset.py \
+  system/projects/glucose/src/test_split_manifest_baselines.py \
+  system/projects/glucose/src/test_run_glucose_training_cli.py \
+  system/projects/glucose/src/external_validation_and_baselines.py \
+  system/projects/glucose/src/run_glucose_training.py \
+  system/projects/glucose/src/enhanced_glucose_system.py \
+  system/projects/glucose/src/data_processing/__init__.py
 ```
 
 ### 本轮修复过的源码
@@ -45,6 +65,7 @@ git add \
   system/projects/nutrition/README.md \
   system/projects/nutrition/src \
   system/projects/glucose/README.md \
+  system/projects/glucose/protocols \
   system/projects/glucose/src \
   system/projects/recommendation/README.md \
   system/projects/recommendation/configs \
@@ -87,7 +108,8 @@ git add \
 
 ## 后续 gate
 
-1. 对第一批建议纳入清单先运行 `git add -n`。
-2. 确认 dry-run 只包含清单内文件后，再提交治理文档和本轮修复源码。
+1. 对新增 `glucose-experiment-readiness` 轻量文档先运行 `git add -n`。
+2. 确认 dry-run 只包含 OpenSpec、Superpowers plan/spec 和 Glucose protocol gate 后，再提交。
 3. 第二批再决定是否纳入完整 `backend/app`、`projects/*/src`。
 4. 大数据去重必须走 `DATA_INVENTORY.md` 中的 hash 清单 gate。
+5. Glucose 实验结果升级必须先通过 `projects/glucose/protocols/experiment_readiness_gate.md`。

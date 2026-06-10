@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-06-10
+goal: Require a reproducible, leakage-audited glucose experiment gate before
+  upgrading local Glucose results into manuscript-level claims.

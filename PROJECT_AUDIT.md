@@ -93,3 +93,14 @@
 - 删除本地源目录中的 `frontend/` 与 `apps/frontend/`。
 - 使用 Git 历史和 OpenSpec 记录作为 provenance。
 - 将项目叙述从产品演示调整为研究实验、数据治理、结果证据和论文 claim boundary。
+
+## 第三轮 experiment-readiness gate
+
+已定义 `glucose-experiment-readiness` 变更：
+- 将 `projects/glucose/` 设为第一条候选论文实验主线。
+- 当前状态是 gate defined, not passed。
+- preliminary leakage audit 已创建，但审计未通过：`unified_cleaned_glucose.json` 因大量空时间戳和重复键被阻断。
+- `public_glucose_source_aware_split_manifest.json` 已生成：基于 `public_glucose_preprocessed.json`，使用 `source + patient_id`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。
+- baseline 和训练入口已在 smoke mode 消费 split artifact：baseline smoke 使用 512 windows per split 的 persistence 和 LinearRegression；training smoke 使用 32 windows per split、1 epoch、LSTM only。
+- 在 full baseline parity、主模型训练预算、seed list、metric definitions、leakage audit pass、数据可用性审计和轻量 result summary 完成前，Glucose 结果保持 B 级本地证据。
+- 该 gate 不移动数据、不删除数据、不升级 claim。

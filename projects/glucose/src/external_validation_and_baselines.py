@@ -26,6 +26,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.multioutput import MultiOutputRegressor
 
 try:
     import xgboost as xgb  # type: ignore
@@ -39,7 +40,12 @@ try:
 except Exception:
     HAS_LGB = False
 
-from .utils.metrics_extra import compute_ece, compute_brier
+from analysis.source_aware_split_dataset import load_source_aware_split_windows
+
+try:
+    from .utils.metrics_extra import compute_ece, compute_brier
+except ImportError:  # pragma: no cover - direct script execution
+    from utils.metrics_extra import compute_ece, compute_brier
 
 
 logger = logging.getLogger("external_eval")
@@ -77,6 +83,34 @@ def evaluate_predictions(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, fl
     return {"mae": float(mae), "mse": float(mse), "rmse": rmse, "ece": float(ece), "brier": float(brier), "accuracy": acc}
 
 
+def evaluate_glucose_predictions(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, object]:
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    diff = y_true - y_pred
+    mse = float(np.mean(diff ** 2))
+    mae = float(np.mean(np.abs(diff)))
+    rmse = float(np.sqrt(mse))
+    ss_res = float(np.sum(diff ** 2))
+    ss_tot = float(np.sum((y_true - np.mean(y_true)) ** 2))
+    r2 = float(1 - ss_res / ss_tot) if ss_tot > 0 else float("nan")
+    per_horizon = {}
+    if y_true.ndim == 2:
+        for idx in range(y_true.shape[1]):
+            step_diff = y_true[:, idx] - y_pred[:, idx]
+            step_mse = float(np.mean(step_diff ** 2))
+            per_horizon[f"t+{idx + 1}"] = {
+                "mae": float(np.mean(np.abs(step_diff))),
+                "rmse": float(np.sqrt(step_mse)),
+            }
+    return {
+        "mae": mae,
+        "mse": mse,
+        "rmse": rmse,
+        "r2": r2,
+        "per_horizon": per_horizon,
+    }
+
+
 def fit_linear(X_tr: np.ndarray, y_tr: np.ndarray):
     model = LinearRegression()
     model.fit(X_tr, y_tr)
@@ -88,17 +122,23 @@ def fit_gbm(X_tr: np.ndarray, y_tr: np.ndarray):
         model = xgb.XGBRegressor(
             n_estimators=400, max_depth=6, learning_rate=0.05, subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0, random_state=42
         )
+        if y_tr.ndim > 1 and y_tr.shape[1] > 1:
+            model = MultiOutputRegressor(model)
         model.fit(X_tr, y_tr)
         return model
     if HAS_LGB:
         model = lgb.LGBMRegressor(
             n_estimators=600, num_leaves=63, learning_rate=0.05, subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0, random_state=42
         )
+        if y_tr.ndim > 1 and y_tr.shape[1] > 1:
+            model = MultiOutputRegressor(model)
         model.fit(X_tr, y_tr)
         return model
     # fallback: sklearn GradientBoostingRegressor
     from sklearn.ensemble import GradientBoostingRegressor
     model = GradientBoostingRegressor(random_state=42)
+    if y_tr.ndim > 1 and y_tr.shape[1] > 1:
+        model = MultiOutputRegressor(model)
     model.fit(X_tr, y_tr)
     return model
 
@@ -110,18 +150,141 @@ def fit_mlp(X_tr: np.ndarray, y_tr: np.ndarray):
     return model
 
 
+def flatten_sequences(sequences: np.ndarray) -> np.ndarray:
+    return sequences.reshape(sequences.shape[0], -1)
+
+
+def inverse_scale(values: np.ndarray, scaler: Dict[str, float]) -> np.ndarray:
+    return values * float(scaler["std"]) + float(scaler["mean"])
+
+
+def limit_windows(values: np.ndarray, max_windows: int | None) -> np.ndarray:
+    if max_windows is None:
+        return values
+    if max_windows <= 0:
+        raise ValueError("--max-windows-per-split must be positive")
+    return values[:max_windows]
+
+
+def parse_model_list(models: List[str] | None) -> List[str]:
+    selected = models or ["persistence", "linear", "gbm", "mlp"]
+    normalized = [model.strip().lower() for model in selected if model.strip()]
+    valid = {"persistence", "linear", "gbm", "mlp"}
+    invalid = sorted(set(normalized) - valid)
+    if invalid:
+        raise ValueError(f"Unsupported baseline model(s): {', '.join(invalid)}")
+    if not normalized:
+        raise ValueError("At least one baseline model is required")
+    return normalized
+
+
+def predict_persistence(X: np.ndarray, output_horizon: int) -> np.ndarray:
+    last_observed = X[:, -1:]
+    return np.repeat(last_observed, output_horizon, axis=1)
+
+
+def run_split_manifest_baselines(
+    dataset_path: Path,
+    manifest_path: Path,
+    output_dir: Path,
+    input_horizon: int,
+    output_horizon: int,
+    models: List[str] | None = None,
+    max_windows_per_split: int | None = None,
+) -> Dict[str, object]:
+    split_data = load_source_aware_split_windows(
+        dataset_path,
+        manifest_path,
+        input_horizon=input_horizon,
+        output_horizon=output_horizon,
+    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    X_tr = limit_windows(flatten_sequences(np.asarray(split_data["sequences"]["train"], dtype=np.float32)), max_windows_per_split)
+    y_tr = limit_windows(np.asarray(split_data["targets"]["train"], dtype=np.float32), max_windows_per_split)
+    X_va = limit_windows(flatten_sequences(np.asarray(split_data["sequences"]["val"], dtype=np.float32)), max_windows_per_split)
+    y_va = limit_windows(np.asarray(split_data["targets"]["val"], dtype=np.float32), max_windows_per_split)
+    X_te = limit_windows(flatten_sequences(np.asarray(split_data["sequences"]["test"], dtype=np.float32)), max_windows_per_split)
+    y_te = limit_windows(np.asarray(split_data["targets"]["test"], dtype=np.float32), max_windows_per_split)
+
+    selected_models = parse_model_list(models)
+    baselines = {}
+    if "persistence" in selected_models:
+        baselines["persistence"] = lambda X: predict_persistence(X, output_horizon)
+    if "linear" in selected_models:
+        logger.info("训练 split-manifest LinearRegression ...")
+        baselines["linear"] = fit_linear(X_tr, y_tr).predict
+    if "gbm" in selected_models:
+        logger.info("训练 split-manifest GBM ...")
+        baselines["gbm"] = fit_gbm(X_tr, y_tr).predict
+    if "mlp" in selected_models:
+        logger.info("训练 split-manifest MLPRegressor ...")
+        baselines["mlp"] = fit_mlp(X_tr, y_tr).predict
+
+    def eval_on_split(X: np.ndarray, y: np.ndarray) -> Dict[str, Dict[str, object]]:
+        out: Dict[str, Dict[str, object]] = {}
+        y_orig = inverse_scale(y, split_data["scaler"])
+        for name, pred_fn in baselines.items():
+            yhat = pred_fn(X)
+            yhat_orig = inverse_scale(np.asarray(yhat), split_data["scaler"])
+            out[name] = evaluate_glucose_predictions(y_orig, yhat_orig)
+        return out
+
+    results: Dict[str, object] = {
+        "mode": "source_aware_split_manifest",
+        "dataset": str(dataset_path),
+        "split_manifest": str(manifest_path),
+        "evaluation_scope": "smoke_subset" if max_windows_per_split is not None else "full_split",
+        "max_windows_per_split": max_windows_per_split,
+        "models": selected_models,
+        "split_metadata": split_data["metadata"],
+        "scaler": split_data["scaler"],
+        "val": eval_on_split(X_va, y_va),
+        "test": eval_on_split(X_te, y_te),
+    }
+    report_path = output_dir / "split_manifest_baseline_report.json"
+    with open(report_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+    logger.info(f"split-manifest baseline 报告已保存: {report_path}")
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description="外部验证与多基线评估")
-    parser.add_argument("--data-root", type=str, required=True, help="论文版数据根目录，包含 train.csv/val.csv/test.csv/external.csv")
-    parser.add_argument("--features", type=str, required=True, help="以逗号分隔的特征列名")
+    parser.add_argument("--data-root", type=str, default=None, help="论文版数据根目录，包含 train.csv/val.csv/test.csv/external.csv")
+    parser.add_argument("--features", type=str, default=None, help="以逗号分隔的特征列名")
     parser.add_argument("--target", type=str, default="label", help="目标列名，默认 label")
     parser.add_argument("--output", type=str, default="outputs/external_validation", help="输出目录")
     parser.add_argument("--plots", action="store_true", help="是否导出校准/误差图")
+    parser.add_argument("--split-manifest", type=str, default=None, help="Source-aware split manifest JSON")
+    parser.add_argument("--split-dataset", type=str, default=None, help="Dataset JSON matching --split-manifest")
+    parser.add_argument("--input-horizon", type=int, default=12)
+    parser.add_argument("--output-horizon", type=int, default=6)
+    parser.add_argument("--models", type=str, default=None, help="Comma-separated baselines: persistence,linear,gbm,mlp")
+    parser.add_argument("--max-windows-per-split", type=int, default=None, help="Deterministic smoke limit per split")
     args = parser.parse_args()
 
-    data_root = Path(args.data_root)
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.split_manifest:
+        if not args.split_dataset:
+            parser.error("--split-manifest requires --split-dataset")
+        run_split_manifest_baselines(
+            Path(args.split_dataset),
+            Path(args.split_manifest),
+            output_dir,
+            args.input_horizon,
+            args.output_horizon,
+            models=args.models.split(",") if args.models else None,
+            max_windows_per_split=args.max_windows_per_split,
+        )
+        return
+
+    if not args.data_root or not args.features:
+        parser.error("--data-root and --features are required unless --split-manifest is provided")
+
+    data_root = Path(args.data_root)
 
     feature_cols = [c.strip() for c in args.features.split(",") if c.strip()]
     target_col = args.target

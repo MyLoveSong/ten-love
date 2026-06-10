@@ -12,16 +12,28 @@ from datetime import datetime
 import json
 
 # Core imports
-from .core.base_models import (
-    LSTMGlucosePredictor,
-    TransformerGlucosePredictor,
-    GluFormerPredictor,
-    WaveletGluFormerPredictor
-)
-from .core.moe_components import MoEGlucoseHead, MoELoss
-from .core.adapters import LoRAAdapter, PersonalizationManager
-from .core.personalized_moe import PersonalizedMoEHead, PersonalizedMoELoss
-from .core.exceptions import GlucosePredictionError, ModelTrainingError
+try:
+    from .core.base_models import (
+        LSTMGlucosePredictor,
+        TransformerGlucosePredictor,
+        GluFormerPredictor,
+        WaveletGluFormerPredictor
+    )
+    from .core.moe_components import MoEGlucoseHead, MoELoss
+    from .core.adapters import LoRAAdapter, PersonalizationManager
+    from .core.personalized_moe import PersonalizedMoEHead, PersonalizedMoELoss
+    from .core.exceptions import GlucosePredictionError, ModelTrainingError
+except ImportError:  # pragma: no cover - direct script execution
+    from core.base_models import (
+        LSTMGlucosePredictor,
+        TransformerGlucosePredictor,
+        GluFormerPredictor,
+        WaveletGluFormerPredictor
+    )
+    from core.moe_components import MoEGlucoseHead, MoELoss
+    from core.adapters import LoRAAdapter, PersonalizationManager
+    from core.personalized_moe import PersonalizedMoEHead, PersonalizedMoELoss
+    from core.exceptions import GlucosePredictionError, ModelTrainingError
 
 # Ensemble imports
 from ensemble.ensemble_strategies import WeightedEnsemble, VotingEnsemble, StackingEnsemble
@@ -353,48 +365,56 @@ class EnhancedGlucosePredictionSystem:
         """Create and initialize all models."""
         try:
             logger.info("Creating models...")
+            model_configs = self.config['models']
 
             # LSTM model
-            lstm_config = self.config['models']['lstm']
-            self.models['lstm'] = LSTMGlucosePredictor(
-                input_dim=lstm_config['input_dim'],
-                hidden_dim=lstm_config['hidden_dim'],
-                output_dim=lstm_config['output_dim'],
-                dropout=lstm_config['dropout'],
-                device=self.device
-            )
+            if 'lstm' in model_configs:
+                lstm_config = model_configs['lstm']
+                self.models['lstm'] = LSTMGlucosePredictor(
+                    input_dim=lstm_config['input_dim'],
+                    hidden_dim=lstm_config['hidden_dim'],
+                    output_dim=lstm_config['output_dim'],
+                    dropout=lstm_config['dropout'],
+                    device=self.device
+                )
 
             # Transformer model
-            transformer_config = self.config['models']['transformer']
-            self.models['transformer'] = TransformerGlucosePredictor(
-                input_dim=transformer_config['input_dim'],
-                hidden_dim=transformer_config['hidden_dim'],
-                output_dim=transformer_config['output_dim'],
-                dropout=transformer_config['dropout'],
-                device=self.device
-            )
+            if 'transformer' in model_configs:
+                transformer_config = model_configs['transformer']
+                self.models['transformer'] = TransformerGlucosePredictor(
+                    input_dim=transformer_config['input_dim'],
+                    hidden_dim=transformer_config['hidden_dim'],
+                    output_dim=transformer_config['output_dim'],
+                    dropout=transformer_config['dropout'],
+                    device=self.device
+                )
 
             # GluFormer model
-            gluformer_config = self.config['models']['gluformer']
-            self.models['gluformer'] = GluFormerPredictor(
-                input_dim=gluformer_config['input_dim'],
-                hidden_dim=gluformer_config['hidden_dim'],
-                output_dim=gluformer_config['output_dim'],
-                dropout=gluformer_config['dropout'],
-                device=self.device
-            )
+            if 'gluformer' in model_configs:
+                gluformer_config = model_configs['gluformer']
+                self.models['gluformer'] = GluFormerPredictor(
+                    input_dim=gluformer_config['input_dim'],
+                    hidden_dim=gluformer_config['hidden_dim'],
+                    output_dim=gluformer_config['output_dim'],
+                    dropout=gluformer_config['dropout'],
+                    device=self.device
+                )
 
             # Wavelet GluFormer model
-            wavelet_config = self.config['models']['wavelet_gluformer']
-            self.models['wavelet_gluformer'] = WaveletGluFormerPredictor(
-                input_dim=wavelet_config['input_dim'],
-                hidden_dim=wavelet_config['hidden_dim'],
-                output_dim=wavelet_config['output_dim'],
-                dropout=wavelet_config['dropout'],
-                wavelet=wavelet_config['wavelet'],
-                wavelet_levels=wavelet_config['wavelet_levels'],
-                device=self.device
-            )
+            if 'wavelet_gluformer' in model_configs:
+                wavelet_config = model_configs['wavelet_gluformer']
+                self.models['wavelet_gluformer'] = WaveletGluFormerPredictor(
+                    input_dim=wavelet_config['input_dim'],
+                    hidden_dim=wavelet_config['hidden_dim'],
+                    output_dim=wavelet_config['output_dim'],
+                    dropout=wavelet_config['dropout'],
+                    wavelet=wavelet_config['wavelet'],
+                    wavelet_levels=wavelet_config['wavelet_levels'],
+                    device=self.device
+                )
+
+            if not self.models:
+                raise ModelTrainingError("No models configured for training")
 
             logger.info(f"Created {len(self.models)} models: {list(self.models.keys())}")
 

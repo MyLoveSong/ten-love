@@ -1,0 +1,955 @@
+{
+  "dataset": {
+    "path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
+    "record_count": 201600,
+    "sha256": "c40ff621d3ff3a82e45bb69981a5df8b365407170a3e27057d232170a3cefd36",
+    "source_count": 2,
+    "source_patient_group_count": 100
+  },
+  "generated_at": "2026-06-10T06:37:18Z",
+  "groups": [
+    {
+      "group_hash": "07672b58f0a3a8d0153addc2d4c135df8a28ee3b28995388fc8ac2e80a3df691",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.568939",
+      "timestamp_min": "2025-11-17T17:17:14.568939",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "8e5dd8942e95f562de92b7b40a66fd5799cd3417aec7b96a15ca6d8c42912851",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.588064",
+      "timestamp_min": "2025-11-17T17:17:14.588064",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "e392944405d94b46d187c2606fbb1edf9a05989eab84351c1f7e02952a7199c5",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.607502",
+      "timestamp_min": "2025-11-17T17:17:14.607502",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "1182c60d6041f967e67f62b77992751dd3b8bbe229361a7e950a554004448549",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.631686",
+      "timestamp_min": "2025-11-17T17:17:14.631686",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "c7271b3dce073644ce0df60759493fd4fac06e29d9144ef0538b6a5956703196",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.655718",
+      "timestamp_min": "2025-11-17T17:17:14.655718",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2cd4ea6bca9b692968dbd5438200aab0ba687c695895618d0c410e10412ceaa6",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.677865",
+      "timestamp_min": "2025-11-17T17:17:14.677865",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "69102d58884797d135b48710ef676e6a189decbca74063b155bc585feb802590",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.719464",
+      "timestamp_min": "2025-11-17T17:17:14.719464",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "979d329ea5e9520332853b58e9ee13e7ad0cdf12a3768bc14af0deb054586daf",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.755433",
+      "timestamp_min": "2025-11-17T17:17:14.755433",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "5a80f3399e65354082d248733a30281a44d9d247fe9de8e78788af6fd358e744",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.789465",
+      "timestamp_min": "2025-11-17T17:17:14.789465",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "06977f812a6b961fce8f04b702135e815f03f256cdb51d3d9c3cc43dd1cc7e96",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.824361",
+      "timestamp_min": "2025-11-17T17:17:14.824361",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "7aaa785605cb2cda9640cad147b762cd61bc572eee854d1090d37a1212154750",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.853651",
+      "timestamp_min": "2025-11-17T17:17:14.853651",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "7f78dbaf0c1ece50676ed2e9ea4715a5de61a4534659aaa7ae9ba10b6e7b1de2",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.878273",
+      "timestamp_min": "2025-11-17T17:17:14.878273",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "3f4c1ac3376385c990b2d775c94f78705188ee548adf8d4099076a8220bacd90",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.900009",
+      "timestamp_min": "2025-11-17T17:17:14.900009",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "6c0873f3c1da56851418ad0fe37896e86ce79cda5d1119fd4eb11517f7f3e2f4",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.919285",
+      "timestamp_min": "2025-11-17T17:17:14.919285",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "5fa3d7583d5e46691b7f5591196e814fce987d5b449c565843ec80535a2e7d35",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.942834",
+      "timestamp_min": "2025-11-17T17:17:14.942834",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "eed1b15acfdb39f41d4b2b27e3a899c1b4699541815038774939e8a790794cd2",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.965586",
+      "timestamp_min": "2025-11-17T17:17:14.965586",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "6b848671df61c45f06866a3dc992f08509bf25ef6aa91938c3ee65b5ce106bd8",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:14.996412",
+      "timestamp_min": "2025-11-17T17:17:14.996412",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "ac3815b503a21f902af068bdde898f0f18f133d63b3e0cf205ac2e95f0b2d4bd",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.030562",
+      "timestamp_min": "2025-11-17T17:17:15.030562",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "85839c4047eff7d65affef95eea4c949676dfc5f49a0032db8021f5d3be9c231",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.063472",
+      "timestamp_min": "2025-11-17T17:17:15.063472",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "abe0e3eb6aee2349ebe9b09c703085985afb38356d0488822335709bca2e52ad",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.086933",
+      "timestamp_min": "2025-11-17T17:17:15.086933",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "58f8811bd49a929ce1e5f200a7fa1e5bc14d4e27c755abdff470799aa868ae24",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.107574",
+      "timestamp_min": "2025-11-17T17:17:15.107574",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "3ca1e0eacd67dad6b0431980706bb38beadd8d77352275560cb2c838b553a38d",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.135848",
+      "timestamp_min": "2025-11-17T17:17:15.135848",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "22a5694ac5052dfbe9fa0e332469acee043dc6e11a62af7b1b29abaad0f1b44f",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.161055",
+      "timestamp_min": "2025-11-17T17:17:15.161055",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "b0328a50f48f69ed1aaee144f9b1f340c109f53ee94e2bc90cc551f31578c714",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.185988",
+      "timestamp_min": "2025-11-17T17:17:15.185988",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "bc5384ff0895e8c7719ff722ca9b4a29172a9591b8d438a46277cd7a59d21ddb",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.205505",
+      "timestamp_min": "2025-11-17T17:17:15.205505",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "f54bf3c3ddde2a7d70c2ee288be900c2090f59d273edab45d256757b0fe691b1",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.227519",
+      "timestamp_min": "2025-11-17T17:17:15.227519",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "a0bb856b12e56e80a438d2c904f91aa38baafdc7e5b380af17c03c43c5b9f8d1",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.250231",
+      "timestamp_min": "2025-11-17T17:17:15.250231",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "46418f34d595889628ae00309df24d1e8ef0532ff50a233ad5b170e43983d19e",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.278071",
+      "timestamp_min": "2025-11-17T17:17:15.278071",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "f534326e2a1c20912ea4f6aedf1796f656610aad4b04b3fc35f1c10c2652664a",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.300609",
+      "timestamp_min": "2025-11-17T17:17:15.300609",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "dccc3a21a4aa8e30253ad463c57c3d958b4385bac9329f87592da1859a947208",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.321852",
+      "timestamp_min": "2025-11-17T17:17:15.321852",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "94fc7eefc7389cfa54d8caf6f7537adbf1dce57bd7ce3fb8817922695c074103",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.343185",
+      "timestamp_min": "2025-11-17T17:17:15.343185",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "464a6e90f7591537060079456ca25a78d4579da18eaac5a06f4402bf54778999",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.365056",
+      "timestamp_min": "2025-11-17T17:17:15.365056",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "b609edf9da2ea2c5feffa8d902ab3c7967cee453852150cc41b798f2000cfaad",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.390983",
+      "timestamp_min": "2025-11-17T17:17:15.390983",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "d5cfac4b08c8a1f6c1a99da53250f57fb56b99bedfa4e99ee31afc796d9bd50d",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.416153",
+      "timestamp_min": "2025-11-17T17:17:15.416153",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "80cdd92a4aca9f502481b71616879352ebfaa5c8661998dcc83c067d08389f2c",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.439613",
+      "timestamp_min": "2025-11-17T17:17:15.439613",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "44a37a2a56cc9c7b617b9641d93527455aed7af0678ebc18b4348d1101a9b0d8",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.464005",
+      "timestamp_min": "2025-11-17T17:17:15.464005",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2c71e0c8f6b735a31e3d24a5f3ce6aecea7d0cd69de97bc24ceeb8c95d76b1a5",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.489299",
+      "timestamp_min": "2025-11-17T17:17:15.489299",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "4dadf9454eaef6802e1391681c9297946928b6d531650ddd5b1c57c3bcb7e4e4",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.513506",
+      "timestamp_min": "2025-11-17T17:17:15.513506",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "24e62c9d961c64575c662a99f473be701f970c94468b4fa6151c049fa58c446a",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.536460",
+      "timestamp_min": "2025-11-17T17:17:15.536460",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2d0fc7e8a694ee434f871b9331ba7f22225163303aa0fb8ad3c52b262e0de5fa",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.557079",
+      "timestamp_min": "2025-11-17T17:17:15.557079",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "8f33075541cb75305539d87404e02a89065807e23a45d2dcbfb532ac2b0b70c8",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.579597",
+      "timestamp_min": "2025-11-17T17:17:15.579597",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2a1aaeec68f0a9fa95d60367ebfe83696f9afbed1e5987b40d0e29227fa32244",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.601849",
+      "timestamp_min": "2025-11-17T17:17:15.601849",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "5b03f3d47dfc41bb337326c77260b9e7ab0129d619965685c63535a23e3f4f46",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.624103",
+      "timestamp_min": "2025-11-17T17:17:15.624103",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "14d654801dfed77406ec45e8b66fb6ef16ad16590f67d2fdd9b94ad1ef7dd4b6",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.646777",
+      "timestamp_min": "2025-11-17T17:17:15.646777",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "4c5adb22ed518a53e095577e5a3d3572da3c3692de890656d5d0b69ba2e62700",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.666366",
+      "timestamp_min": "2025-11-17T17:17:15.666366",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "ebdf3ce6df78fcf2ef697947488d27b30e71ac7c0e216ea38e7b9ca4ee22de17",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.691488",
+      "timestamp_min": "2025-11-17T17:17:15.691488",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "db803fd6deec7f0791c42911e61b0c010c7e7fd7bab0caf7c484e459929151fe",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.716844",
+      "timestamp_min": "2025-11-17T17:17:15.716844",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "dd393f2e6da0c6a75ea159b8788f0654c36e7e4f9e31ed488e0f9bbf4db5da20",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.738405",
+      "timestamp_min": "2025-11-17T17:17:15.738405",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "17f49d6d5ab784eeb31930c3c4d28819801e776d0d6f3abfa48a6a3392bd800d",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.760726",
+      "timestamp_min": "2025-11-17T17:17:15.760726",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "8b072f570b00f7e2e02df815bc1375d2ac959f6a2765378067d34aa4f51f6b3f",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "glucose_ml_collection",
+      "timestamp_max": "2025-11-24T17:12:15.786715",
+      "timestamp_min": "2025-11-17T17:17:15.786715",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "a0f25de7b564d5f6b8f2b3ca2579127ba8e8856ead117f3f86d97ab021508879",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.695019",
+      "timestamp_min": "2025-11-17T17:16:54.695019",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2c96a38a6393871f98ee0e0e290310c47987cb285159b9210b367ad78932b3ec",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.718259",
+      "timestamp_min": "2025-11-17T17:16:54.718259",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "99376c6365f960cc9d017854e281e0d38e9daee390406e65ede7c0d7ef609e3d",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.743890",
+      "timestamp_min": "2025-11-17T17:16:54.743890",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "e3187d715d0aebbc3397510f780c1240c85313cfaa390f620a51d789732c624c",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.763245",
+      "timestamp_min": "2025-11-17T17:16:54.763245",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "e0c765705e0d8d862c1fbf949ca9a95b35e56da62768f5b3d63bd8cb77412374",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.785221",
+      "timestamp_min": "2025-11-17T17:16:54.785221",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "ffb9f1adef574ad31af58dd370b421700945c1b73952e520d04913ce28dac85e",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.807991",
+      "timestamp_min": "2025-11-17T17:16:54.807991",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "182b476b6d73f912add6f753888f2055f5ccf531ef0eb7770f5d3f781ec04cf2",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.833796",
+      "timestamp_min": "2025-11-17T17:16:54.833796",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "9203645e82b4c9365b8aa1c7d3d02a4f35c8e3b90017fa3aa3585e2888db5848",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.854114",
+      "timestamp_min": "2025-11-17T17:16:54.854114",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "fd699909d69886bdd45b64e1f4cb045aa5461dc8529afe85ca7902a0600a3622",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.880051",
+      "timestamp_min": "2025-11-17T17:16:54.880051",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "6ce61572fe486a6ce44b9645bdb1f34688be44bf40cfdf9c59065499892543be",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.902118",
+      "timestamp_min": "2025-11-17T17:16:54.902118",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "a2fb35c322f6f0d16f2ea3f51d140b3f38f374f9044c4f7699e856bee595227c",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.929343",
+      "timestamp_min": "2025-11-17T17:16:54.929343",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "b6fa7d98e0b9cd503e7f2f4b36d5aa377db2033a26025669e9a048823db4a0df",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.954141",
+      "timestamp_min": "2025-11-17T17:16:54.954141",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "d7c4d8e0bd2a4d888460679bc083db4d3c0e018682e954adf8682b7a6ef1f286",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:54.982033",
+      "timestamp_min": "2025-11-17T17:16:54.982033",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "467a47e9c05cee95bfd329ddaa52932b3a6745f7a53d91320600c55076f3df87",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.006726",
+      "timestamp_min": "2025-11-17T17:16:55.006726",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "6e2c4af8c66895b5ede8275cb6f29225e236ca1fcbece14df4905c9f2a742949",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.029970",
+      "timestamp_min": "2025-11-17T17:16:55.029970",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "f173c453f5e63fd10d1fb2c0171540e38ebfcaed1915fadfee2f7a992c13b41b",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.057791",
+      "timestamp_min": "2025-11-17T17:16:55.057791",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "4bdaf1f828096dce5757ef8ec3afb10c48269c1e69eb8eb1732c2980db1c6185",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.078862",
+      "timestamp_min": "2025-11-17T17:16:55.078862",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "7a2a95d9027f7462981c741299e1dd5a27cffdfbd96282683a20796e73fc5ef4",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.101362",
+      "timestamp_min": "2025-11-17T17:16:55.101362",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "3e24854d8b3f6a100b20af1527980588ff1ab5dd5ac39b5dc2da38d4475fcf7e",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.125477",
+      "timestamp_min": "2025-11-17T17:16:55.125477",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "a92bceee8e9e643bc139c1653c09f8c1ee64f2e7545fcc1d0203277ee483cd5f",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.146680",
+      "timestamp_min": "2025-11-17T17:16:55.146680",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "cc205c2dbddcfc421de788d9cef3e345ae6cb858e32418ef5094a3a084da19db",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.167024",
+      "timestamp_min": "2025-11-17T17:16:55.167024",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "0573499cc206483c23b8e10aef564507d3f5e814041516dd4fabfeec8d5f4004",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.187975",
+      "timestamp_min": "2025-11-17T17:16:55.187975",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "822cfa0ece9094e416877bc312e68763a983d52b60b42a523c38b64dc432660a",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.207664",
+      "timestamp_min": "2025-11-17T17:16:55.207664",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "5351a0a5858599a14c87244a444ef05bb3db849de09b00a806d2baf7ef44511a",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.229871",
+      "timestamp_min": "2025-11-17T17:16:55.229871",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "68fff5f6639ca475d3f6ff98f75779e09aa815e30f613578275f8bbe56398a22",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.254487",
+      "timestamp_min": "2025-11-17T17:16:55.254487",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "03fb7c2571c583fc8f3e59ae1c274bacb6358ea3ba61dce04faaf021b738f354",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.274123",
+      "timestamp_min": "2025-11-17T17:16:55.274123",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "eb95d555470beb4e4ca4dba82a984383a2e0cd5474d38199642affdf9d41254c",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.294485",
+      "timestamp_min": "2025-11-17T17:16:55.294485",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "129b0a95519a87bf4739ddd280d0fcb843e7fdf57b08c4294af683ef0ddbdd59",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.314166",
+      "timestamp_min": "2025-11-17T17:16:55.314166",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "fe25cadb47df935c7b5ed5f8155a4df97b6a1847c94cab75ff5b57ffeee2d9b2",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.338489",
+      "timestamp_min": "2025-11-17T17:16:55.338489",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "81fca19eaccf5cf90f827b498eca54b0b08fd6c35e822d5009ec427efdc8d83e",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.358884",
+      "timestamp_min": "2025-11-17T17:16:55.358884",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "32ac6682dbf474b1e340fbeaadcc143da870cf5083f5c7ecfff4565784abab32",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.384438",
+      "timestamp_min": "2025-11-17T17:16:55.384438",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "ed4bc582feeefb670dae50384ed9f2cb9a8b585eb81b4e6f029f1f7d32891f17",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.406035",
+      "timestamp_min": "2025-11-17T17:16:55.406035",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "7b7085015cdc71b6102573ae9a25b7825bc9b4afa99fab5f944ecad3dfc8cdb5",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.429391",
+      "timestamp_min": "2025-11-17T17:16:55.429391",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "ed62230999469108030cf2d6b5a1ee8ca185d7c761187dc201716bccf86b5445",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.460868",
+      "timestamp_min": "2025-11-17T17:16:55.460868",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "fee65a3790d4e3d6064374e0dda63dd12d68a6a67dd0b20031d2b59ddb808252",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.485346",
+      "timestamp_min": "2025-11-17T17:16:55.485346",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "3eac25b41a4e3459fe2c1399e2108226701fe02dc6bc3b38a6a7dff6df957c9a",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.509371",
+      "timestamp_min": "2025-11-17T17:16:55.509371",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "19864304f5e712d11080deaa4dddfccf20177d978c5cf9a3a21c6bc740cbbe89",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.533612",
+      "timestamp_min": "2025-11-17T17:16:55.533612",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "4f5e6cfb188bf52bd00ee8e7e7939b965144eb0d8fa946badd5eb3d7f0394a68",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.554035",
+      "timestamp_min": "2025-11-17T17:16:55.554035",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "b6c4ca12b8f989f9e2e438daacaef7a5c78a947e1f9c8657b99de384e50174d8",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.573998",
+      "timestamp_min": "2025-11-17T17:16:55.573998",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "4acca226b48212dbbfd3d2344fa4a1dece040e4e926c6f7c73216339608d03fc",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.597652",
+      "timestamp_min": "2025-11-17T17:16:55.597652",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "9b95ff2eb55f6cd241f2a42c1eca941489b42874ad53b0c51de19ee9ab0dbc7f",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.619962",
+      "timestamp_min": "2025-11-17T17:16:55.619962",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "2a92cb5c3f4df3807ee549333213fd888ba18786f98f6bbc0930f6531ab18871",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.644729",
+      "timestamp_min": "2025-11-17T17:16:55.644729",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "3561bc859a201d5fec5efc7ebba7179ae3a9d443a9fec449fe2f818fa049f35a",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.672598",
+      "timestamp_min": "2025-11-17T17:16:55.672598",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "34377e64a3722a00364141f78ba5ba0c601aabaa9326c4a7d18201e66e995d9d",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.695490",
+      "timestamp_min": "2025-11-17T17:16:55.695490",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "fadd3c43a53b1e337e450f4e180034702b91dd6d05f6730ad5b6347a74e63222",
+      "partition": "test",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.719050",
+      "timestamp_min": "2025-11-17T17:16:55.719050",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "addaceb444fb95ef3b2fc11abc09a34996531fb117969350bb5b7618bab4adca",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.741125",
+      "timestamp_min": "2025-11-17T17:16:55.741125",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "36cd2810ca6dc2537a678a9fa7ab0b217929b5eb79bff90e8317b7026d043274",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.762447",
+      "timestamp_min": "2025-11-17T17:16:55.762447",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "278f087898c680986f4914424352b7d3383c5ca566c628bf4d59c6f3ad89ad1e",
+      "partition": "val",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.785635",
+      "timestamp_min": "2025-11-17T17:16:55.785635",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "c227252426c56e6156b70d491635d74dac882f37f77efff4889379419121d854",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.808613",
+      "timestamp_min": "2025-11-17T17:16:55.808613",
+      "window_count": 1999
+    },
+    {
+      "group_hash": "cb9efcbd84c05ab9fa379c789df6ded923ec2d3c814acdde726ce64f5cef8d64",
+      "partition": "train",
+      "record_count": 2016,
+      "source": "ohio_t1dm",
+      "timestamp_max": "2025-11-24T17:11:55.831832",
+      "timestamp_min": "2025-11-17T17:16:55.831832",
+      "window_count": 1999
+    }
+  ],
+  "normalization_scope": "train_only_required",
+  "partitions": {
+    "test": {
+      "group_count": 10,
+      "record_count": 20160,
+      "window_count": 19990
+    },
+    "train": {
+      "group_count": 80,
+      "record_count": 161280,
+      "window_count": 159920
+    },
+    "val": {
+      "group_count": 10,
+      "record_count": 20160,
+      "window_count": 19990
+    }
+  },
+  "privacy_boundary": "no row-level glucose values or raw patient identifiers are included",
+  "schema_version": "glucose-source-aware-split-manifest/v1",
+  "sources": [
+    {
+      "group_count": 50,
+      "record_count": 100800,
+      "source": "glucose_ml_collection"
+    },
+    {
+      "group_count": 50,
+      "record_count": 100800,
+      "source": "ohio_t1dm"
+    }
+  ],
+  "split_policy": {
+    "group_key": "source + patient_id",
+    "input_horizon": 12,
+    "output_horizon": 6,
+    "seed": 42,
+    "test_ratio": 0.1,
+    "train_ratio": 0.8,
+    "type": "group_disjoint",
+    "val_ratio": 0.1,
+    "window_boundary": "windows are counted after group partition assignment; no group crosses partitions"
+  }
+}

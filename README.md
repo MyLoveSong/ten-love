@@ -69,6 +69,31 @@ python3 -m compileall -q \
 - 不能声明已完成专家盲评或真实用户研究。
 - 不能把单个用户个性化记录写作群体泛化结果。
 
+## 当前 active experiment gate
+
+当前优先 gate 是 `glucose-experiment-readiness`。它把 `projects/glucose/`
+作为第一条候选论文实验主线，但状态是未通过。该 gate 要求先固定
+canonical dataset、patient/user-level split、seed list、baseline parity、
+metric definitions、leakage audit 和轻量 result summary，再决定哪些结果
+能进入论文主图和主 claim。
+
+当前新增了 `public_glucose_preprocessed.json` 的 source-aware split artifact：
+`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`。
+该 artifact 使用 `source + patient_id` 作为 group key，记录 80/10/10 个
+train/validation/test group，不包含逐行血糖值或原始 patient ID。它是下一轮
+重跑的输入协议。baseline 和训练入口已在 smoke mode 消费该 artifact，
+但 full baseline parity、主模型预算、metric definition、leakage audit pass
+和数据可用性审计仍未完成，因此尚未让 gate 通过。
+
+关键文件：
+- `openspec/changes/glucose-experiment-readiness/`
+- `projects/glucose/protocols/experiment_readiness_gate.md`
+- `projects/glucose/protocols/baseline_parity_table.md`
+- `projects/glucose/protocols/glucose_result_summary_schema.md`
+- `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
+- `docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md`
+- `docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md`
+
 ## 数据边界
 
 详见 `DATA_INVENTORY.md`。
@@ -85,11 +110,14 @@ python3 -m compileall -q \
 - `docs/superpowers/specs/2026-06-10-prune-frontend-research-focus-design.md`：前端移出 active scope 的设计边界。
 - `docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md`：前端移出 active scope 的执行计划。
 - `openspec/changes/prune-frontend-research-focus/`：OpenSpec 变更记录。
+- `docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md`：Glucose 实验 readiness gate 设计边界。
+- `docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md`：Glucose 实验 readiness gate 执行计划。
+- `openspec/changes/glucose-experiment-readiness/`：Glucose 实验 readiness OpenSpec 变更记录。
 
 ## 后续建议
 
-1. 为 `projects/nutrition/` 和 `projects/glucose/` 各固定一个最小可复现命令。
-2. 为大结果生成轻量 summary JSON，避免保存逐样本预测和模型权重字符串。
-3. 审计 train、validation、test split，优先确认 user-level 或 patient-level 互斥。
-4. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。
-5. 在 `ten-love` GitHub 仓库中只保留源码、轻量文档、配置模板、可复现入口和 OpenSpec 变更记录。
+1. 运行 full same-split baseline parity：persistence、LinearRegression、GBM、MLPRegressor。
+2. 固定主模型训练预算，基于 split artifact 做可复现 rerun。
+3. 将结果按 `glucose_result_summary_schema.md` 导出轻量 summary，避免保存逐样本预测和模型权重字符串。
+4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
+5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

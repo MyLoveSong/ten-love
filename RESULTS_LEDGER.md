@@ -40,6 +40,18 @@
 | 数据清洗报告 | `projects/glucose/data/cleaned_dataset/cleaning_report.json` | 原始 3644，保留 3005，去重 416，异常值 159，无效数据 64 | B | 支持数据清洗过程，不单独支持模型泛化 |
 | 公共血糖预处理报告 | `projects/glucose/data/cleaned_dataset/public_glucose_preprocess_report.json` | sources: ohio_t1dm、glucose_ml_collection；patients_kept 100；total_samples 201600 | B | 需确认是否存在重复患者或模拟复制 |
 
+当前 gate：
+- `glucose-experiment-readiness` 已定义，但未通过。
+- gate 文件：`projects/glucose/protocols/experiment_readiness_gate.md`。
+- preliminary dataset manifest：`projects/glucose/protocols/canonical_dataset_manifest.md`。
+- preliminary split manifest：`projects/glucose/protocols/split_manifest.md`。
+- source-aware split artifact：`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`，基于 `public_glucose_preprocessed.json`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。
+- preliminary leakage audit：`projects/glucose/protocols/leakage_audit.md`，审计未通过，`unified_cleaned_glucose.json` 因大量空时间戳和重复键被阻断。
+- source-aware smoke baseline：`outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json`，512 windows per split，persistence test MAE 11.6648、RMSE 17.7028、R2 0.4079；LinearRegression test MAE 15.3053、RMSE 19.2317、R2 0.3012。该输出被 Git 忽略，只能证明入口可运行。
+- source-aware LSTM training smoke：`TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json`，32 windows per split，1 epoch，LSTM only。该输出被 Git 忽略，只能证明训练入口可运行。
+- OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
+- 在 full baseline parity、主模型训练预算、metric definition、leakage audit pass、数据可用性审计和 result summary 完成前，Glucose 结果保持 B 级本地证据。
+
 可写结论：
 - 已有多步血糖预测本地训练结果，t+1 到 t+6 有指标。
 - 已有文化适配数据清洗和微调评估产物。
@@ -78,8 +90,8 @@
 
 ## 下一步证据 gate
 
-1. 为每个子方向固定一个最小复现命令。
-2. 明确 train、validation、test split，优先 patient-level 或 user-level 互斥。
+1. 让训练和 baseline 入口消费 `public_glucose_source_aware_split_manifest.json`。
+2. 将 scaler 和 feature normalization 限定为 train-only，并记录时间序列窗口边界。
 3. 为大结果生成轻量摘要 JSON，避免提交逐样本预测和模型权重字符串。
-4. 对 Nutrition 和 Glucose 分别补数据泄漏审计。
-5. 对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后再更新 claim。
+4. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
+5. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。
