@@ -103,5 +103,6 @@
 - `public_glucose_source_aware_split_manifest.json` 已生成：基于 `public_glucose_preprocessed.json`，使用 `source + patient_id`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。
 - baseline 和训练入口已在 smoke mode 消费 split artifact：baseline smoke 使用 512 windows per split 的 persistence 和 LinearRegression；training smoke 使用 32 windows per split、1 epoch、LSTM only。
 - full baseline parity 已运行：persistence、LinearRegression、GBM、MLPRegressor 使用同一 split artifact，同一 input/output horizon 和同一 metric set，聚合结果写入 `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`。
-- 在主模型训练预算、seed list、metric definitions、leakage audit pass、数据可用性审计和 candidate-vs-baseline result summary 完成前，Glucose 结果保持 B 级本地证据。
+- GluFormer candidate pilot 已运行：full split，3 epochs，聚合结果写入 `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`；它没有超过 MLPRegressor baseline。
+- 在 seed list、metric definitions、leakage audit pass、数据可用性审计和下一轮 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
 - 该 gate 不移动数据、不删除数据、不升级 claim。

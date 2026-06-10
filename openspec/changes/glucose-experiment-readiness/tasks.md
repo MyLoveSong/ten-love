@@ -24,11 +24,13 @@
 - [ ] 3.7 Export lightweight manuscript-facing result summaries.
   - [x] 3.7.a Scaffold `projects/glucose/protocols/glucose_result_summary_schema.md`.
   - [x] 3.7.b Populate a full baseline-parity summary.
-  - [ ] 3.7.c Populate a candidate-model rerun summary after main-model budget execution.
+  - [x] 3.7.c Populate a candidate-model pilot summary after fixed-budget GluFormer execution.
+  - [ ] 3.7.d Populate a final candidate strategy summary after seed policy and leakage audit pass.
 - [ ] 3.8 Update `RESULTS_LEDGER.md` only after the gate artifacts exist.
   - [x] 3.8.a Record smoke-only outputs in `RESULTS_LEDGER.md` without claim upgrade.
   - [x] 3.8.b Record full baseline parity results without claim upgrade.
-  - [ ] 3.8.c Record candidate-model rerun results only after all required gate artifacts exist.
+  - [x] 3.8.c Record candidate-model pilot results without claim upgrade.
+  - [ ] 3.8.d Record final candidate results only after all required gate artifacts exist.
 
 ## 4. Verification
 

@@ -36,6 +36,8 @@ Affected areas:
 - `projects/glucose/protocols/baseline_parity_table.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
+- `projects/glucose/protocols/glucose_candidate_rerun_budget.md`
+- `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`
 - `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
 - `projects/glucose/src/analysis/source_aware_split_manifest.py`
 - `projects/glucose/src/analysis/source_aware_split_dataset.py`

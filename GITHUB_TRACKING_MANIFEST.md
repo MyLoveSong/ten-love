@@ -32,6 +32,8 @@ git add \
   system/projects/glucose/protocols/baseline_parity_table.md \
   system/projects/glucose/protocols/glucose_result_summary_schema.md \
   system/projects/glucose/protocols/glucose_baseline_parity_result_summary.json \
+  system/projects/glucose/protocols/glucose_candidate_rerun_budget.md \
+  system/projects/glucose/protocols/glucose_candidate_rerun_result_summary.json \
   system/projects/glucose/protocols/public_glucose_source_aware_split_manifest.json \
   system/projects/glucose/src/analysis/source_aware_split_manifest.py \
   system/projects/glucose/src/analysis/source_aware_split_dataset.py \

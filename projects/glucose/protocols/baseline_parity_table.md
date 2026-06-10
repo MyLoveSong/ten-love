@@ -82,7 +82,7 @@ Full-split test metrics:
 | GBM | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
 | MLPRegressor | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
 | Enhanced Glucose ensemble | smoke-run on LSTM subset | yes | yes | ensemble test metrics | full run required |
-| GluFormer candidate | not separately audited | not yet audited | not yet audited | not yet audited | pending |
+| GluFormer candidate | full split pilot | yes | yes | MAE, RMSE, R2, per horizon | local-pilot; did not outperform MLPRegressor |
 
 ## Commands To Run In A Full Environment
 
@@ -103,8 +103,8 @@ python3 projects/glucose/src/run_glucose_training.py \
 
 ## Remaining Blockers
 
-- A full or predefined budget Enhanced Glucose rerun is still required after
-  the smoke training path.
+- A stronger predefined candidate strategy is required because the 3-epoch
+  GluFormer pilot did not outperform MLPRegressor.
 - The public-preprocessed dataset source, licence, and access route still need
   a Nature-ready data availability audit.
 - Generated metrics must be exported as a lightweight result summary before

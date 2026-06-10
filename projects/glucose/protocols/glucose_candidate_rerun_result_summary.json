@@ -1,0 +1,89 @@
+{
+  "run_id": "glucose_candidate_gluformer_public_source_aware_20260611_004421",
+  "generated_at": "2026-06-11T00:46:19+08:00",
+  "git_commit": "1ac1978",
+  "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
+  "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
+  "candidate_budget": "projects/glucose/protocols/glucose_candidate_rerun_budget.md",
+  "baseline_summary": "projects/glucose/protocols/glucose_baseline_parity_result_summary.json",
+  "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
+  "dataset_sha256": "c40ff621d3ff3a82e45bb69981a5df8b365407170a3e27057d232170a3cefd36",
+  "source_report_path": "TRAIN/outputs/exp_20260611_004421/split_manifest_training_results.json",
+  "source_report_sha256": "b57f5f25dcdf0b0cc4c3deca09545d2648d0413b50428f7b536713fa5f3565d6",
+  "artifact_policy": "source report and model checkpoint are gitignored; this file contains only aggregate metrics",
+  "seed": 42,
+  "group_key": "source + patient_id",
+  "input_horizon": 12,
+  "output_horizon": 6,
+  "normalization_scope": "train_sequences_only",
+  "training_budget": {
+    "evaluation_scope": "full_split",
+    "max_windows_per_split": null,
+    "train_windows": 159920,
+    "validation_windows": 19990,
+    "test_windows": 19990,
+    "model": "gluformer",
+    "requested_epochs": 3,
+    "observed_total_epochs": 3,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "augmentation": "disabled",
+    "feature_engineering": "disabled",
+    "monitoring": "disabled"
+  },
+  "train_scaler": {
+    "mean": 152.02097247917723,
+    "std": 26.681654784981756,
+    "scope": "train_sequences_only"
+  },
+  "normalized_metrics": {
+    "validation_best_loss": 0.254544,
+    "validation_best_epoch": 3,
+    "validation_final_mae": 0.342732,
+    "test_mae": 0.343639,
+    "test_rmse": 0.508206,
+    "test_r2": 0.741683
+  },
+  "test_metrics_mg_dl_estimate": {
+    "mae": 9.168866,
+    "rmse": 13.55979,
+    "r2": 0.741683,
+    "per_horizon_metrics": {
+      "t+1": {"mae": 7.837873, "rmse": 10.868519},
+      "t+2": {"mae": 8.37705, "rmse": 12.075785},
+      "t+3": {"mae": 8.858738, "rmse": 13.1018},
+      "t+4": {"mae": 9.408061, "rmse": 14.079913},
+      "t+5": {"mae": 10.017963, "rmse": 14.933944},
+      "t+6": {"mae": 10.513517, "rmse": 15.695049}
+    }
+  },
+  "candidate_vs_baseline_test_delta_mg_dl": {
+    "vs_persistence": {
+      "mae_delta": -3.433944,
+      "rmse_delta": -4.834964,
+      "r2_delta": 0.217057
+    },
+    "vs_linear": {
+      "mae_delta": -2.309906,
+      "rmse_delta": -2.847268,
+      "r2_delta": 0.119872
+    },
+    "vs_gbm": {
+      "mae_delta": -0.635607,
+      "rmse_delta": -0.66233,
+      "r2_delta": 0.025852
+    },
+    "vs_mlp": {
+      "mae_delta": 0.010571,
+      "rmse_delta": 0.098365,
+      "r2_delta": -0.003734
+    }
+  },
+  "selection_rule": "The candidate is not promoted as outperforming all baselines because MLPRegressor has slightly better test MAE, RMSE, and R2 under the same split.",
+  "leakage_audit": {
+    "path": "projects/glucose/protocols/leakage_audit.md",
+    "status": "blocked-unverified"
+  },
+  "data_availability_status": "blocked-unverified: source, licence, and access route are not Nature-ready",
+  "claim_level": "local-pilot"
+}

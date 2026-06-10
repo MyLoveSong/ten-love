@@ -186,6 +186,9 @@ main-model rerun budget, and result summary artifacts are still required before
 any result upgrade. Full baseline parity has since been executed for
 persistence, LinearRegression, GBM, and MLPRegressor, with aggregate metrics
 recorded in `glucose_baseline_parity_result_summary.json`.
+A fixed-budget GluFormer candidate pilot has also been executed for 3 epochs
+on the full split. It did not outperform MLPRegressor under the same split, so
+the result remains B-level local evidence.
 
 ### Task 5: Result Summary And Ledger Update
 
@@ -229,5 +232,7 @@ Expected: ledger references the gate and keeps current evidence at B until all f
 
 Observed: `glucose_result_summary_schema.md` is scaffolded. The ledger records
 smoke baseline, smoke training, and full baseline parity outputs without claim
-upgrade. Current Glucose evidence remains B-level because candidate-model rerun,
-leakage audit pass, and data availability audit are still missing.
+upgrade. It also records the GluFormer candidate pilot without claim upgrade.
+Current Glucose evidence remains B-level because MLPRegressor remains the best
+observed same-split model and leakage/data-availability audits are still
+missing.

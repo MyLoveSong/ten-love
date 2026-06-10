@@ -26,7 +26,7 @@ Status: not passed.
 | baseline parity table | same split, same input horizon, same output horizon, same metric definitions | full baseline parity completed for persistence, LinearRegression, GBM, and MLPRegressor; see `projects/glucose/protocols/baseline_parity_table.md` |
 | metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | missing |
 | leakage audit | duplicates, overlapping windows, patient overlap, generated IDs, scaler leakage, target leakage, test reuse | preliminary audit created: `projects/glucose/protocols/leakage_audit.md`; audit does not pass |
-| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary created: `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`; main-model summary missing |
+| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary and GluFormer pilot summary created; claim remains local-pilot |
 | claim boundary | local, dataset-level, external-validation, or clinical claim level | missing |
 
 ## Default Protocol
@@ -78,4 +78,6 @@ Do not commit raw glucose data, processed large datasets, model checkpoints, row
 - `run_glucose_training.py` and `external_validation_and_baselines.py` now have source-aware split-manifest modes that build windows after group assignment and use train-sequence-only scaling.
 - Smoke execution has verified the split-manifest baseline path on `persistence` and `LinearRegression` with 512 windows per split, and the training path on one LSTM model for 1 epoch with 32 windows per split.
 - Full baseline parity has now been run on the same split for persistence, LinearRegression, GBM, and MLPRegressor. Test MAE/RMSE/R2 are recorded in `glucose_baseline_parity_result_summary.json`.
-- The gate remains not passed until a predefined main-model budget, metric definitions for candidate model comparison, source/licence audit, and leakage audit all pass.
+- A 3-epoch full-split GluFormer pilot run has now been executed under `glucose_candidate_rerun_budget.md`, with aggregate metrics recorded in `glucose_candidate_rerun_result_summary.json`.
+- The GluFormer pilot improves over persistence, LinearRegression, and GBM, but does not outperform MLPRegressor under the same split. Therefore, no superiority claim is allowed.
+- The gate remains not passed until a seed policy, metric definitions for final comparison, source/licence audit, leakage audit, and a stronger candidate strategy all pass.
