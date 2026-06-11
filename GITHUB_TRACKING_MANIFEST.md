@@ -25,6 +25,7 @@ git add \
   system/docs/superpowers/plans/2026-06-10-prune-frontend-research-focus.md \
   system/docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md \
   system/docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md \
+  system/projects/glucose/protocols/README.md \
   system/projects/glucose/protocols/experiment_readiness_gate.md \
   system/projects/glucose/protocols/canonical_dataset_manifest.md \
   system/projects/glucose/protocols/split_manifest.md \

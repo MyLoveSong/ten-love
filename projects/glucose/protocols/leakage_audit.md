@@ -101,6 +101,8 @@ rg -n "fit_transform|scaler|random_split|KFold|permutation|normalize|patient_id|
 
 ## Next Minimal Step
 
-Update the Glucose training and baseline entrypoints to consume
+The training and baseline entrypoints now consume
 `public_glucose_source_aware_split_manifest.json`, build windows after group
-assignment, and fit all normalization parameters on the training partition only.
+assignment, and fit normalization on the training partition only. The next
+minimal audit step is source/licence/access-route verification for the public
+preprocessed dataset, followed by a final leakage pass before claim upgrade.

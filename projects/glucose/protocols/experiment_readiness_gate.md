@@ -22,12 +22,12 @@ Status: not passed.
 |---|---|---|
 | canonical dataset manifest | path, source, access route, raw/derived status, sample count, patient/user count, timestamp coverage, hash strategy | preliminary manifest created: `projects/glucose/protocols/canonical_dataset_manifest.md`; canonical dataset not frozen |
 | split manifest | train/validation/test policy, patient/user exclusivity, time-order rule, seed list | preliminary group split artifact created: `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`; baseline and training smoke runs consumed it |
-| seed record | all random seeds and deterministic settings used for each run | missing |
+| seed record | all random seeds and deterministic settings used for each run | partial: baseline and candidate summaries record seed; 10-epoch triage records Python, NumPy, Torch, CUDA, CuBLAS, and cuDNN settings; multi-seed policy still missing |
 | baseline parity table | same split, same input horizon, same output horizon, same metric definitions | full baseline parity completed for persistence, LinearRegression, GBM, and MLPRegressor; see `projects/glucose/protocols/baseline_parity_table.md` |
 | metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | missing |
 | leakage audit | duplicates, overlapping windows, patient overlap, generated IDs, scaler leakage, target leakage, test reuse | preliminary audit created: `projects/glucose/protocols/leakage_audit.md`; audit does not pass |
 | result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary, GluFormer pilot summary, 10-epoch triage summary, and failure analysis created; claim remains local-pilot |
-| claim boundary | local, dataset-level, external-validation, or clinical claim level | missing |
+| claim boundary | local, dataset-level, external-validation, or clinical claim level | partial: current summaries are local, local-pilot, or local-triage; final manuscript claim level missing |
 
 ## Default Protocol
 

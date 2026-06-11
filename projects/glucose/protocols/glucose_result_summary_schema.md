@@ -30,7 +30,7 @@ summary and does not upgrade any claim level.
 | `per_horizon_metrics` | Metrics for `t+1` through `t+6` when output horizon is 6 |
 | `leakage_audit` | Path and pass/fail status |
 | `data_availability_status` | Source, licence, and access-route status |
-| `claim_level` | `smoke`, `local`, `dataset-level`, `external-validation`, or `clinical` |
+| `claim_level` | `smoke`, `local`, `local-pilot`, `local-triage`, `dataset-level`, `external-validation`, or `clinical` |
 
 ## Current Smoke Runs
 

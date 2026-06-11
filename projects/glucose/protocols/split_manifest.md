@@ -10,7 +10,9 @@ for `public_glucose_preprocessed.json`.
 This manifest records the required split policy and the split-related risks
 observed from current metadata and code. The generated artifact does not make
 any Glucose result manuscript-ready. Baseline and training entrypoints have
-consumed it in smoke mode only; full same-split runs are still missing.
+consumed it in smoke mode and in later full same-split runs. The overall gate
+still remains blocked by source/licence audit, final metric definitions,
+multi-seed model evidence, and a final leakage pass.
 
 The first leakage audit is recorded at
 `projects/glucose/protocols/leakage_audit.md`. It blocks freezing
@@ -46,6 +48,14 @@ Generated split artifact:
 |---|---|---|---|
 | `external_validation_and_baselines.py` | `--models persistence,linear --max-windows-per-split 512` | wrote `outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json` | smoke only |
 | `run_glucose_training.py` | `--models lstm --epochs 1 --max_windows_per_split 32` | wrote `TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json` | smoke only |
+
+## Full Same-Split Evidence
+
+| Run | Summary | Claim level |
+|---|---|---|
+| baseline parity | `glucose_baseline_parity_result_summary.json` | local |
+| GluFormer 3-epoch pilot | `glucose_candidate_rerun_result_summary.json` | local-pilot |
+| GluFormer 10-epoch triage | `glucose_candidate_10epoch_triage_result_summary.json` | local-triage |
 
 ## Default Horizon And Ratio Targets
 

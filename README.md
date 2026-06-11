@@ -93,6 +93,7 @@ definition、leakage audit pass、多 seed policy 和数据可用性审计仍未
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
+- `projects/glucose/protocols/README.md`
 - `projects/glucose/protocols/experiment_readiness_gate.md`
 - `projects/glucose/protocols/baseline_parity_table.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`

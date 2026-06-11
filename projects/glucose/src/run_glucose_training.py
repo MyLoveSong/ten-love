@@ -49,11 +49,14 @@ def set_reproducible_seed(seed: int) -> Dict[str, Any]:
     return {
         'value': seed,
         'python_random': seed,
+        'python_hash_seed_env': os.environ.get('PYTHONHASHSEED'),
+        'python_hash_seed_scope': 'runtime_environment_record',
         'numpy': seed,
         'torch': seed,
         'torch_cuda': torch_cuda_seed,
         'cublas_workspace_config': os.environ.get('CUBLAS_WORKSPACE_CONFIG'),
         'deterministic_algorithms': True,
+        'deterministic_warn_only': True,
         'cudnn_benchmark': False,
         'cudnn_deterministic': True,
     }

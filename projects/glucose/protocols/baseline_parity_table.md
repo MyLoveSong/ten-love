@@ -4,7 +4,8 @@ Status: full baseline parity run completed, gate not passed.
 
 ## Verdict
 
-Baseline parity is not complete.
+Baseline parity for the four declared baselines is complete under the current
+source-aware split.
 
 The baseline entrypoint consumed
 `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
@@ -83,6 +84,7 @@ Full-split test metrics:
 | MLPRegressor | full split | yes | yes | MAE, RMSE, R2, per horizon | completed, local claim only |
 | Enhanced Glucose ensemble | smoke-run on LSTM subset | yes | yes | ensemble test metrics | full run required |
 | GluFormer candidate | full split pilot | yes | yes | MAE, RMSE, R2, per horizon | local-pilot; did not outperform MLPRegressor; failure analysis completed |
+| GluFormer 10-epoch triage | full split | yes | yes | MAE, RMSE, R2, per horizon | local-triage; mixed versus MLPRegressor |
 
 ## Commands To Run In A Full Environment
 
@@ -103,11 +105,10 @@ python3 projects/glucose/src/run_glucose_training.py \
 
 ## Remaining Blockers
 
-- A stronger predefined candidate strategy is required because the 3-epoch
-  GluFormer pilot did not outperform MLPRegressor. Current failure analysis
-  points to insufficient budget and missing multi-seed stability as the first
-  issues to fix.
+- A stronger predefined candidate strategy is still required. The 10-epoch
+  GluFormer triage slightly improved RMSE and R2 versus MLPRegressor, but MAE
+  remained worse.
 - The public-preprocessed dataset source, licence, and access route still need
   a Nature-ready data availability audit.
-- Generated metrics must be exported as a lightweight result summary before
-  any claim upgrade.
+- A 30-epoch, multi-seed GluFormer rerun is required before any candidate model
+  claim is reconsidered.

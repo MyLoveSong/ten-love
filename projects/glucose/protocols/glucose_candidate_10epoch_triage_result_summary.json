@@ -3,6 +3,7 @@
   "generated_at": "2026-06-11T12:49:42+08:00",
   "git_commit_before_run": "6e5fee84db468036ba7d443704af260109d39bf6",
   "run_code_status": "dirty working tree with split-manifest seed-control patch; patch is committed with this summary",
+  "run_patch_first_committed_as": "45a1cae6ea1885a94a5cecaaea23f2b82b312c02",
   "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
   "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
   "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
@@ -21,6 +22,11 @@
     "deterministic_algorithms": true,
     "cudnn_benchmark": false,
     "cudnn_deterministic": true
+  },
+  "seed_metadata_audit": {
+    "deterministic_warn_only": true,
+    "python_hash_seed_scope": "PYTHONHASHSEED was set at runtime by the script; full interpreter hash determinism requires launching Python with that environment variable already set",
+    "cublas_workspace_config_position": "set before importing torch in run_glucose_training.py"
   },
   "training_budget": {
     "evaluation_scope": "full_split",

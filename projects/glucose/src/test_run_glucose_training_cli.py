@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 import tempfile
@@ -94,14 +95,19 @@ class SplitManifestSeedTest(unittest.TestCase):
                         model_names=["gluformer"],
                         seed=123,
                     )
+            saved = json.loads((out_dir / "split_manifest_training_results.json").read_text())
 
         self.assertEqual(result["seed"]["value"], 123)
         self.assertEqual(result["seed"]["python_random"], 123)
         self.assertEqual(result["seed"]["numpy"], 123)
         self.assertEqual(result["seed"]["torch"], 123)
+        self.assertEqual(result["seed"]["python_hash_seed_env"], "123")
+        self.assertEqual(result["seed"]["python_hash_seed_scope"], "runtime_environment_record")
         self.assertEqual(result["seed"]["cublas_workspace_config"], ":4096:8")
         self.assertTrue(result["seed"]["deterministic_algorithms"])
+        self.assertTrue(result["seed"]["deterministic_warn_only"])
         self.assertEqual(DummySystem.observed_config["seed"]["value"], 123)
+        self.assertEqual(saved["seed"]["value"], 123)
 
 
 if __name__ == "__main__":

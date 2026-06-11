@@ -70,5 +70,12 @@ Failure analysis is recorded in
 `projects/glucose/protocols/gluformer_failure_analysis.md`. The pilot ended at
 the requested 3 epochs with best epoch 3, validation loss and validation MAE
 still decreasing, and learning-rate warmup reaching 0.001 only at epoch 3.
-Therefore the next candidate strategy must add explicit seed control and a
-longer budget before any manuscript-facing model claim is considered.
+At the time of this 3-epoch pilot, the next candidate strategy required
+explicit seed control and a longer budget before any manuscript-facing model
+claim could be considered.
+
+Follow-up status: explicit split-manifest seed control has since been added, and
+a 10-epoch seed-42 triage is recorded in
+`projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`.
+That triage is mixed versus MLPRegressor, so the next serious comparison remains
+a 30-epoch, multi-seed rerun.
