@@ -108,14 +108,13 @@ Use the following rule before any rerun:
 | canonical dataset not selected | prior results cannot be reproduced against a frozen data identity |
 | `unified_cleaned_glucose` has severe timestamp and duplicate-key findings | this blocks freezing it as the manuscript canonical dataset |
 | `public_glucose_preprocessed` inherits unresolved/synthetic-risk `glucose_ml_collection` provenance | this blocks it from canonical manuscript use |
-| BigIdeas-only candidate has only 16 subjects | group-disjoint validation/test partitions are small and must be treated as exploratory until full baseline parity and leakage checks pass |
+| BigIdeas-only candidate has only 16 subjects | group-disjoint validation/test partitions are small and must remain local evidence even after baseline parity and leakage checks |
 | `unified_cleaned_glucose` lacks source field in observed schema | source-level duplicate and provenance audit cannot be done from schema alone |
 | BigIdeas mirror not fully reconciled against every local duplicate path | raw source route is recorded, but final file-inventory cleanup is still pending |
 | final data availability statement not frozen | BigIdeas route is verified, but manuscript claim-specific wording and citation list remain pending |
 
 ## Next Minimal Step
 
-Run full same-split baseline parity on the BigIdeas-only split, then run the
-final leakage pass against `bigideas_glucose_records.json`. Do not schedule
-30-epoch GluFormer multi-seed reruns until those BigIdeas baseline and leakage
-checks are recorded.
+Run 30-epoch GluFormer multi-seed reruns on the BigIdeas-only split with seeds
+42, 123, and 456. Keep the BigIdeas MLPRegressor result as the current strong
+baseline until a same-split candidate summary proves otherwise.

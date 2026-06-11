@@ -1,0 +1,132 @@
+{
+  "run_id": "glucose_bigideas_baseline_parity_source_aware_20260612_012848",
+  "generated_at": "2026-06-12T01:28:48+08:00",
+  "git_commit": "6c438584a2484620b6271f011f06211a58a835b2",
+  "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
+  "source_report": "projects/glucose/protocols/bigideas_glucose_source_report.json",
+  "split_manifest": "projects/glucose/protocols/bigideas_source_aware_split_manifest.json",
+  "metric_definitions": "projects/glucose/protocols/metric_definitions.md",
+  "model_name": "baseline_parity_matrix",
+  "baseline_name": "multiple_baselines",
+  "dataset_path": "projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json",
+  "dataset_sha256": "00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8",
+  "source_report_path": "outputs/glucose_baselines_bigideas_source_aware_full/split_manifest_baseline_report.json",
+  "source_report_sha256": "9e681d58ceae03338dc56ed0734440837c16df29058bad41b02407c29009ac1b",
+  "artifact_policy": "source report is gitignored; this file contains only aggregate metrics",
+  "seed": 42,
+  "group_key": "source + patient_id",
+  "input_horizon": 12,
+  "output_horizon": 6,
+  "normalization_scope": "train_sequences_only",
+  "training_budget": {
+    "evaluation_scope": "full_split",
+    "max_windows_per_split": null,
+    "train_windows": 29783,
+    "validation_windows": 4696,
+    "test_windows": 2147,
+    "baselines": [
+      "persistence",
+      "linear",
+      "gbm",
+      "mlp"
+    ],
+    "gbm_backend": "sklearn.ensemble.GradientBoostingRegressor wrapped by MultiOutputRegressor",
+    "mlp_backend": "sklearn.neural_network.MLPRegressor",
+    "xgboost_available": false,
+    "lightgbm_available": false
+  },
+  "metric_unit": "mg/dL after inverse scaling",
+  "validation_metrics": {
+    "persistence": {
+      "mae": 6.306112,
+      "rmse": 10.688309,
+      "r2": 0.690152
+    },
+    "linear": {
+      "mae": 5.086005,
+      "rmse": 8.51642,
+      "r2": 0.803282
+    },
+    "gbm": {
+      "mae": 5.713172,
+      "rmse": 9.440208,
+      "r2": 0.758291
+    },
+    "mlp": {
+      "mae": 5.102981,
+      "rmse": 8.642124,
+      "r2": 0.797432
+    }
+  },
+  "test_metrics": {
+    "persistence": {
+      "mae": 6.41166,
+      "rmse": 10.26763,
+      "r2": 0.67591,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 2.232417, "rmse": 3.457574},
+        "t+2": {"mae": 4.272939, "rmse": 6.436172},
+        "t+3": {"mae": 6.021891, "rmse": 9.014117},
+        "t+4": {"mae": 7.487191, "rmse": 11.147548},
+        "t+5": {"mae": 8.704704, "rmse": 12.910119},
+        "t+6": {"mae": 9.750815, "rmse": 14.386556}
+      }
+    },
+    "linear": {
+      "mae": 5.323906,
+      "rmse": 8.85837,
+      "r2": 0.758769,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 1.253454, "rmse": 2.291549},
+        "t+2": {"mae": 2.920532, "rmse": 4.822495},
+        "t+3": {"mae": 4.828314, "rmse": 7.46529},
+        "t+4": {"mae": 6.453591, "rmse": 9.670927},
+        "t+5": {"mae": 7.750565, "rmse": 11.409378},
+        "t+6": {"mae": 8.736979, "rmse": 12.762653}
+      }
+    },
+    "gbm": {
+      "mae": 5.673466,
+      "rmse": 8.954067,
+      "r2": 0.753529,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 1.770421, "rmse": 2.697127},
+        "t+2": {"mae": 3.601608, "rmse": 5.304665},
+        "t+3": {"mae": 5.331747, "rmse": 7.780149},
+        "t+4": {"mae": 6.746959, "rmse": 9.776198},
+        "t+5": {"mae": 7.817645, "rmse": 11.358607},
+        "t+6": {"mae": 8.772414, "rmse": 12.669458}
+      }
+    },
+    "mlp": {
+      "mae": 5.236768,
+      "rmse": 8.650639,
+      "r2": 0.769951,
+      "per_horizon_metrics": {
+        "t+1": {"mae": 1.32128, "rmse": 2.327557},
+        "t+2": {"mae": 2.893729, "rmse": 4.674523},
+        "t+3": {"mae": 4.720439, "rmse": 7.21535},
+        "t+4": {"mae": 6.316169, "rmse": 9.442261},
+        "t+5": {"mae": 7.588215, "rmse": 11.17485},
+        "t+6": {"mae": 8.580779, "rmse": 12.475488}
+      }
+    }
+  },
+  "selection_rule": "MLPRegressor is the strongest BigIdeas-only full-split baseline by aggregate test MAE, RMSE, and R2; no candidate-model or manuscript claim is upgraded.",
+  "leakage_audit": {
+    "path": "projects/glucose/protocols/bigideas_final_leakage_audit.md",
+    "status": "pass-with-limitations-for-baseline-parity"
+  },
+  "data_availability_audit": {
+    "path": "projects/glucose/protocols/data_availability_audit.md",
+    "status": "partial-verified-bigideas"
+  },
+  "data_availability_status": "partial-verified: BigIdeas source, access route, and ODC-By licence are recorded; final manuscript statement depends on frozen claim scope",
+  "claim_level": "local",
+  "known_limitations": [
+    "BigIdeas-only split has 16 subject groups and a single test subject group.",
+    "This run compares baselines only; it does not include GluFormer or another candidate model.",
+    "The ignored full output remains local and is not a committed artifact.",
+    "No external validation dataset is included."
+  ]
+}

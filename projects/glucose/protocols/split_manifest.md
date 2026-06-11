@@ -14,8 +14,9 @@ any Glucose result manuscript-ready. Baseline and training entrypoints have
 consumed the old public-preprocessed artifact in smoke mode and later full
 same-split runs. That old artifact is now historical engineering evidence only
 because `glucose_ml_collection` provenance is closed as unresolved. The overall
-gate still remains blocked by BigIdeas full baseline parity, multi-seed model
-evidence, and a final leakage pass.
+gate still remains blocked by BigIdeas multi-seed model evidence and final
+claim-boundary review. BigIdeas full baseline parity and the baseline-specific
+final leakage pass are now recorded.
 
 The first leakage audit is recorded at
 `projects/glucose/protocols/leakage_audit.md`. It blocks freezing
@@ -56,6 +57,7 @@ Historical split artifact:
 | `run_glucose_training.py` | `--models lstm --epochs 1 --max_windows_per_split 32` | wrote `TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json` | smoke only |
 | `external_validation_and_baselines.py` on BigIdeas-only | `--models persistence,linear --max-windows-per-split 512` | wrote `outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json` | smoke only |
 | `run_glucose_training.py` on BigIdeas-only | `--models lstm --epochs 1 --max_windows_per_split 32` | wrote `TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json`; includes inverse-scaled mg/dL metrics | smoke only |
+| `external_validation_and_baselines.py` on BigIdeas-only | `--models persistence,linear,gbm,mlp` on full split | wrote `outputs/glucose_baselines_bigideas_source_aware_full/split_manifest_baseline_report.json`; lightweight summary committed as `glucose_bigideas_baseline_parity_result_summary.json` | local baseline only |
 
 ## Full Same-Split Evidence
 
@@ -64,9 +66,14 @@ Historical split artifact:
 | baseline parity | `glucose_baseline_parity_result_summary.json` | local |
 | GluFormer 3-epoch pilot | `glucose_candidate_rerun_result_summary.json` | local-pilot |
 | GluFormer 10-epoch triage | `glucose_candidate_10epoch_triage_result_summary.json` | local-triage |
+| BigIdeas baseline parity | `glucose_bigideas_baseline_parity_result_summary.json` | local |
+| BigIdeas final leakage pass | `bigideas_final_leakage_audit.md` | local baseline pass with limitations |
 
 These runs used the old public-preprocessed candidate. After provenance
 closure, they are not comparable to future BigIdeas-only reruns.
+
+The BigIdeas rows use the BigIdeas-only split artifact and are the active
+verified-source baseline evidence for the next candidate comparison.
 
 ## Default Horizon And Ratio Targets
 
@@ -98,9 +105,9 @@ closure, they are not comparable to future BigIdeas-only reruns.
 |---|---|---|---|
 | `unified_cleaned_glucose.json` | `patient_id` | blocked | leakage audit found 243107 null timestamps and 4529 duplicate `patient_id + timestamp` groups |
 | `public_glucose_preprocessed.json` | `source + patient_id` | rejected for manuscript canonical use | `glucose_ml_collection` provenance closure blocks source identity |
-| `bigideas_glucose_records.json` | `source + patient_id` | preliminary verified-source split artifact created | only 16 subjects; validation/test group counts are small |
+| `bigideas_glucose_records.json` | `source + patient_id` | verified-source draft split artifact, baseline parity and final leakage pass completed | only 16 subjects; validation/test group counts are small |
 | `unified_cleaned_glucose.csv` | `patient_id` | blocked-unverified | must verify equivalence with JSON before use |
-| BigIdeas raw mirror | subject folder ID plus source label | draft split artifact created | only 16 subjects; final leakage pass still required |
+| BigIdeas raw mirror | subject folder ID plus source label | draft split artifact created, baseline leakage pass recorded | only 16 subjects; external validation still missing |
 
 ## Observed Code Paths
 
@@ -152,8 +159,8 @@ groups with hashed IDs, partition, source, record count, window count, timestamp
 ## Minimum Acceptable Split For Next Rerun
 
 For the next Glucose rerun, use the BigIdeas-only group-disjoint split artifact
-after full baseline parity and final leakage checks are recorded. Do not use
-the old public-preprocessed split for manuscript claims.
+and keep the BigIdeas MLPRegressor result as the strong baseline. Do not use the
+old public-preprocessed split for manuscript claims.
 
 | Policy | Use case | Minimum condition |
 |---|---|---|

@@ -17,8 +17,10 @@ as the canonical manuscript dataset in its current form.
 For the next split-aware rerun, use the BigIdeas-only draft candidate
 `projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json` with the
 generated artifact
-`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`, after
-full baseline parity and final leakage checks are recorded. The old
+`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`. BigIdeas
+baseline parity and the baseline-specific final leakage pass are recorded in
+`glucose_bigideas_baseline_parity_result_summary.json` and
+`bigideas_final_leakage_audit.md`. The old
 `public_glucose_preprocessed.json` candidate is rejected for manuscript use by
 `glucose_ml_collection_provenance_closure.md`.
 
@@ -115,6 +117,6 @@ The training and baseline entrypoints now consume
 `bigideas_source_aware_split_manifest.json`, build windows after group
 assignment, and fit normalization on the training partition only.
 `data_availability_audit.md` now records the BigIdeas source/access route and
-the old `glucose_ml_collection` closure. The next minimal audit step is full
-BigIdeas baseline parity, followed by a final leakage pass before claim
-upgrade.
+the old `glucose_ml_collection` closure. The next minimal audit step is a
+BigIdeas 30-epoch multi-seed GluFormer comparison against the current
+MLPRegressor strong baseline before any claim upgrade.

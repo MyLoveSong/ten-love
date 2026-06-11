@@ -42,7 +42,7 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 ## Decisions
 
 1. Use `glucose-experiment-readiness` as a gate definition with smoke execution records, not as a completed manuscript experiment.
-2. Mark the current gate status as not passed until BigIdeas-only full same-split baselines, a predefined main-model budget, metric summaries, data availability statement, and leakage blockers are resolved.
+2. Mark the current gate status as not passed until BigIdeas-only multi-seed candidate comparison, a predefined main-model budget, metric summaries, final data availability statement, and claim-boundary review are resolved.
 3. Reuse prior protocol material only as input. It is not treated as evidence of completed validation.
 4. Prefer conservative evidence promotion: B-level local results can become A-level only after split, seed, baseline, metric, and leakage artifacts are present.
 5. Keep large data and outputs local. Git should receive only protocol files, summaries, and reproducibility metadata.
@@ -54,7 +54,7 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 - Public glucose datasets may have repeated subjects or mirrored files across `dataset/` and `projects/glucose/data/`. The canonical data gate must resolve this before training.
 - Reused human-participant CGM data may have controlled-access or third-party redistribution limits. The data availability gate must resolve these before manuscript submission.
 - The source-aware split artifact for `public_glucose_preprocessed.json` is now historical engineering evidence only because `glucose_ml_collection` provenance is unresolved.
-- The BigIdeas-only split artifact has a clearer public source route, but only 16 subject groups. It needs conservative interpretation and cannot support broad generalization without additional data or external validation.
+- The BigIdeas-only split artifact has a clearer public source route, but only 16 subject groups and 1 test subject group. Its full baseline parity and final baseline leakage pass support local baseline evidence only, and cannot support broad generalization without additional data or external validation.
 - A strict gate delays manuscript writing, but reduces rejection risk from unsupported claims and unclear reproducibility.
 
 ## Verification

@@ -88,13 +88,19 @@ metric definitions、leakage audit 和轻量 result summary，再决定哪些结
 `projects/glucose/protocols/bigideas_source_aware_split_manifest.json`。该 split
 基于 16 个 BigIdeas Dexcom 文件、36898 条 EGV 记录，记录 13/2/1 个
 train/validation/test subject groups，不包含逐行血糖值或原始 patient ID。
-baseline 和训练入口已在 smoke mode 消费该 artifact，训练入口现在直接导出
-inverse-scaled mg/dL overall 和 per-horizon metrics。
+baseline 和训练入口已消费该 artifact：smoke mode 已通过，full baseline
+parity 已完成，并写入
+`projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json`。
+BigIdeas final leakage pass 已写入
+`projects/glucose/protocols/bigideas_final_leakage_audit.md`。训练入口现在直接
+导出 inverse-scaled mg/dL overall 和 per-horizon metrics。
 
 旧 public-preprocessed 上的 full baseline parity、3-epoch GluFormer pilot、
 failure analysis 和 10-epoch triage 仍保留为工程链路证据。它们不能升级为
-manuscript claim。BigIdeas-only 仍需 full baseline parity、final leakage pass
-和 30 epoch multi-seed rerun 后再决定 claim。
+manuscript claim。BigIdeas-only 当前最强 baseline 是 MLPRegressor，test
+MAE 5.2368 mg/dL、RMSE 8.6506 mg/dL、R2 0.7700。该结果仍是 local baseline
+evidence，因为 BigIdeas 只有 16 个 subject groups，test partition 只有 1 个
+subject group。下一步仍需 30 epoch multi-seed GluFormer rerun 后再决定 claim。
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
@@ -106,6 +112,8 @@ manuscript claim。BigIdeas-only 仍需 full baseline parity、final leakage pas
 - `projects/glucose/protocols/glucose_ml_collection_provenance_closure.md`
 - `projects/glucose/protocols/bigideas_glucose_source_report.json`
 - `projects/glucose/protocols/bigideas_source_aware_split_manifest.json`
+- `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json`
+- `projects/glucose/protocols/bigideas_final_leakage_audit.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_rerun_budget.md`
@@ -138,8 +146,8 @@ manuscript claim。BigIdeas-only 仍需 full baseline parity、final leakage pas
 
 ## 后续建议
 
-1. 先跑 BigIdeas-only full baseline parity，并生成轻量 summary。
-2. 对 BigIdeas-only split 做 final leakage pass。
-3. 之后再按 `gluformer_failure_analysis.md` 跑 30 epoch、至少 3 seeds 的 GluFormer 正式比较。
+1. 按 `gluformer_failure_analysis.md` 跑 BigIdeas-only 30 epoch、seeds 42, 123, 456 的 GluFormer 正式比较。
+2. 将 GluFormer 多 seed 结果与 MLPRegressor strong baseline 做同 split、同 metric 比较。
+3. 若多 seed 结果不能同时改善 MAE、RMSE 和 R2，将论文叙事转为 MLP 强 baseline、GluFormer failure analysis 和数据治理贡献。
 4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
 5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

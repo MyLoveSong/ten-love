@@ -112,6 +112,5 @@ CGM values or model outputs.
 
 ## Next Minimal Step
 
-Run BigIdeas-only full baseline parity, then compute direct inverse-scaled
-mean and standard deviation across seeds 42, 123, and 456 under this definition
-table.
+Compute direct inverse-scaled mean and standard deviation across seeds 42, 123,
+and 456 under this definition table for the BigIdeas-only GluFormer comparison.

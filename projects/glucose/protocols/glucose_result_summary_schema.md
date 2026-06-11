@@ -45,6 +45,8 @@ summary and does not upgrade any claim level.
 | source-aware GluFormer failure analysis | `projects/glucose/protocols/gluformer_failure_analysis.md` | full split, 3-epoch pilot versus MLPRegressor | committed protocol analysis | local-pilot |
 | BigIdeas-only baseline smoke | `outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json` | 512 windows per split, persistence and LinearRegression | ignored output, not committed | smoke |
 | BigIdeas-only LSTM training smoke | `TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json` | 32 windows per split, 1 epoch, LSTM only, direct inverse-scaled metrics | ignored output, not committed | smoke |
+| BigIdeas-only full baseline parity | `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json` | full split, persistence, LinearRegression, GBM, MLPRegressor | committed lightweight summary | local |
+| BigIdeas-only final leakage pass | `projects/glucose/protocols/bigideas_final_leakage_audit.md` | duplicate keys, null fields, group overlap, train-only scaling, row-level artifact boundary | committed protocol audit | local |
 
 Rows labelled `source-aware` above use the old public-preprocessed candidate.
 After `glucose_ml_collection_provenance_closure.md`, they are retained only as
@@ -60,6 +62,8 @@ the BigIdeas-only or another verified-source split.
 | `glucose_ml_collection_provenance_closure.md` | old public-preprocessed source closure | active blocker closure |
 | `bigideas_glucose_source_report.json` | BigIdeas source file hashes and subject counts | active draft source report |
 | `bigideas_source_aware_split_manifest.json` | BigIdeas-only group-disjoint split | active draft split |
+| `glucose_bigideas_baseline_parity_result_summary.json` | BigIdeas-only full baseline parity aggregate metrics | active local baseline summary |
+| `bigideas_final_leakage_audit.md` | BigIdeas-only baseline-parity leakage pass | active local audit with limitations |
 
 ## Non-Requirements
 

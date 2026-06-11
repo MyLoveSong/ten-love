@@ -42,6 +42,9 @@
 - [x] 3.13 Generate BigIdeas-only source report and source-aware split manifest from the verified PhysioNet BigIdeas local mirror.
 - [x] 3.14 Add direct inverse-scaled mg/dL overall/per-horizon metric export to the split-manifest training entrypoint.
 - [x] 3.15 Run BigIdeas-only baseline and training smoke checks without claim upgrade.
+- [x] 3.16 Run BigIdeas-only full baseline parity for persistence, LinearRegression, GBM, and MLPRegressor without claim upgrade.
+- [x] 3.17 Record BigIdeas-only final leakage pass for baseline parity, with limitations from the 16-subject cohort and 1-subject test partition.
+- [ ] 3.18 Run BigIdeas-only 30-epoch GluFormer comparison for seeds 42, 123, and 456.
 
 ## 4. Verification
 
@@ -51,3 +54,4 @@
 - [x] 4.4 Run `git diff --check`.
 - [x] 4.5 Run split-manifest seed-control and baseline regression tests.
 - [x] 4.6 Run BigIdeas builder and inverse-metric regression tests.
+- [x] 4.7 Run verification after BigIdeas full baseline parity summary and final leakage audit updates.

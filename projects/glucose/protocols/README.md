@@ -17,7 +17,7 @@ outputs stay outside Git.
 | 2 | `glucose_ml_collection_provenance_closure.md` | closed blocker | old public-preprocessed candidate rejected for manuscript canonical use |
 | 3 | `bigideas_glucose_source_report.json` | generated source report | BigIdeas-only verified-source draft, no row-level values |
 | 4 | `bigideas_source_aware_split_manifest.json` | generated split artifact | 13/2/1 subject-group train/val/test split, no raw patient IDs or row-level glucose values |
-| 5 | `leakage_audit.md` | preliminary, blocking | final BigIdeas-only leakage pass still required |
+| 5 | `leakage_audit.md` | preliminary, blocking | old public-preprocessed and unified candidates blocked or historical |
 | 6 | `split_manifest.md` | preliminary | BigIdeas-only split exists, gate still not passed |
 | 7 | `public_glucose_source_aware_split_manifest.json` | historical engineering artifact | old public-preprocessed split only, not canonical |
 | 8 | `baseline_parity_table.md` | full same-split baseline parity completed on old public candidate | local engineering claim only |
@@ -30,6 +30,8 @@ outputs stay outside Git.
 | 15 | `data_availability_audit.md` | preliminary, blocking | BigIdeas route is verified; old public candidate remains rejected |
 | 16 | `glucose_result_summary_schema.md` | active schema | local evidence only |
 | 17 | `experiment_readiness_gate.md` | gate status document | gate not passed |
+| 18 | `glucose_bigideas_baseline_parity_result_summary.json` | BigIdeas full baseline parity completed | local baseline evidence only |
+| 19 | `bigideas_final_leakage_audit.md` | BigIdeas leakage pass completed with limitations | baseline parity pass only |
 
 ## Current Decision
 
@@ -42,11 +44,13 @@ artifacts.
 
 ## Remaining Gate Blockers
 
-- Full baseline parity and candidate reruns on the BigIdeas-only split.
+- GluFormer 30-epoch rerun on the BigIdeas-only split for seeds 42, 123, and
+  456.
 - Final data availability statement for the selected BigIdeas-only claim level.
-- Multi-seed policy and 30-epoch GluFormer rerun after BigIdeas baseline parity.
-- Final leakage pass for the BigIdeas-only candidate dataset.
-- Claim-boundary decision after the above artifacts exist.
+- Multi-seed policy summary and claim-boundary decision after the above
+  artifacts exist.
+- Additional data or external validation if the manuscript needs a
+  generalization claim beyond the 16-subject BigIdeas cohort.
 
 ## Artifact Policy
 

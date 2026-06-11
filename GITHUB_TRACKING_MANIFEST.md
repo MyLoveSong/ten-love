@@ -36,6 +36,8 @@ git add \
   system/projects/glucose/protocols/glucose_ml_collection_provenance_closure.md \
   system/projects/glucose/protocols/bigideas_glucose_source_report.json \
   system/projects/glucose/protocols/bigideas_source_aware_split_manifest.json \
+  system/projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json \
+  system/projects/glucose/protocols/bigideas_final_leakage_audit.md \
   system/projects/glucose/protocols/glucose_result_summary_schema.md \
   system/projects/glucose/protocols/glucose_baseline_parity_result_summary.json \
   system/projects/glucose/protocols/glucose_candidate_rerun_budget.md \

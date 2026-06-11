@@ -18,9 +18,10 @@ This audit supports local experiment triage only. It does not upgrade claim
 level.
 
 The replacement draft candidate is BigIdeas-only. BigIdeas has a public
-PhysioNet access route and an ODC Attribution License, but manuscript use still
-requires a final BigIdeas-specific leakage pass, full baseline parity, and a
-precise Data Availability statement tied to the actual figure/result claims.
+PhysioNet access route and an ODC Attribution License. BigIdeas-only full
+baseline parity and the baseline-specific final leakage pass are now recorded,
+but manuscript use still requires a precise Data Availability statement tied to
+the actual figure/result claims.
 
 ## Local Dataset Evidence
 
@@ -46,6 +47,8 @@ precise Data Availability statement tied to the actual figure/result claims.
 | local derived SHA-256 | `00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8` |
 | source report | `projects/glucose/protocols/bigideas_glucose_source_report.json` |
 | split artifact | `projects/glucose/protocols/bigideas_source_aware_split_manifest.json` |
+| baseline summary | `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json` |
+| final leakage audit | `projects/glucose/protocols/bigideas_final_leakage_audit.md` |
 | raw source | PhysioNet BigIdeas v1.0.0 local mirror |
 | access route | public PhysioNet dataset |
 | licence | ODC-By; attribution required |
@@ -61,7 +64,7 @@ precise Data Availability statement tied to the actual figure/result claims.
 | `ohio_t1dm` | controlled request route through the OhioT1DM dataset page; institutional researcher information required | local repo does not contain the DUA or redistribution permission | may be referenced as reused controlled-access data, but rows and derived row-level data must stay out of Git |
 | `glucose_ml_collection` | local code points to `https://api.github.com/repos/irinagain/Glucose-ML/contents/data`; the current web audit identifies `Augmented-Health-Lab/Glucose-ML-Project` as a relevant Glucose-ML project | project software is MIT-licensed, but the exact dataset rows and underlying dataset licenses are not reconciled | blocked until exact source release, commit, file list, and per-dataset terms are verified |
 | `public_glucose_preprocessed.json` | local derived working file only | inherits third-party source restrictions; no independent redistribution grant found | do not publish or upload row-level version |
-| `physionet_big_ideas` | public PhysioNet dataset page for BigIdeas v1.0.0 | ODC Attribution License; attribution notice required for public use | acceptable verified-source draft candidate, pending final leakage and result audits |
+| `physionet_big_ideas` | public PhysioNet dataset page for BigIdeas v1.0.0 | ODC Attribution License; attribution notice required for public use | acceptable verified-source draft candidate; baseline parity and leakage pass recorded, final claim-specific statement still pending |
 | `bigideas_glucose_records.json` | local derived working file generated from BigIdeas Dexcom CSV files | derived from ODC-By source; row-level local copy remains outside Git | do not publish row-level version from this repo unless repository/data-sharing plan is explicitly finalized |
 | split and protocol files | Git-tracked lightweight artifacts | split artifacts exclude row-level glucose values and raw subject IDs; BigIdeas source report retains public PhysioNet file paths for inventory | safe to publish with code if secrets and private identifiers remain absent |
 
@@ -98,8 +101,8 @@ This wording is intentionally conservative. It should not be used as the final
 Nature submission statement until `glucose_ml_collection` provenance and all
 third-party use terms are resolved.
 
-For the BigIdeas-only replacement candidate, a safer draft after final leakage
-and result audits would be:
+For the BigIdeas-only replacement candidate, a safer draft after the current
+baseline parity and leakage pass is:
 
 ```text
 The processed split manifests, protocol files, source reports, and aggregate
@@ -112,7 +115,8 @@ datasets, model checkpoints, or row-level predictions.
 ```
 
 This BigIdeas wording is still a draft because the exact manuscript claims,
-figure source data, and final result summaries are not frozen.
+figure source data, candidate-model summaries, and final result summaries are
+not frozen.
 
 ## Required Citation Actions
 
@@ -169,6 +173,6 @@ rg -n "ohio_t1dm|glucose_ml_collection|url|license|licence|access" projects/gluc
 
 ## Next Minimal Step
 
-Complete BigIdeas-only full baseline parity and final leakage audit. If the
+Complete BigIdeas-only 30-epoch multi-seed candidate comparison. If the
 BigIdeas result line is kept, replace the draft Data Availability text with a
 claim-specific final statement and dataset citation list.
