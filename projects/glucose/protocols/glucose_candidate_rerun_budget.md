@@ -65,3 +65,10 @@ test estimate is MAE 9.1689 mg/dL, RMSE 13.5598 mg/dL, and R2 0.7417. This
 improves over persistence, LinearRegression, and GBM in this run, but it does
 not outperform MLPRegressor, which recorded test MAE 9.1583 mg/dL, RMSE
 13.4614 mg/dL, and R2 0.7454 under the same split.
+
+Failure analysis is recorded in
+`projects/glucose/protocols/gluformer_failure_analysis.md`. The pilot ended at
+the requested 3 epochs with best epoch 3, validation loss and validation MAE
+still decreasing, and learning-rate warmup reaching 0.001 only at epoch 3.
+Therefore the next candidate strategy must add explicit seed control and a
+longer budget before any manuscript-facing model claim is considered.

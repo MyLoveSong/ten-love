@@ -83,9 +83,11 @@ metric definitions、leakage audit 和轻量 result summary，再决定哪些结
 train/validation/test group，不包含逐行血糖值或原始 patient ID。它是下一轮
 重跑的输入协议。baseline 和训练入口已在 smoke mode 消费该 artifact，
 full baseline parity 已完成并写入轻量 summary。3-epoch GluFormer candidate
-pilot 也已完成，但没有超过 MLPRegressor baseline。metric definition、
-leakage audit pass、seed policy 和数据可用性审计仍未完成，因此尚未让
-gate 通过。
+pilot 也已完成，但没有超过 MLPRegressor baseline。failure analysis 已
+记录为 `projects/glucose/protocols/gluformer_failure_analysis.md`：当前
+证据更支持训练预算不足和单 seed 不足，同时要求把 MLPRegressor 作为当前
+强 baseline。metric definition、leakage audit pass、seed policy 和数据
+可用性审计仍未完成，因此尚未让 gate 通过。
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
@@ -95,6 +97,7 @@ gate 通过。
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_rerun_budget.md`
 - `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`
+- `projects/glucose/protocols/gluformer_failure_analysis.md`
 - `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
 - `docs/superpowers/specs/2026-06-10-glucose-experiment-readiness-design.md`
 - `docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md`
@@ -121,8 +124,8 @@ gate 通过。
 
 ## 后续建议
 
-1. 审计 GluFormer pilot 没有超过 MLPRegressor 的原因。
-2. 决定下一轮 candidate strategy：更长预算、多 seed、模型修正，或承认 MLP 是当前强 baseline。
-3. 补齐 seed policy、leakage audit 和数据 source/licence/access route 审计。
+1. 为 split-manifest training 增加显式 seed 控制。
+2. 按 `gluformer_failure_analysis.md` 跑更长预算和多 seed 的 GluFormer rerun。
+3. 补齐 metric definitions、leakage audit 和数据 source/licence/access route 审计。
 4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
 5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

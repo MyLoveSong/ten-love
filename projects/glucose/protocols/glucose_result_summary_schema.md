@@ -40,6 +40,7 @@ summary and does not upgrade any claim level.
 | source-aware LSTM training smoke | `TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json` | 32 windows per split, 1 epoch, LSTM only | ignored output, not committed | smoke |
 | source-aware full baseline parity | `projects/glucose/protocols/glucose_baseline_parity_result_summary.json` | full split, persistence, LinearRegression, GBM, MLPRegressor | committed lightweight summary | local |
 | source-aware GluFormer candidate pilot | `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json` | full split, 3 epochs, GluFormer only | committed lightweight summary | local-pilot |
+| source-aware GluFormer failure analysis | `projects/glucose/protocols/gluformer_failure_analysis.md` | full split, 3-epoch pilot versus MLPRegressor | committed protocol analysis | local-pilot |
 
 ## Non-Requirements
 
