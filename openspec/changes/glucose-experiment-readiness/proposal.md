@@ -14,6 +14,9 @@ Before using these results as a top-journal manuscript basis, the repository nee
 - Add source-aware split consumers for baseline and training entrypoints, with smoke-run limits.
 - Add local metric definitions for MAE, RMSE, R2, and per-horizon t+1 through t+6 metrics.
 - Add a preliminary data availability and source audit for reused glucose datasets.
+- Close the old `glucose_ml_collection` route as unresolved for the current local derived rows.
+- Add a BigIdeas-only verified-source draft path with a lightweight source report and source-aware split manifest.
+- Add direct inverse-scaled mg/dL metric export to the split-manifest training entrypoint.
 - Add a lightweight result summary schema for future manuscript-facing result artifacts.
 - Add Superpowers design and implementation-plan records for executing the gate later.
 - Update README, result ledger, project audit, and GitHub tracking manifest to point to the active gate.
@@ -38,6 +41,9 @@ Affected areas:
 - `projects/glucose/protocols/baseline_parity_table.md`
 - `projects/glucose/protocols/metric_definitions.md`
 - `projects/glucose/protocols/data_availability_audit.md`
+- `projects/glucose/protocols/glucose_ml_collection_provenance_closure.md`
+- `projects/glucose/protocols/bigideas_glucose_source_report.json`
+- `projects/glucose/protocols/bigideas_source_aware_split_manifest.json`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_rerun_budget.md`
@@ -45,8 +51,10 @@ Affected areas:
 - `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
 - `projects/glucose/src/analysis/source_aware_split_manifest.py`
 - `projects/glucose/src/analysis/source_aware_split_dataset.py`
+- `projects/glucose/src/analysis/bigideas_dataset_builder.py`
 - `projects/glucose/src/test_source_aware_split_manifest.py`
 - `projects/glucose/src/test_source_aware_split_dataset.py`
+- `projects/glucose/src/test_bigideas_dataset_builder.py`
 - `projects/glucose/src/test_split_manifest_baselines.py`
 - `projects/glucose/src/test_run_glucose_training_cli.py`
 - `projects/glucose/src/external_validation_and_baselines.py`

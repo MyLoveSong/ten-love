@@ -1,6 +1,6 @@
 # Glucose Result Summary Schema
 
-Status: scaffolded, not populated.
+Status: active schema, not a passed manuscript result.
 
 ## Verdict
 
@@ -43,6 +43,13 @@ summary and does not upgrade any claim level.
 | source-aware GluFormer candidate pilot | `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json` | full split, 3 epochs, GluFormer only | committed lightweight summary | local-pilot |
 | source-aware GluFormer 10-epoch triage | `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json` | full split, 10 epochs, seed 42, GluFormer only | committed lightweight summary | local-triage |
 | source-aware GluFormer failure analysis | `projects/glucose/protocols/gluformer_failure_analysis.md` | full split, 3-epoch pilot versus MLPRegressor | committed protocol analysis | local-pilot |
+| BigIdeas-only baseline smoke | `outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json` | 512 windows per split, persistence and LinearRegression | ignored output, not committed | smoke |
+| BigIdeas-only LSTM training smoke | `TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json` | 32 windows per split, 1 epoch, LSTM only, direct inverse-scaled metrics | ignored output, not committed | smoke |
+
+Rows labelled `source-aware` above use the old public-preprocessed candidate.
+After `glucose_ml_collection_provenance_closure.md`, they are retained only as
+historical engineering evidence. Future manuscript-facing summaries must use
+the BigIdeas-only or another verified-source split.
 
 ## Definition Artifacts
 
@@ -50,6 +57,9 @@ summary and does not upgrade any claim level.
 |---|---|---|
 | `metric_definitions.md` | MAE, RMSE, R2, per-horizon MAE/RMSE, unit and selection rules | active local definition |
 | `data_availability_audit.md` | reused source audit, access route, redistribution boundary, required citations | preliminary, blocking |
+| `glucose_ml_collection_provenance_closure.md` | old public-preprocessed source closure | active blocker closure |
+| `bigideas_glucose_source_report.json` | BigIdeas source file hashes and subject counts | active draft source report |
+| `bigideas_source_aware_split_manifest.json` | BigIdeas-only group-disjoint split | active draft split |
 
 ## Non-Requirements
 

@@ -1,0 +1,153 @@
+{
+  "dataset_path": "projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json",
+  "dataset_sha256": "00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8",
+  "generated_at": "2026-06-11T12:01:24Z",
+  "privacy_boundary": "no row-level glucose values are included; raw file paths are public PhysioNet source paths; subject entries use hashes",
+  "raw_file_count": 16,
+  "raw_files": [
+    {
+      "relative_path": "001/Dexcom_001.csv",
+      "sha256": "6333b21185f23834ab929e5d8bf9045bbed6268cdfd5030adab3c7d5ef689ef5"
+    },
+    {
+      "relative_path": "002/Dexcom_002.csv",
+      "sha256": "16a0112fa293a1be19b6cd45743faad5ec978eb36fd277781b1cbd6b8d0bf358"
+    },
+    {
+      "relative_path": "003/Dexcom_003.csv",
+      "sha256": "d0cb046839157b4a1823505b99823c2f2535d1c1a080b8aad3a05883800bcf37"
+    },
+    {
+      "relative_path": "004/Dexcom_004.csv",
+      "sha256": "c0dc4ee5f8b3501a18d91ee6b117a518cf9bd1332f49a4281bd69e5ac841e927"
+    },
+    {
+      "relative_path": "005/Dexcom_005.csv",
+      "sha256": "ae6762720b52b3a179d1a8d308e8568fea4a832b199111ca3a2b57bad4da109a"
+    },
+    {
+      "relative_path": "006/Dexcom_006.csv",
+      "sha256": "be7742cfa6755e6a200056497bae930c8a0b52f467184d1ce14ecbc4b66dd806"
+    },
+    {
+      "relative_path": "007/Dexcom_007.csv",
+      "sha256": "c8488406134a6eefcb944058e8fb256e0d4db669920f129708e039250f7caf6b"
+    },
+    {
+      "relative_path": "008/Dexcom_008.csv",
+      "sha256": "d188eec4a740f5f5cfdccfeceeaadb78da983f83cede2872dc3de5a6b1e05104"
+    },
+    {
+      "relative_path": "009/Dexcom_009.csv",
+      "sha256": "2609121bf35dce40477fe710ef9bc5a656276ed4624b44e821dca51d08e0487e"
+    },
+    {
+      "relative_path": "010/Dexcom_010.csv",
+      "sha256": "7b0d819632b9d8def7b22a10fb03829d7bb2648eaed464b6884697e7b1cdfc87"
+    },
+    {
+      "relative_path": "011/Dexcom_011.csv",
+      "sha256": "6cb15f7def679c0a526f32939fd07bef9458059938c2c169b0a5587e450f71c5"
+    },
+    {
+      "relative_path": "012/Dexcom_012.csv",
+      "sha256": "00b9a16f43eaf62118c15b23e751b34c844e8a9da0416480dde4af1c65fafa8b"
+    },
+    {
+      "relative_path": "013/Dexcom_013.csv",
+      "sha256": "bed694aee354620e5d6c8e598dd81e37d5eca49b598d0d35e44dc45cff066ee9"
+    },
+    {
+      "relative_path": "014/Dexcom_014.csv",
+      "sha256": "92cc01a2322b6a9b98846e30ee1eb9493a7567be938696bc705293ac9fc90f90"
+    },
+    {
+      "relative_path": "015/Dexcom_015.csv",
+      "sha256": "a7023af9bae77133292c4a6123ec35cb8a97f58fc8b8a44c89b0850095960456"
+    },
+    {
+      "relative_path": "016/Dexcom_016.csv",
+      "sha256": "79e5861107b3fd010694268bcd564ea9af5f434d0eda3c890495ff2e504851dc"
+    }
+  ],
+  "record_count": 36898,
+  "schema_version": "bigideas-glucose-dataset-report/v1",
+  "source": "physionet_big_ideas",
+  "source_metadata": {
+    "access_route": "public PhysioNet dataset",
+    "license": "ODC-By",
+    "license_url": "https://physionet.org/content/big-ideas-glycemic-wearable/1.0.0/LICENSE.txt",
+    "physionet_version": "1.0.0",
+    "source_url": "https://physionet.org/content/big-ideas-glycemic-wearable/1.0.0/",
+    "title": "BIG IDEAs Lab Glycemic Variability and Wearable Device Data"
+  },
+  "subject_count": 16,
+  "subjects": [
+    {
+      "record_count": 2561,
+      "subject_hash": "78a6a62383f286d2b27cf004ebd154892015f9fc900c5538416c9146f2ad6b42"
+    },
+    {
+      "record_count": 2119,
+      "subject_hash": "818530221f9df4f94a02493266b88a3be86888b3e0c33864b96a69993b6674f1"
+    },
+    {
+      "record_count": 2302,
+      "subject_hash": "30925d838c3fc6b09ca3afd1eb78e7c00430ae09580c872fae1b08a093e4e23a"
+    },
+    {
+      "record_count": 2164,
+      "subject_hash": "6195409aaee207f50b1dbfaf4e3d523d1fca48613c330ede76b69f3fe2fbcf8c"
+    },
+    {
+      "record_count": 2558,
+      "subject_hash": "2eee73b55c95fb1946dc0a0e1d93693cbb40483cf153f81a0cf3304d92cb3cb9"
+    },
+    {
+      "record_count": 2847,
+      "subject_hash": "890e4c21c2f43e97a46d59d73c54bf84101b81785b510518f55a589a4d652259"
+    },
+    {
+      "record_count": 2207,
+      "subject_hash": "0be569af064759f412ec15d4be339fd463aa803055cb926f4cd575d1e0b0e126"
+    },
+    {
+      "record_count": 2505,
+      "subject_hash": "2d1e4e298f0fb9a06b2e466bd7c6b3c7bef03ecc4c4cb6d200362f99417b67e6"
+    },
+    {
+      "record_count": 2306,
+      "subject_hash": "24bbbcc370949d915db3877b0d0e9a6b883f0a6e2a88e101b2b7ecf6ba4c53ad"
+    },
+    {
+      "record_count": 2148,
+      "subject_hash": "76b81976c4caef8c052b0d5907710b1e67200b312ba48a066d8befd715cf84dd"
+    },
+    {
+      "record_count": 2843,
+      "subject_hash": "004c7c9b87e44d22ec907d66c762683898352cedf6c89aa10100b3a11c2c6359"
+    },
+    {
+      "record_count": 2169,
+      "subject_hash": "dd84547033b5543fc2aa500dd97d7bf07f03678d4de65b1188fe9be855a8dc68"
+    },
+    {
+      "record_count": 1979,
+      "subject_hash": "24c3c584b89dce73589156ba1672278c911e1967e5b27c212b83aa0bebd480e5"
+    },
+    {
+      "record_count": 2240,
+      "subject_hash": "8ac0944b375bbf432bc831ce91040fa4df5c45af775423a8050464a02245052d"
+    },
+    {
+      "record_count": 1673,
+      "subject_hash": "677f03e472ce6cd303f036cbb572ecfa0ba290a407a9e1bd618cc346371b8aba"
+    },
+    {
+      "record_count": 2277,
+      "subject_hash": "0122dd1aacb1ccbba5b935ae04d1ca56d7e9ab8441f56e7609b1d80aaee9792c"
+    }
+  ],
+  "timestamp_max": "2020-07-27T10:38:46",
+  "timestamp_min": "2020-02-13T17:23:32"
+}

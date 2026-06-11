@@ -33,6 +33,9 @@ git add \
   system/projects/glucose/protocols/baseline_parity_table.md \
   system/projects/glucose/protocols/metric_definitions.md \
   system/projects/glucose/protocols/data_availability_audit.md \
+  system/projects/glucose/protocols/glucose_ml_collection_provenance_closure.md \
+  system/projects/glucose/protocols/bigideas_glucose_source_report.json \
+  system/projects/glucose/protocols/bigideas_source_aware_split_manifest.json \
   system/projects/glucose/protocols/glucose_result_summary_schema.md \
   system/projects/glucose/protocols/glucose_baseline_parity_result_summary.json \
   system/projects/glucose/protocols/glucose_candidate_rerun_budget.md \
@@ -42,8 +45,10 @@ git add \
   system/projects/glucose/protocols/public_glucose_source_aware_split_manifest.json \
   system/projects/glucose/src/analysis/source_aware_split_manifest.py \
   system/projects/glucose/src/analysis/source_aware_split_dataset.py \
+  system/projects/glucose/src/analysis/bigideas_dataset_builder.py \
   system/projects/glucose/src/test_source_aware_split_manifest.py \
   system/projects/glucose/src/test_source_aware_split_dataset.py \
+  system/projects/glucose/src/test_bigideas_dataset_builder.py \
   system/projects/glucose/src/test_split_manifest_baselines.py \
   system/projects/glucose/src/test_run_glucose_training_cli.py \
   system/projects/glucose/src/external_validation_and_baselines.py \

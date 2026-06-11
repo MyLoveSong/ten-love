@@ -38,14 +38,16 @@
 | 个性化训练记录 | 同上 | initial_loss 0.768688；final_loss 0.295523；samples_used 983 | B | 只是一位 test_user 的本地记录，不能泛化到群体结论 |
 | 文化适配最终评估 | `projects/glucose/outputs/final_evaluation/final_evaluation_report.json` | MAE 0.005194689；RMSE 0.0101306075；R2 0.997292689 | B | 指标很高，需要审计标签、拆分和泄漏风险 |
 | 数据清洗报告 | `projects/glucose/data/cleaned_dataset/cleaning_report.json` | 原始 3644，保留 3005，去重 416，异常值 159，无效数据 64 | B | 支持数据清洗过程，不单独支持模型泛化 |
-| 公共血糖预处理报告 | `projects/glucose/data/cleaned_dataset/public_glucose_preprocess_report.json` | sources: ohio_t1dm、glucose_ml_collection；patients_kept 100；total_samples 201600 | B | 需确认是否存在重复患者或模拟复制 |
+| 公共血糖预处理报告 | `projects/glucose/data/cleaned_dataset/public_glucose_preprocess_report.json` | sources: ohio_t1dm、glucose_ml_collection；patients_kept 100；total_samples 201600 | C | `glucose_ml_collection` provenance 已关闭为 unresolved；仅保留为工程历史 |
+| BigIdeas-only source report | `projects/glucose/protocols/bigideas_glucose_source_report.json` | 16 个 Dexcom source files；36898 条 EGV records；16 个 subjects；ODC-By | C | verified-source draft candidate，尚未完成 full baseline parity 和 final leakage pass |
 
 当前 gate：
 - `glucose-experiment-readiness` 已定义，但未通过。
 - gate 文件：`projects/glucose/protocols/experiment_readiness_gate.md`。
 - preliminary dataset manifest：`projects/glucose/protocols/canonical_dataset_manifest.md`。
 - preliminary split manifest：`projects/glucose/protocols/split_manifest.md`。
-- source-aware split artifact：`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`，基于 `public_glucose_preprocessed.json`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。
+- historical source-aware split artifact：`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`，基于 `public_glucose_preprocessed.json`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。该 artifact 在 provenance closure 后仅保留为工程历史。
+- BigIdeas-only draft split artifact：`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`，基于 `bigideas_glucose_records.json`，13/2/1 个 train/validation/test subject groups，train/validation/test windows 为 29783/4696/2147，不含逐行血糖值或原始 patient ID。
 - preliminary leakage audit：`projects/glucose/protocols/leakage_audit.md`，审计未通过，`unified_cleaned_glucose.json` 因大量空时间戳和重复键被阻断。
 - source-aware smoke baseline：`outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json`，512 windows per split，persistence test MAE 11.6648、RMSE 17.7028、R2 0.4079；LinearRegression test MAE 15.3053、RMSE 19.2317、R2 0.3012。该输出被 Git 忽略，只能证明入口可运行。
 - source-aware LSTM training smoke：`TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json`，32 windows per split，1 epoch，LSTM only。该输出被 Git 忽略，只能证明训练入口可运行。
@@ -54,9 +56,12 @@
 - GluFormer failure analysis：`projects/glucose/protocols/gluformer_failure_analysis.md`，当前最强解释是 3 epoch 预算不足和单 seed 不足。验证集 loss/MAE 到第 3 epoch 仍在下降，best epoch 是最后一轮，learning rate 到第 3 epoch 才到 0.001。该分析要求把 MLPRegressor 作为当前强 baseline，并先补 seed 控制和更长预算 rerun。
 - GluFormer 10-epoch triage：`projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`，full split，seed 42，test MAE 9.1781 mg/dL、RMSE 13.4444 mg/dL、R2 0.7461。相对 MLPRegressor：MAE 差 0.0198 mg/dL，RMSE 好 0.0170 mg/dL，R2 好 0.0006。这是 mixed result，不能写作模型优越性。
 - metric definitions：`projects/glucose/protocols/metric_definitions.md`，定义当前 source-aware gate 使用的 MAE、RMSE、R2、t+1 到 t+6 per-horizon MAE/RMSE、mg/dL 报告单位和 mixed-result selection rule。它不支持临床范围、安全性或治疗决策 claim。
-- data availability audit：`projects/glucose/protocols/data_availability_audit.md`，确认当前 `public_glucose_preprocessed.json` 仍不能作为 Nature-ready 可共享数据源。OhioT1DM 是受控访问；`glucose_ml_collection` 仍需追溯 upstream release、commit、file list 和 licence chain。
+- data availability audit：`projects/glucose/protocols/data_availability_audit.md`，确认旧 `public_glucose_preprocessed.json` 不能作为 Nature-ready canonical 数据源。OhioT1DM 是受控访问；`glucose_ml_collection` 已关闭为 unresolved；BigIdeas 有公开 PhysioNet 路线和 ODC-By licence，但仍需 final claim-specific Data Availability statement。
+- provenance closure：`projects/glucose/protocols/glucose_ml_collection_provenance_closure.md`，关闭旧 `public_glucose_preprocessed.json` 的 manuscript canonical 路线，因为本地 Glucose-ML 处理路径生成示例记录，不能证明当前派生行来自明确 upstream artifact。
+- BigIdeas-only baseline smoke：`outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json`，512 windows per split，persistence test MAE 6.4443、RMSE 10.2795、R2 0.6443；LinearRegression test MAE 7.3138、RMSE 10.8277、R2 0.6054。该输出被 Git 忽略，只能证明入口可运行。
+- BigIdeas-only training smoke：`TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json`，32 windows per split，1 epoch，LSTM only，seed 42；输出包含 `test_metrics_inverse_scaled` 和 `val_metrics_inverse_scaled`，单位 mg/dL。该输出被 Git 忽略，只能证明训练入口和 inverse metric export 可运行。
 - OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
-- 在 source/licence/access-route resolution、leakage audit pass、multi-seed policy 和更强 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
+- 旧 public-preprocessed 结果在 provenance closure 后保持工程历史证据，不能支持 manuscript claim。BigIdeas-only 结果在 full baseline parity、final leakage pass、multi-seed policy 和更强 candidate strategy 完成前仍保持 C 级 smoke/draft evidence。
 
 可写结论：
 - 已有多步血糖预测本地训练结果，t+1 到 t+6 有指标。
@@ -96,9 +101,9 @@
 
 ## 下一步证据 gate
 
-1. 先追溯 `glucose_ml_collection` 的 upstream release、commit、file list 和 licence chain；无法确认时，重建 canonical candidate。
-2. 按 failure analysis 执行 30 epoch、至少 3 seeds 的 GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
-3. 在 source/licence/access-route resolution、leakage audit pass 和 multi-seed candidate summary 完成前，不升级 claim。
+1. 先跑 BigIdeas-only full baseline parity，并写入轻量 summary。
+2. 对 BigIdeas-only split 做 final leakage pass。
+3. 按 failure analysis 执行 30 epoch、至少 3 seeds 的 GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
 4. 若多 seed 结果仍不能同时改善 MAE、RMSE 和 R2，应把论文叙事转为 MLP 强 baseline 和 GluFormer failure analysis。
 5. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
 6. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。

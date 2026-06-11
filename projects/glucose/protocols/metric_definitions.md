@@ -18,10 +18,10 @@ detection, or treatment-decision performance.
 | prediction target | future CGM glucose values |
 | input horizon | 12 steps |
 | output horizon | 6 steps |
-| sampling interval | 5 minutes for `public_glucose_preprocessed.json` |
+| sampling interval | approximately 5 minutes for the active BigIdeas-only split |
 | forecast horizons | t+1, t+2, t+3, t+4, t+5, t+6 |
 | unit for reported local summaries | mg/dL after inverse scaling |
-| primary comparison split | `public_glucose_source_aware_split_manifest.json` |
+| primary comparison split | `bigideas_source_aware_split_manifest.json` for future candidate runs; old `public_glucose_source_aware_split_manifest.json` retained as historical engineering evidence |
 | primary comparison models | persistence, LinearRegression, GBM, MLPRegressor, GluFormer |
 
 ## Definitions
@@ -56,10 +56,11 @@ inverse scaling. Normalized-space metrics may be retained for diagnostics, but
 they must not be mixed with mg/dL metrics in model comparison tables.
 
 For the source-aware split path, scaling parameters are fit from the training
-partition only by `load_source_aware_split_windows(...)`. The baseline path then
-uses `inverse_scale(...)` before reporting metrics. The training path reports
-normalized metrics from `evaluate_ensemble(...)`; lightweight summaries convert
-those values with the train-split scaler and label them as mg/dL estimates.
+partition only by `load_source_aware_split_windows(...)`. The baseline path
+uses `inverse_scale(...)` before reporting metrics. The training path now also
+exports `val_metrics_inverse_scaled` and `test_metrics_inverse_scaled` directly
+from ensemble predictions using the train-split scaler. Normalized
+`test_metrics` remain diagnostics only.
 
 ## Selection Rule
 
@@ -98,18 +99,19 @@ CGM values or model outputs.
 | scikit-learn documentation, `r2_score`, https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html | R2 convention, including negative scores and non-constant target assumption |
 | local code: `projects/glucose/src/external_validation_and_baselines.py` | current baseline metric implementation |
 | local code: `projects/glucose/src/enhanced_glucose_system.py` | current GluFormer ensemble metric implementation |
+| local code: `projects/glucose/src/run_glucose_training.py` | current inverse-scaled training metric export |
 
 ## Remaining Risks
 
 | Risk | Status |
 |---|---|
 | R2 implementation differs from scikit-learn `force_finite=True` behavior when targets are constant | low risk for current summaries, but should be unit-tested before a final manuscript table |
-| GluFormer summaries convert normalized metrics to mg/dL estimates after the fact | acceptable for local triage, but final runs should emit inverse-scaled metrics directly from the training entrypoint |
+| old GluFormer summaries converted normalized metrics to mg/dL estimates after the fact | historical limitation for old public-preprocessed runs; future runs should use direct training export |
 | no confidence intervals or multi-seed mean/std yet | blocking for manuscript-level comparison |
 | clinical glucose metrics are not defined | blocks clinical or safety claims |
 
 ## Next Minimal Step
 
-Update `run_glucose_training.py` so final multi-seed runs export inverse-scaled
-overall and per-horizon metrics directly, then compute mean and standard
-deviation across seeds 42, 123, and 456 under this definition table.
+Run BigIdeas-only full baseline parity, then compute direct inverse-scaled
+mean and standard deviation across seeds 42, 123, and 456 under this definition
+table.

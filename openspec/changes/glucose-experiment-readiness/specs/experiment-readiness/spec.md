@@ -29,6 +29,12 @@ The Glucose experiment line SHALL identify a canonical dataset before any new re
 - **THEN** its manifest records path, source, access route, raw versus derived status, sample count, patient or user count when available, timestamp range when available, and hash or sampling-hash strategy
 - **AND** mirrored or duplicate dataset locations are classified as source, working copy, derived output, cache, or excluded duplicate
 
+#### Scenario: A source label cannot be reconciled
+- **WHEN** a source label in a derived Glucose dataset cannot be tied to an authoritative release, repository file list, or controlled-access route
+- **THEN** the derived dataset is rejected for manuscript canonical use
+- **AND** any existing results on that derived dataset remain local engineering evidence only
+- **AND** a replacement candidate uses only sources with recorded access routes and licence or DUA terms
+
 ### Requirement: Glucose splits must protect patient and temporal independence
 
 The Glucose experiment line SHALL use split rules that minimize leakage for CGM prediction.
@@ -49,6 +55,7 @@ Glucose experiments SHALL report metrics and baselines under the same split and 
 - **WHEN** a baseline is compared with GluFormer or an enhanced Glucose model
 - **THEN** both models use the same input horizon, output horizon, split, and metric definitions
 - **AND** MAE, RMSE, R2, and per-horizon t+1 through t+6 metrics are reported when six-step prediction is used
+- **AND** training-entrypoint metrics intended for result comparison are inverse-scaled to the declared glucose unit
 - **AND** clinical-range metrics are reported only when thresholds, labels, and units are audited
 
 ### Requirement: Glucose leakage audit blocks unsupported claims

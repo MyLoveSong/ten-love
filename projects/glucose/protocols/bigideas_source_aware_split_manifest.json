@@ -1,0 +1,194 @@
+{
+  "dataset": {
+    "path": "projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json",
+    "record_count": 36898,
+    "sha256": "00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8",
+    "source_count": 1,
+    "source_patient_group_count": 16
+  },
+  "generated_at": "2026-06-11T11:44:43Z",
+  "groups": [
+    {
+      "group_hash": "78a6a62383f286d2b27cf004ebd154892015f9fc900c5538416c9146f2ad6b42",
+      "partition": "val",
+      "record_count": 2561,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-02-22T17:53:23",
+      "timestamp_min": "2020-02-13T17:23:32",
+      "window_count": 2544
+    },
+    {
+      "group_hash": "818530221f9df4f94a02493266b88a3be86888b3e0c33864b96a69993b6674f1",
+      "partition": "train",
+      "record_count": 2119,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-02-29T09:38:24",
+      "timestamp_min": "2020-02-21T11:08:36",
+      "window_count": 2102
+    },
+    {
+      "group_hash": "30925d838c3fc6b09ca3afd1eb78e7c00430ae09580c872fae1b08a093e4e23a",
+      "partition": "train",
+      "record_count": 2302,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-01T11:36:31",
+      "timestamp_min": "2020-02-22T10:51:44",
+      "window_count": 2285
+    },
+    {
+      "group_hash": "6195409aaee207f50b1dbfaf4e3d523d1fca48613c330ede76b69f3fe2fbcf8c",
+      "partition": "test",
+      "record_count": 2164,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-06T06:51:06",
+      "timestamp_min": "2020-02-27T10:51:20",
+      "window_count": 2147
+    },
+    {
+      "group_hash": "2eee73b55c95fb1946dc0a0e1d93693cbb40483cf153f81a0cf3304d92cb3cb9",
+      "partition": "train",
+      "record_count": 2558,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-07T11:46:05",
+      "timestamp_min": "2020-02-27T13:30:13",
+      "window_count": 2541
+    },
+    {
+      "group_hash": "890e4c21c2f43e97a46d59d73c54bf84101b81785b510518f55a589a4d652259",
+      "partition": "train",
+      "record_count": 2847,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-09T09:27:51",
+      "timestamp_min": "2020-02-28T12:18:14",
+      "window_count": 2830
+    },
+    {
+      "group_hash": "0be569af064759f412ec15d4be339fd463aa803055cb926f4cd575d1e0b0e126",
+      "partition": "train",
+      "record_count": 2207,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-22T11:06:57",
+      "timestamp_min": "2020-03-14T12:42:19",
+      "window_count": 2190
+    },
+    {
+      "group_hash": "2d1e4e298f0fb9a06b2e466bd7c6b3c7bef03ecc4c4cb6d200362f99417b67e6",
+      "partition": "train",
+      "record_count": 2505,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-23T11:39:31",
+      "timestamp_min": "2020-03-14T14:04:53",
+      "window_count": 2488
+    },
+    {
+      "group_hash": "24bbbcc370949d915db3877b0d0e9a6b883f0a6e2a88e101b2b7ecf6ba4c53ad",
+      "partition": "train",
+      "record_count": 2306,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-29T11:01:41",
+      "timestamp_min": "2020-03-21T10:51:51",
+      "window_count": 2289
+    },
+    {
+      "group_hash": "76b81976c4caef8c052b0d5907710b1e67200b312ba48a066d8befd715cf84dd",
+      "partition": "train",
+      "record_count": 2148,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-03-30T09:19:02",
+      "timestamp_min": "2020-03-22T11:24:17",
+      "window_count": 2131
+    },
+    {
+      "group_hash": "004c7c9b87e44d22ec907d66c762683898352cedf6c89aa10100b3a11c2c6359",
+      "partition": "train",
+      "record_count": 2843,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-04-16T07:20:51",
+      "timestamp_min": "2020-04-06T09:26:10",
+      "window_count": 2826
+    },
+    {
+      "group_hash": "dd84547033b5543fc2aa500dd97d7bf07f03678d4de65b1188fe9be855a8dc68",
+      "partition": "val",
+      "record_count": 2169,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-05-11T09:31:59",
+      "timestamp_min": "2020-05-03T17:52:13",
+      "window_count": 2152
+    },
+    {
+      "group_hash": "24c3c584b89dce73589156ba1672278c911e1967e5b27c212b83aa0bebd480e5",
+      "partition": "train",
+      "record_count": 1979,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-06-04T12:11:40",
+      "timestamp_min": "2020-05-28T15:21:57",
+      "window_count": 1962
+    },
+    {
+      "group_hash": "8ac0944b375bbf432bc831ce91040fa4df5c45af775423a8050464a02245052d",
+      "partition": "train",
+      "record_count": 2240,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-06-13T11:02:56",
+      "timestamp_min": "2020-06-05T16:28:10",
+      "window_count": 2223
+    },
+    {
+      "group_hash": "677f03e472ce6cd303f036cbb572ecfa0ba290a407a9e1bd618cc346371b8aba",
+      "partition": "train",
+      "record_count": 1673,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-07-27T10:38:46",
+      "timestamp_min": "2020-07-19T17:33:52",
+      "window_count": 1656
+    },
+    {
+      "group_hash": "0122dd1aacb1ccbba5b935ae04d1ca56d7e9ab8441f56e7609b1d80aaee9792c",
+      "partition": "train",
+      "record_count": 2277,
+      "source": "physionet_big_ideas",
+      "timestamp_max": "2020-07-24T10:18:05",
+      "timestamp_min": "2020-07-16T10:43:25",
+      "window_count": 2260
+    }
+  ],
+  "normalization_scope": "train_only_required",
+  "partitions": {
+    "test": {
+      "group_count": 1,
+      "record_count": 2164,
+      "window_count": 2147
+    },
+    "train": {
+      "group_count": 13,
+      "record_count": 30004,
+      "window_count": 29783
+    },
+    "val": {
+      "group_count": 2,
+      "record_count": 4730,
+      "window_count": 4696
+    }
+  },
+  "privacy_boundary": "no row-level glucose values or raw patient identifiers are included",
+  "schema_version": "glucose-source-aware-split-manifest/v1",
+  "sources": [
+    {
+      "group_count": 16,
+      "record_count": 36898,
+      "source": "physionet_big_ideas"
+    }
+  ],
+  "split_policy": {
+    "group_key": "source + patient_id",
+    "input_horizon": 12,
+    "output_horizon": 6,
+    "seed": 42,
+    "test_ratio": 0.1,
+    "train_ratio": 0.8,
+    "type": "group_disjoint",
+    "val_ratio": 0.1,
+    "window_boundary": "windows are counted after group partition assignment; no group crosses partitions"
+  }
+}

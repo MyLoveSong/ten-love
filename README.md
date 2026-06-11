@@ -77,21 +77,24 @@ canonical dataset、patient/user-level split、seed list、baseline parity、
 metric definitions、leakage audit 和轻量 result summary，再决定哪些结果
 能进入论文主图和主 claim。
 
-当前新增了 `public_glucose_preprocessed.json` 的 source-aware split artifact：
-`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`。
-该 artifact 使用 `source + patient_id` 作为 group key，记录 80/10/10 个
-train/validation/test group，不包含逐行血糖值或原始 patient ID。它是下一轮
-重跑的输入协议。baseline 和训练入口已在 smoke mode 消费该 artifact，
-full baseline parity 已完成并写入轻量 summary。3-epoch GluFormer candidate
-pilot 也已完成，但没有超过 MLPRegressor baseline。failure analysis 已
-记录为 `projects/glucose/protocols/gluformer_failure_analysis.md`：当前
-证据更支持训练预算不足和单 seed 不足，同时要求把 MLPRegressor 作为当前
-强 baseline。随后 10-epoch seed-42 triage 已完成，结果是 mixed result：
-RMSE/R2 略优于 MLPRegressor，但 MAE 仍差，因此仍不能升级 claim。
-`metric_definitions.md` 已补齐本地 MAE、RMSE、R2 和 per-horizon 规则；
-`data_availability_audit.md` 已确认数据可用性仍 blocking，主要因为
-OhioT1DM 是受控访问且 `glucose_ml_collection` 尚未追溯到明确 upstream
-release、commit、file list 和 licence chain。因此尚未让 gate 通过。
+旧 `public_glucose_preprocessed.json` 的 source-aware split artifact 已保留为
+历史工程证据，但不能作为论文 canonical dataset。原因记录在
+`projects/glucose/protocols/glucose_ml_collection_provenance_closure.md`：
+本地 `glucose_ml_collection` 处理路径生成示例记录，不能证明当前派生行来自
+明确 upstream release、commit、file list 和 licence chain。
+
+当前新的 verified-source draft candidate 是 BigIdeas-only。已生成：
+`projects/glucose/protocols/bigideas_glucose_source_report.json` 和
+`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`。该 split
+基于 16 个 BigIdeas Dexcom 文件、36898 条 EGV 记录，记录 13/2/1 个
+train/validation/test subject groups，不包含逐行血糖值或原始 patient ID。
+baseline 和训练入口已在 smoke mode 消费该 artifact，训练入口现在直接导出
+inverse-scaled mg/dL overall 和 per-horizon metrics。
+
+旧 public-preprocessed 上的 full baseline parity、3-epoch GluFormer pilot、
+failure analysis 和 10-epoch triage 仍保留为工程链路证据。它们不能升级为
+manuscript claim。BigIdeas-only 仍需 full baseline parity、final leakage pass
+和 30 epoch multi-seed rerun 后再决定 claim。
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
@@ -100,6 +103,9 @@ release、commit、file list 和 licence chain。因此尚未让 gate 通过。
 - `projects/glucose/protocols/baseline_parity_table.md`
 - `projects/glucose/protocols/metric_definitions.md`
 - `projects/glucose/protocols/data_availability_audit.md`
+- `projects/glucose/protocols/glucose_ml_collection_provenance_closure.md`
+- `projects/glucose/protocols/bigideas_glucose_source_report.json`
+- `projects/glucose/protocols/bigideas_source_aware_split_manifest.json`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_rerun_budget.md`
@@ -132,8 +138,8 @@ release、commit、file list 和 licence chain。因此尚未让 gate 通过。
 
 ## 后续建议
 
-1. 先追溯 `glucose_ml_collection` 的 upstream release、commit、file list 和 licence chain。
-2. 按 `gluformer_failure_analysis.md` 跑 30 epoch、至少 3 seeds 的 GluFormer 正式比较。
-3. 若 30 epoch 多 seed 仍是 mixed result，则把 MLPRegressor 明确写成当前强 baseline。
+1. 先跑 BigIdeas-only full baseline parity，并生成轻量 summary。
+2. 对 BigIdeas-only split 做 final leakage pass。
+3. 之后再按 `gluformer_failure_analysis.md` 跑 30 epoch、至少 3 seeds 的 GluFormer 正式比较。
 4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
 5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

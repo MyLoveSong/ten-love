@@ -414,6 +414,63 @@ def split_to_tensor_dict(split_data: Dict[str, Any]) -> Dict[str, torch.Tensor]:
     return tensor_dict
 
 
+def inverse_scale_array(values: np.ndarray, scaler: Dict[str, float]) -> np.ndarray:
+    return values * float(scaler["std"]) + float(scaler["mean"])
+
+
+def evaluate_inverse_scaled_predictions(
+    y_true_scaled: np.ndarray,
+    y_pred_scaled: np.ndarray,
+    scaler: Dict[str, float],
+) -> Dict[str, Any]:
+    y_true = inverse_scale_array(np.asarray(y_true_scaled, dtype=np.float64), scaler)
+    y_pred = inverse_scale_array(np.asarray(y_pred_scaled, dtype=np.float64), scaler)
+    diff = y_true - y_pred
+    mse = float(np.mean(diff ** 2))
+    rmse = float(np.sqrt(mse))
+    mae = float(np.mean(np.abs(diff)))
+    ss_res = float(np.sum(diff ** 2))
+    ss_tot = float(np.sum((y_true - np.mean(y_true)) ** 2))
+    r2 = float(1 - ss_res / ss_tot) if ss_tot > 0 else float("nan")
+
+    per_horizon: Dict[str, Dict[str, float]] = {}
+    if y_true.ndim == 2:
+        for idx in range(y_true.shape[1]):
+            step_diff = y_true[:, idx] - y_pred[:, idx]
+            step_mse = float(np.mean(step_diff ** 2))
+            per_horizon[f"t+{idx + 1}"] = {
+                "mae": float(np.mean(np.abs(step_diff))),
+                "rmse": float(np.sqrt(step_mse)),
+            }
+
+    return {
+        "unit": "mg/dL",
+        "scale_scope": scaler.get("scope", "train_sequences_only"),
+        "mae": mae,
+        "mse": mse,
+        "rmse": rmse,
+        "r2": r2,
+        "per_horizon": per_horizon,
+    }
+
+
+def evaluate_inverse_scaled_ensemble(
+    system: EnhancedGlucosePredictionSystem,
+    sequences: torch.Tensor,
+    targets: torch.Tensor,
+    scaler: Dict[str, float],
+) -> Dict[str, Any]:
+    device = getattr(system, "device", None)
+    eval_sequences = sequences.to(device) if device is not None else sequences
+    with torch.no_grad():
+        predictions = system.ensemble.predict(eval_sequences)
+    return evaluate_inverse_scaled_predictions(
+        targets.detach().cpu().numpy(),
+        predictions.detach().cpu().numpy(),
+        scaler,
+    )
+
+
 def limit_split_windows(split_data: Dict[str, Any], max_windows_per_split: int | None) -> Dict[str, Any]:
     if max_windows_per_split is None:
         return split_data
@@ -505,6 +562,18 @@ def train_with_split_manifest(
     system.create_ensemble(data_dict)
     system.setup_monitoring(data_dict['train_sequences'])
     test_metrics = system.evaluate_ensemble(data_dict['test_sequences'], data_dict['test_targets'])
+    val_metrics_inverse_scaled = evaluate_inverse_scaled_ensemble(
+        system,
+        data_dict['val_sequences'],
+        data_dict['val_targets'],
+        split_data['scaler'],
+    )
+    test_metrics_inverse_scaled = evaluate_inverse_scaled_ensemble(
+        system,
+        data_dict['test_sequences'],
+        data_dict['test_targets'],
+        split_data['scaler'],
+    )
     system.save_system_state()
     system.is_trained = True
 
@@ -521,6 +590,8 @@ def train_with_split_manifest(
         'models': list(config['models'].keys()),
         'individual_models': training_results,
         'test_metrics': test_metrics,
+        'val_metrics_inverse_scaled': val_metrics_inverse_scaled,
+        'test_metrics_inverse_scaled': test_metrics_inverse_scaled,
         'ensemble_weights': system.ensemble.get_model_weights(),
         'training_completed': True,
         'timestamp': datetime.now().isoformat(),

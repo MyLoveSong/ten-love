@@ -14,33 +14,38 @@ outputs stay outside Git.
 | Step | File | Current status | Boundary |
 |---|---|---|---|
 | 1 | `canonical_dataset_manifest.md` | preliminary | canonical dataset not frozen |
-| 2 | `leakage_audit.md` | preliminary, blocking | `unified_cleaned_glucose.json` blocked; public preprocessed candidate still needs source/licence audit |
-| 3 | `split_manifest.md` | preliminary | source-aware group split artifact exists, gate still not passed |
-| 4 | `public_glucose_source_aware_split_manifest.json` | generated split artifact | no raw patient IDs or row-level glucose values |
-| 5 | `baseline_parity_table.md` | full same-split baseline parity completed | local claim only |
-| 6 | `glucose_baseline_parity_result_summary.json` | lightweight baseline summary | persistence, linear, GBM, MLPRegressor |
-| 7 | `glucose_candidate_rerun_budget.md` | 3-epoch pilot budget executed | pilot only |
-| 8 | `glucose_candidate_rerun_result_summary.json` | lightweight 3-epoch summary | GluFormer did not beat MLPRegressor |
-| 9 | `gluformer_failure_analysis.md` | failure analysis plus 10-epoch triage completed | no superiority claim |
-| 10 | `glucose_candidate_10epoch_triage_result_summary.json` | lightweight 10-epoch summary | mixed result versus MLPRegressor |
-| 11 | `metric_definitions.md` | active local metric definition | not a clinical metric charter |
-| 12 | `data_availability_audit.md` | preliminary, blocking | source/licence/access route not Nature-ready |
-| 13 | `glucose_result_summary_schema.md` | active schema | local evidence only |
-| 14 | `experiment_readiness_gate.md` | gate status document | gate not passed |
+| 2 | `glucose_ml_collection_provenance_closure.md` | closed blocker | old public-preprocessed candidate rejected for manuscript canonical use |
+| 3 | `bigideas_glucose_source_report.json` | generated source report | BigIdeas-only verified-source draft, no row-level values |
+| 4 | `bigideas_source_aware_split_manifest.json` | generated split artifact | 13/2/1 subject-group train/val/test split, no raw patient IDs or row-level glucose values |
+| 5 | `leakage_audit.md` | preliminary, blocking | final BigIdeas-only leakage pass still required |
+| 6 | `split_manifest.md` | preliminary | BigIdeas-only split exists, gate still not passed |
+| 7 | `public_glucose_source_aware_split_manifest.json` | historical engineering artifact | old public-preprocessed split only, not canonical |
+| 8 | `baseline_parity_table.md` | full same-split baseline parity completed on old public candidate | local engineering claim only |
+| 9 | `glucose_baseline_parity_result_summary.json` | lightweight baseline summary on old public candidate | not manuscript evidence after provenance closure |
+| 10 | `glucose_candidate_rerun_budget.md` | 3-epoch pilot budget executed on old public candidate | pilot only |
+| 11 | `glucose_candidate_rerun_result_summary.json` | lightweight 3-epoch summary on old public candidate | GluFormer did not beat MLPRegressor |
+| 12 | `gluformer_failure_analysis.md` | failure analysis plus 10-epoch triage completed | no superiority claim |
+| 13 | `glucose_candidate_10epoch_triage_result_summary.json` | lightweight 10-epoch summary on old public candidate | mixed result versus MLPRegressor |
+| 14 | `metric_definitions.md` | active local metric definition | training entry now exports inverse-scaled split metrics |
+| 15 | `data_availability_audit.md` | preliminary, blocking | BigIdeas route is verified; old public candidate remains rejected |
+| 16 | `glucose_result_summary_schema.md` | active schema | local evidence only |
+| 17 | `experiment_readiness_gate.md` | gate status document | gate not passed |
 
 ## Current Decision
 
-The 10-epoch seed-42 GluFormer triage is mixed: RMSE and R2 are slightly better
-than MLPRegressor, but MAE is worse. The next model step is a 30-epoch,
-multi-seed rerun. Until then, MLPRegressor remains the current strongest
-same-split baseline.
+`glucose_ml_collection` provenance has been closed as unresolved for the
+current local derived dataset. The old `public_glucose_preprocessed` split and
+results remain engineering evidence only. The next candidate line is
+BigIdeas-only, with `bigideas_glucose_source_report.json` and
+`bigideas_source_aware_split_manifest.json` as the draft verified-source
+artifacts.
 
 ## Remaining Gate Blockers
 
-- Source, licence, and access-route resolution for `glucose_ml_collection`.
-- Final data availability statement after source reconciliation.
-- Multi-seed policy and 30-epoch GluFormer rerun.
-- Final leakage pass for the chosen canonical dataset.
+- Full baseline parity and candidate reruns on the BigIdeas-only split.
+- Final data availability statement for the selected BigIdeas-only claim level.
+- Multi-seed policy and 30-epoch GluFormer rerun after BigIdeas baseline parity.
+- Final leakage pass for the BigIdeas-only candidate dataset.
 - Claim-boundary decision after the above artifacts exist.
 
 ## Artifact Policy

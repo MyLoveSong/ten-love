@@ -17,6 +17,12 @@ control to the split-manifest training path. It remains a mixed result: R2 and
 RMSE are slightly better than MLPRegressor, but MAE remains worse. It still
 does not support a superiority claim.
 
+After `glucose_ml_collection_provenance_closure.md`, the compared runs below
+are historical engineering evidence on the old public-preprocessed candidate.
+The optimization lessons still inform the next budget, but future manuscript
+candidate runs must use `bigideas_source_aware_split_manifest.json` or another
+verified-source split.
+
 ## Compared Runs
 
 | Field | GluFormer candidate | MLPRegressor baseline |
@@ -72,8 +78,9 @@ reported as outperforming all baselines.
 
 - Do not claim GluFormer superiority.
 - Treat MLPRegressor as the current strongest same-split baseline.
-- Keep the Glucose claim level at local B-level evidence until leakage audit,
-  source/licence audit, metric definitions, and seed policy are complete.
+- Keep the Glucose claim level at local engineering evidence until BigIdeas
+  full baseline parity, final leakage audit, Data Availability statement, and
+  seed policy are complete.
 - The next candidate run should test whether GluFormer catches or exceeds MLP
   under a budget that can actually reach convergence.
 
@@ -117,17 +124,18 @@ Candidate single-seed triage command:
 ```bash
 /home/data/xzy/MyProject-Guochuang/gluformer_plus/.venv/bin/python \
   projects/glucose/src/run_glucose_training.py \
-  --split_dataset /home/data/xzy/system/projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json \
-  --split_manifest projects/glucose/protocols/public_glucose_source_aware_split_manifest.json \
+  --split_dataset /home/data/xzy/system/projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json \
+  --split_manifest projects/glucose/protocols/bigideas_source_aware_split_manifest.json \
   --in_len 12 \
   --out_len 6 \
-  --epochs 10 \
+  --epochs 30 \
   --models gluformer \
   --seed 42
 ```
 
-This 10-epoch command has now been executed once for triage. The next serious
-comparison should increase `--epochs` to 30 and run multiple seeds.
+The old 10-epoch command has already been executed once for triage on the old
+public-preprocessed candidate. The next serious comparison should use the
+BigIdeas-only split with `--epochs 30` and run multiple seeds.
 
 ## Artifact Boundary
 

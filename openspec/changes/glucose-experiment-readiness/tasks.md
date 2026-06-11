@@ -38,6 +38,10 @@
 - [x] 3.9 Add explicit seed control to split-manifest training and record seed metadata.
 - [x] 3.10 Create local metric definitions for MAE, RMSE, R2, and per-horizon metrics without claim upgrade.
 - [x] 3.11 Create preliminary data availability/source audit; audit remains blocking because `glucose_ml_collection` provenance is unresolved.
+- [x] 3.12 Close `glucose_ml_collection` provenance as unresolved for the current local derived dataset and reject `public_glucose_preprocessed.json` as manuscript canonical data.
+- [x] 3.13 Generate BigIdeas-only source report and source-aware split manifest from the verified PhysioNet BigIdeas local mirror.
+- [x] 3.14 Add direct inverse-scaled mg/dL overall/per-horizon metric export to the split-manifest training entrypoint.
+- [x] 3.15 Run BigIdeas-only baseline and training smoke checks without claim upgrade.
 
 ## 4. Verification
 
@@ -46,3 +50,4 @@
 - [x] 4.3 Run stale reference search for the new gate.
 - [x] 4.4 Run `git diff --check`.
 - [x] 4.5 Run split-manifest seed-control and baseline regression tests.
+- [x] 4.6 Run BigIdeas builder and inverse-metric regression tests.

@@ -14,11 +14,13 @@ fit normalization parameters before split or split already-windowed sequences.
 Do not freeze `projects/glucose/data/cleaned_dataset/unified_cleaned_glucose.json`
 as the canonical manuscript dataset in its current form.
 
-For the next split-aware rerun, prefer the source-aware audit candidate
-`projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json` with
-the generated artifact
-`projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`.
-This is a candidate split decision, not a passed gate.
+For the next split-aware rerun, use the BigIdeas-only draft candidate
+`projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json` with the
+generated artifact
+`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`, after
+full baseline parity and final leakage checks are recorded. The old
+`public_glucose_preprocessed.json` candidate is rejected for manuscript use by
+`glucose_ml_collection_provenance_closure.md`.
 
 ## Audit Scope
 
@@ -36,15 +38,21 @@ full, run training, move data, delete data, or create model outputs.
 | `public_glucose_preprocessed.json` | unique patient IDs | 50 | `patient_id` alone is not source-safe |
 | `public_glucose_preprocessed.json` | unique timestamps | 201600 | observed, not a split proof |
 | `public_glucose_source_aware_split_manifest.json` | source-patient group split | 80 train, 10 validation, 10 test groups | preliminary artifact created |
+| `bigideas_glucose_records.json` | source-patient group count | 16 | current verified-source draft candidate |
+| `bigideas_source_aware_split_manifest.json` | source-patient group split | 13 train, 2 validation, 1 test groups | preliminary artifact created |
+| `bigideas_source_aware_split_manifest.json` | split windows | 29783 train, 4696 validation, 2147 test | preliminary artifact created |
 | `unified_cleaned_glucose.json` | duplicate `patient_id + timestamp` groups | 4529 groups, 243012 rows inside duplicate groups | blocking |
 | `unified_cleaned_glucose.json` | null timestamps | 243107 of 254445 records | blocking |
 | `unified_cleaned_glucose.json` | largest duplicate key group | `patient_id=unknown`, `timestamp=null`, 230940 records | blocking |
 
 Interpretation:
 
-- `public_glucose_preprocessed.json` is currently the cleaner source-aware
-  candidate for split construction, because it keeps the `source` field and
-  passes the duplicate key checks above.
+- `public_glucose_preprocessed.json` is cleaner than `unified_cleaned_glucose`
+  at the key level, but it is rejected for manuscript canonical use because
+  `glucose_ml_collection` provenance is unresolved.
+- `bigideas_glucose_records.json` is now the current verified-source draft
+  candidate. Its small 16-subject size requires conservative claim boundaries
+  and a final leakage pass before any result upgrade.
 - `unified_cleaned_glucose.json` cannot support a frozen CGM forecasting split
   until its missing timestamps, `unknown` patient group, and duplicate-key
   provenance are repaired or explained.
@@ -71,8 +79,8 @@ Interpretation:
 |---|---|---|
 | `unified_cleaned_glucose.json` | do not freeze | severe missing timestamp and duplicate-key findings; lacks source field in observed schema |
 | `unified_cleaned_glucose.csv` | do not freeze | equivalent content to JSON is not audited, and JSON candidate is blocked |
-| `public_glucose_preprocessed.json` | next split-audit candidate | source-aware schema, 100 source-patient groups, no duplicate source-patient-timestamp groups in this audit |
-| BigIdeas raw mirror | hold for source reconciliation | raw mirror relationship across `dataset/` and `projects/glucose/data/` is not resolved |
+| `public_glucose_preprocessed.json` | rejected for manuscript canonical use | source-aware schema exists, but `glucose_ml_collection` provenance closure blocks row provenance |
+| BigIdeas raw mirror | draft canonical source candidate | PhysioNet v1.0.0 route and ODC-By licence are recorded; derived BigIdeas-only JSON and split artifact now exist |
 
 ## Requirements Before Claim Upgrade
 
@@ -81,7 +89,7 @@ The gate can move forward only after these artifacts exist:
 1. Frozen canonical dataset selection with source, licence, access route, and
    hash strategy.
 2. Training and baseline entrypoints consume the frozen train/validation/test
-   split artifact using `source + patient_id` for public-preprocessed data.
+   split artifact using `source + patient_id` for BigIdeas-only data.
 3. Window construction that does not allow input or target windows to cross
    split boundaries.
 4. Train-only normalization and scaler fitting.
@@ -97,14 +105,16 @@ jq -r '.records | sort_by(.patient_id, .timestamp) | group_by([.patient_id, .tim
 jq -r '.records | sort_by(.patient_id, .timestamp) | group_by([.patient_id, .timestamp]) | map(select(length > 1)) | {duplicate_patient_timestamp_groups:length, duplicate_rows:(map(length) | add // 0)}' /home/data/xzy/system/projects/glucose/data/cleaned_dataset/unified_cleaned_glucose.json
 jq -r '.records | {record_count:length, unique_patients:(map(.patient_id)|unique|length), unique_timestamps:(map(.timestamp)|unique|length), null_patient_ids:(map(select(.patient_id == null))|length), null_timestamps:(map(select(.timestamp == null))|length)}' /home/data/xzy/system/projects/glucose/data/cleaned_dataset/unified_cleaned_glucose.json
 rg -n "fit_transform|scaler|random_split|KFold|permutation|normalize|patient_id|generated|prefix|train_ratio|val_ratio|test_ratio" /home/data/xzy/ten-love/projects/glucose/src -g '*.py'
+/home/data/xzy/MyProject-Guochuang/gluformer_plus/.venv/bin/python projects/glucose/src/analysis/bigideas_dataset_builder.py --raw-root /home/data/xzy/system/dataset/big-ideas-lab-glycemic-variability-and-wearable-device-data-1.0.0/big-ideas-lab-glycemic-variability-and-wearable-device-data-1.00 --output /home/data/xzy/system/projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json --report projects/glucose/protocols/bigideas_glucose_source_report.json --dataset-label projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json
+/home/data/xzy/MyProject-Guochuang/gluformer_plus/.venv/bin/python projects/glucose/src/analysis/source_aware_split_manifest.py --input /home/data/xzy/system/projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json --output projects/glucose/protocols/bigideas_source_aware_split_manifest.json --seed 42 --train-ratio 0.8 --val-ratio 0.1 --test-ratio 0.1 --input-horizon 12 --output-horizon 6 --dataset-label projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json
 ```
 
 ## Next Minimal Step
 
 The training and baseline entrypoints now consume
-`public_glucose_source_aware_split_manifest.json`, build windows after group
+`bigideas_source_aware_split_manifest.json`, build windows after group
 assignment, and fit normalization on the training partition only.
-`data_availability_audit.md` now records the source/access blocker: OhioT1DM is
-controlled access and `glucose_ml_collection` provenance is unresolved. The
-next minimal audit step is source reconciliation, followed by a final leakage
-pass before claim upgrade.
+`data_availability_audit.md` now records the BigIdeas source/access route and
+the old `glucose_ml_collection` closure. The next minimal audit step is full
+BigIdeas baseline parity, followed by a final leakage pass before claim
+upgrade.

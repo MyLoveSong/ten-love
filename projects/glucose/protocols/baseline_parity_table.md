@@ -7,11 +7,16 @@ Status: full baseline parity run completed, gate not passed.
 Baseline parity for the four declared baselines is complete under the current
 source-aware split.
 
+After `glucose_ml_collection_provenance_closure.md`, this table is historical
+engineering evidence only. It must not be used as manuscript baseline parity
+for the BigIdeas-only candidate.
+
 The baseline entrypoint consumed
 `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`
 on the full split for persistence, LinearRegression, GBM, and MLPRegressor.
-This satisfies the baseline-parity execution requirement for these four
-baselines, but it does not pass the overall Glucose experiment-readiness gate.
+This satisfied the baseline-parity execution requirement for these four
+baselines under the old candidate, but it does not pass the overall Glucose
+experiment-readiness gate.
 Canonical data availability, leakage audit, seed policy, and main-model rerun
 requirements remain unresolved.
 
@@ -105,10 +110,9 @@ python3 projects/glucose/src/run_glucose_training.py \
 
 ## Remaining Blockers
 
-- A stronger predefined candidate strategy is still required. The 10-epoch
-  GluFormer triage slightly improved RMSE and R2 versus MLPRegressor, but MAE
-  remained worse.
-- The public-preprocessed dataset source, licence, and access route still need
-  a Nature-ready data availability audit.
-- A 30-epoch, multi-seed GluFormer rerun is required before any candidate model
-  claim is reconsidered.
+- BigIdeas-only full baseline parity is still required because this table used
+  the old public-preprocessed candidate.
+- A stronger predefined candidate strategy is still required after BigIdeas
+  baseline parity.
+- A 30-epoch, multi-seed GluFormer rerun on the BigIdeas-only split is required
+  before any candidate model claim is reconsidered.

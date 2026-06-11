@@ -42,7 +42,7 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 ## Decisions
 
 1. Use `glucose-experiment-readiness` as a gate definition with smoke execution records, not as a completed manuscript experiment.
-2. Mark the current gate status as not passed until full same-split baselines, a predefined main-model budget, metric summaries, source/licence review, data availability blockers, and leakage blockers are resolved.
+2. Mark the current gate status as not passed until BigIdeas-only full same-split baselines, a predefined main-model budget, metric summaries, data availability statement, and leakage blockers are resolved.
 3. Reuse prior protocol material only as input. It is not treated as evidence of completed validation.
 4. Prefer conservative evidence promotion: B-level local results can become A-level only after split, seed, baseline, metric, and leakage artifacts are present.
 5. Keep large data and outputs local. Git should receive only protocol files, summaries, and reproducibility metadata.
@@ -53,7 +53,8 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 - Patient identifiers may be missing or generated from row order in some sources. Those cases must be classified as weaker evidence.
 - Public glucose datasets may have repeated subjects or mirrored files across `dataset/` and `projects/glucose/data/`. The canonical data gate must resolve this before training.
 - Reused human-participant CGM data may have controlled-access or third-party redistribution limits. The data availability gate must resolve these before manuscript submission.
-- The source-aware split artifact for `public_glucose_preprocessed.json` resolves group overlap for that candidate only. Smoke runs verify entrypoint wiring, but do not prove full baseline parity or model performance.
+- The source-aware split artifact for `public_glucose_preprocessed.json` is now historical engineering evidence only because `glucose_ml_collection` provenance is unresolved.
+- The BigIdeas-only split artifact has a clearer public source route, but only 16 subject groups. It needs conservative interpretation and cannot support broad generalization without additional data or external validation.
 - A strict gate delays manuscript writing, but reduces rejection risk from unsupported claims and unclear reproducibility.
 
 ## Verification
@@ -62,6 +63,6 @@ This change is verified by:
 
 - `openspec validate glucose-experiment-readiness --type change --strict --no-interactive`
 - `python3 -m compileall -q projects/glucose/src/run_glucose_training.py projects/glucose/src/enhanced_glucose_prediction_trainer.py projects/glucose/src/external_validation_and_baselines.py`
-- `python3 -m unittest test_source_aware_split_manifest.py test_source_aware_split_dataset.py test_split_manifest_baselines.py test_run_glucose_training_cli.py` from `projects/glucose/src`
+- `/home/data/xzy/MyProject-Guochuang/gluformer_plus/.venv/bin/python -m unittest test_bigideas_dataset_builder.py test_source_aware_split_manifest.py test_source_aware_split_dataset.py test_split_manifest_baselines.py test_run_glucose_training_cli.py` from `projects/glucose/src`
 - `git diff --check`
 - `rg -n "glucose-experiment-readiness|experiment_readiness_gate" README.md RESULTS_LEDGER.md PROJECT_AUDIT.md GITHUB_TRACKING_MANIFEST.md openspec docs projects/glucose/protocols`

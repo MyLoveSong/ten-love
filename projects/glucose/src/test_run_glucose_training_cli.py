@@ -33,6 +33,9 @@ class DummyEnsemble:
     def get_model_weights(self):
         return {"gluformer": 1.0}
 
+    def predict(self, sequences):
+        return sequences[:, :1, 0]
+
 
 class DummySystem:
     observed_config = None
@@ -108,6 +111,45 @@ class SplitManifestSeedTest(unittest.TestCase):
         self.assertTrue(result["seed"]["deterministic_warn_only"])
         self.assertEqual(DummySystem.observed_config["seed"]["value"], 123)
         self.assertEqual(saved["seed"]["value"], 123)
+
+    def test_split_manifest_training_records_inverse_scaled_metrics(self):
+        split_data = {
+            "sequences": {
+                "train": np.ones((2, 3, 1), dtype=np.float32),
+                "val": np.ones((2, 3, 1), dtype=np.float32),
+                "test": np.asarray([[[0.0], [1.0], [2.0]], [[2.0], [3.0], [4.0]]], dtype=np.float32),
+            },
+            "targets": {
+                "train": np.ones((2, 1), dtype=np.float32),
+                "val": np.ones((2, 1), dtype=np.float32),
+                "test": np.asarray([[0.0], [3.0]], dtype=np.float32),
+            },
+            "metadata": {"normalization_scope": "train_sequences_only"},
+            "scaler": {"mean": 100.0, "std": 10.0, "scope": "train_sequences_only"},
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_dir = Path(tmpdir)
+            with patch("run_glucose_training.load_source_aware_split_windows", return_value=split_data):
+                with patch("run_glucose_training.EnhancedGlucosePredictionSystem", DummySystem):
+                    result = train_with_split_manifest(
+                        Path("dataset.json"),
+                        Path("split.json"),
+                        in_len=3,
+                        out_len=1,
+                        out_dir=out_dir,
+                        epochs=1,
+                        model_names=["gluformer"],
+                        seed=123,
+                    )
+            saved = json.loads((out_dir / "split_manifest_training_results.json").read_text())
+
+        metrics = result["test_metrics_inverse_scaled"]
+        self.assertEqual(metrics["unit"], "mg/dL")
+        self.assertAlmostEqual(metrics["mae"], 5.0)
+        self.assertAlmostEqual(metrics["rmse"], (50.0 ** 0.5))
+        self.assertIn("t+1", metrics["per_horizon"])
+        self.assertEqual(saved["test_metrics_inverse_scaled"]["unit"], "mg/dL")
 
 
 if __name__ == "__main__":

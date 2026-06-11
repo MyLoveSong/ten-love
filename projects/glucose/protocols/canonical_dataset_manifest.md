@@ -19,12 +19,18 @@ inside duplicate-key groups.
 
 The strongest source-aware audit candidate is
 `projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json`,
-because it retains a `source` field. Its report shows duplicate patient IDs
-across sources, so `patient_id` alone is not reliable as a split key.
-It passed the current duplicate `source + patient_id + timestamp` check and is
-the next split-audit candidate. A preliminary group-disjoint split artifact now
-exists, but the dataset is not a manuscript-ready canonical source until source,
-licence, and access-route checks are complete.
+because it retains a `source` field. That candidate is now rejected for
+manuscript canonical use: `glucose_ml_collection_provenance_closure.md`
+records that the local `glucose_ml_collection` path generates example records
+and cannot be tied to an authoritative upstream release, commit, file list, or
+licence chain for the current derived rows.
+
+The current verified-source draft canonical candidate is BigIdeas-only:
+`projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json`.
+This file is generated locally from the PhysioNet BigIdeas v1.0.0 Dexcom CSV
+mirror and remains Git-ignored. The Git-tracked evidence is limited to
+`bigideas_glucose_source_report.json` and
+`bigideas_source_aware_split_manifest.json`.
 
 ## Metadata Collection Scope
 
@@ -53,9 +59,12 @@ was read in full for this manifest.
 |---|---:|---|---|---|
 | `projects/glucose/data/cleaned_dataset/unified_cleaned_glucose.json` | 26482566 | JSON object with `records`; 254445 records; fields `glucose`, `patient_id`, `timestamp`; 4980 unique `patient_id`; 243107 null timestamps; 4529 duplicate `patient_id + timestamp` groups | blocked training-input candidate | derived local working file; source provenance not encoded per record; timestamp and duplicate-key findings block freezing |
 | `projects/glucose/data/cleaned_dataset/unified_cleaned_glucose.csv` | 5895203 | CSV header `patient_id,timestamp,glucose` | compact export candidate | equivalence with JSON not audited |
-| `projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json` | 48612811 | JSON object with `records`; 201600 records; fields `delta`, `glucose_mg_dl`, `glucose_normalized`, `patient_id`, `rolling_mean`, `source`, `timestamp`; 50 unique `patient_id`; 100 unique `source + patient_id` groups; 0 duplicate `source + patient_id + timestamp` groups in current audit | source-aware split-audit candidate with preliminary split artifact | `patient_id` is duplicated across sources; split key must include source; source/licence/access route still unresolved |
-| `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json` | 33906 | lightweight JSON split artifact; 80 train groups, 10 validation groups, 10 test groups; no row-level glucose values or raw patient IDs | split artifact for next rerun | not a model result and not a passed gate |
+| `projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json` | 48612811 | JSON object with `records`; 201600 records; fields `delta`, `glucose_mg_dl`, `glucose_normalized`, `patient_id`, `rolling_mean`, `source`, `timestamp`; 50 unique `patient_id`; 100 unique `source + patient_id` groups; 0 duplicate `source + patient_id + timestamp` groups in current audit | historical engineering candidate only | rejected for manuscript canonical use after `glucose_ml_collection` provenance closure |
+| `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json` | 33906 | lightweight JSON split artifact; 80 train groups, 10 validation groups, 10 test groups; no row-level glucose values or raw patient IDs | historical split artifact | not a model result and not a passed gate |
 | `projects/glucose/data/cleaned_dataset/public_glucose_preprocess_report.json` | 30645 | sources `ohio_t1dm`, `glucose_ml_collection`; `patients_kept=100`; `total_samples=201600`; 5-minute window frequency; per-source count 50 each; 50 duplicate patient-id groups across sources | metadata support for public preprocess | report-level evidence only, not a split manifest |
+| `projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json` | 5525334 | JSON object with 36898 Dexcom EGV records; generated from 16 BigIdeas `Dexcom_*.csv` files; source label `physionet_big_ideas`; subject count 16; SHA-256 `00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8` | current verified-source draft canonical candidate | local-only derived file, Git-ignored; source report and split artifact are tracked instead |
+| `projects/glucose/protocols/bigideas_glucose_source_report.json` | 5386 | lightweight source report; 16 raw Dexcom file hashes; 16 hashed subject entries; no row-level glucose values; public PhysioNet file paths retained for file inventory | BigIdeas source evidence | safe Git-tracked source report |
+| `projects/glucose/protocols/bigideas_source_aware_split_manifest.json` | 6359 | lightweight split artifact; 13 train groups, 2 validation groups, 1 test group; 29783/4696/2147 train/validation/test windows | BigIdeas draft split artifact | not a model result and not a passed gate |
 | `projects/glucose/data/cleaned_dataset/cleaning_report.json` | 1899 | cultural-adaptation cleaning report; original 3644, final 3005, feature dimensions 21 | cultural-adaptation data report | supports cleaning provenance, not CGM forecasting generalization |
 | `projects/glucose/data/physionet_big_ideas/raw_data/` | small local mirror metadata only observed: `LICENSE.txt`, `SHA256SUMS.txt`, `Demographics.csv` | project-local BigIdeas mirror stub | raw-source candidate metadata | `Demographics.csv` is detected as Microsoft Excel 2007+ despite `.csv`; format needs audit |
 | `dataset/big-ideas-lab-glycemic-variability-and-wearable-device-data-1.0.0/...` | large mirrored raw tree | large wearable data files observed by path and size | raw-source mirror candidate | must be classified against `projects/glucose/data/physionet_big_ideas/` before use |
@@ -69,6 +78,7 @@ was read in full for this manifest.
 | `cleaned_dataset/unified_cleaned_glucose.csv` | `a184f7a1bf5d3a6aff9cc0099856ec1e713ad84445ac39041f89d6a0fb80dfb8` |
 | `cleaned_dataset/public_glucose_preprocessed.json` | `c40ff621d3ff3a82e45bb69981a5df8b365407170a3e27057d232170a3cefd36` |
 | `cleaned_dataset/public_glucose_preprocess_report.json` | `ded935d3c2a2bf313ed3e8da3c880eb5ad661dc852a151f18593ad3abdc1723d` |
+| `cleaned_dataset/bigideas_glucose_records.json` | `00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8` |
 | `cleaned_dataset/cleaning_report.json` | `4b1b6a545e164f4b1545b441d5f189a48c840d081c9cccf4315c5473533fe967` |
 
 ## Identifier Reliability
@@ -76,9 +86,10 @@ was read in full for this manifest.
 | Dataset | Observed identifier | Reliability status | Required split key |
 |---|---|---|---|
 | `unified_cleaned_glucose.json` | `patient_id`; 4980 unique IDs | weak until provenance audit confirms IDs are real subject IDs and not generated row-order IDs | `patient_id` only after provenance audit |
-| `public_glucose_preprocessed.json` | `patient_id` plus `source`; report shows 100 per-patient entries but only 50 unique `patient_id` values | `patient_id` alone is invalid across sources | `source + patient_id` |
+| `public_glucose_preprocessed.json` | `patient_id` plus `source`; report shows 100 per-patient entries but only 50 unique `patient_id` values | rejected for manuscript canonical use after `glucose_ml_collection` provenance closure | no rerun; retain only as historical engineering artifact |
+| `bigideas_glucose_records.json` | BigIdeas subject folder ID plus source label | reliable for BigIdeas-only source grouping; committed artifacts use hashed group IDs | `source + patient_id` |
 | `unified_cleaned_glucose.csv` | `patient_id` | weak until equivalence with JSON and provenance are checked | `patient_id` only after audit |
-| BigIdeas raw mirror | subject-folder IDs by path | promising raw grouping signal | subject folder ID after raw mirror classification |
+| BigIdeas raw mirror | subject-folder IDs by path | reconciled enough for draft source candidate through `bigideas_glucose_source_report.json` | `source + patient_id` |
 
 ## Canonical Selection Rule
 
@@ -96,13 +107,15 @@ Use the following rule before any rerun:
 |---|---|
 | canonical dataset not selected | prior results cannot be reproduced against a frozen data identity |
 | `unified_cleaned_glucose` has severe timestamp and duplicate-key findings | this blocks freezing it as the manuscript canonical dataset |
-| `public_glucose_preprocessed` duplicates patient IDs across sources | patient-level split leaks if `patient_id` is used without source namespace |
+| `public_glucose_preprocessed` inherits unresolved/synthetic-risk `glucose_ml_collection` provenance | this blocks it from canonical manuscript use |
+| BigIdeas-only candidate has only 16 subjects | group-disjoint validation/test partitions are small and must be treated as exploratory until full baseline parity and leakage checks pass |
 | `unified_cleaned_glucose` lacks source field in observed schema | source-level duplicate and provenance audit cannot be done from schema alone |
-| BigIdeas mirror not reconciled across `dataset/` and `projects/glucose/data/` | raw versus working-copy relationship is not fixed |
-| data availability audit blocks source freeze | `glucose_ml_collection` has not been traced to an authoritative release, commit, file list, and per-dataset licence chain |
+| BigIdeas mirror not fully reconciled against every local duplicate path | raw source route is recorded, but final file-inventory cleanup is still pending |
+| final data availability statement not frozen | BigIdeas route is verified, but manuscript claim-specific wording and citation list remain pending |
 
 ## Next Minimal Step
 
-Resolve `glucose_ml_collection` provenance and licence/access terms. If that
-source cannot be verified, rebuild the canonical candidate and split artifact
-from sources with clear access routes.
+Run full same-split baseline parity on the BigIdeas-only split, then run the
+final leakage pass against `bigideas_glucose_records.json`. Do not schedule
+30-epoch GluFormer multi-seed reruns until those BigIdeas baseline and leakage
+checks are recorded.

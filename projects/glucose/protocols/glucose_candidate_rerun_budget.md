@@ -8,6 +8,10 @@ This budget defines the first source-aware candidate-model rerun after full
 baseline parity. It is a pilot rerun for the GluFormer candidate under the
 frozen split artifact. It does not upgrade any manuscript claim.
 
+After `glucose_ml_collection_provenance_closure.md`, this pilot is historical
+engineering evidence only. Future candidate budgets must use
+`bigideas_source_aware_split_manifest.json` or another verified-source split.
+
 ## Fixed Budget
 
 | Field | Value |
@@ -47,10 +51,10 @@ frozen split artifact. It does not upgrade any manuscript claim.
 
 ## Interpretation Boundary
 
-The run can support only a local candidate-vs-baseline comparison under the
-current source-aware split. It cannot support clinical deployment, external
-validation, or population-generalization claims until the leakage audit,
-source/licence audit, seed policy, and candidate result summary pass.
+The run can support only a historical local candidate-vs-baseline comparison
+under the old source-aware split. It cannot support clinical deployment,
+external validation, population-generalization claims, or BigIdeas-only
+manuscript claims.
 
 ## Observed Pilot Result
 
@@ -77,5 +81,6 @@ claim could be considered.
 Follow-up status: explicit split-manifest seed control has since been added, and
 a 10-epoch seed-42 triage is recorded in
 `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`.
-That triage is mixed versus MLPRegressor, so the next serious comparison remains
-a 30-epoch, multi-seed rerun.
+That triage is mixed versus MLPRegressor. After provenance closure, the next
+serious comparison must be a 30-epoch, multi-seed rerun on the BigIdeas-only
+split after BigIdeas full baseline parity and final leakage checks.

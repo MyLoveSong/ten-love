@@ -100,12 +100,14 @@
 - 将 `projects/glucose/` 设为第一条候选论文实验主线。
 - 当前状态是 gate defined, not passed。
 - preliminary leakage audit 已创建，但审计未通过：`unified_cleaned_glucose.json` 因大量空时间戳和重复键被阻断。
-- `public_glucose_source_aware_split_manifest.json` 已生成：基于 `public_glucose_preprocessed.json`，使用 `source + patient_id`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID。
+- `public_glucose_source_aware_split_manifest.json` 已保留为历史工程 artifact：基于 `public_glucose_preprocessed.json`，使用 `source + patient_id`，80/10/10 个 train/validation/test group，不含逐行血糖值或原始 patient ID；由于 `glucose_ml_collection` provenance closure，它不能作为 manuscript canonical split。
+- `bigideas_glucose_source_report.json` 与 `bigideas_source_aware_split_manifest.json` 已生成：基于 PhysioNet BigIdeas v1.0.0 本地镜像，16 个 Dexcom source files，36898 条 EGV records，16 个 subject groups，13/2/1 个 train/validation/test groups；source report 不含逐行血糖值，保留公开 PhysioNet 文件路径，split manifest 不含原始 subject ID。
 - baseline 和训练入口已在 smoke mode 消费 split artifact：baseline smoke 使用 512 windows per split 的 persistence 和 LinearRegression；training smoke 使用 32 windows per split、1 epoch、LSTM only。
 - full baseline parity 已运行：persistence、LinearRegression、GBM、MLPRegressor 使用同一 split artifact，同一 input/output horizon 和同一 metric set，聚合结果写入 `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`。
 - GluFormer candidate pilot 已运行：full split，3 epochs，聚合结果写入 `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`；它没有超过 MLPRegressor baseline。
 - GluFormer 10-epoch seed-42 triage 已运行：结果是 mixed，RMSE/R2 略优于 MLPRegressor，但 MAE 仍差，不能升级 claim。
 - `metric_definitions.md` 已补齐本地 MAE、RMSE、R2 和 per-horizon MAE/RMSE 定义，但不覆盖临床范围或安全性指标。
-- `data_availability_audit.md` 已创建且仍 blocking：OhioT1DM 是受控访问，`glucose_ml_collection` 尚未追溯到明确 upstream release、commit、file list 和 licence chain。
-- 在 source/licence/access-route resolution、leakage audit pass、multi-seed policy 和下一轮 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
+- `data_availability_audit.md` 已创建且仍 blocking：OhioT1DM 是受控访问；`glucose_ml_collection` 已关闭为 unresolved；BigIdeas 路线有公开 PhysioNet access route 和 ODC-By licence，但仍需 final leakage pass 和 full baseline parity。
+- BigIdeas baseline smoke 和 LSTM training smoke 已运行，训练入口现在导出 inverse-scaled mg/dL overall/per-horizon metrics；这些仍是 smoke evidence。
+- 在 BigIdeas full baseline parity、leakage audit pass、multi-seed policy 和下一轮 candidate strategy 完成前，Glucose 结果保持本地工程证据，不升级 claim。
 - 该 gate 不移动数据、不删除数据、不升级 claim。

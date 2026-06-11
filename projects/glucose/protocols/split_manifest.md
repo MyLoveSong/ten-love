@@ -4,42 +4,48 @@ Status: preliminary artifact created, blocked-unverified.
 
 ## Verdict
 
-The first train, validation, and test group split artifact has been generated
-for `public_glucose_preprocessed.json`.
+The first verified-source draft train, validation, and test group split
+artifact has been generated for BigIdeas-only
+`bigideas_glucose_records.json`.
 
 This manifest records the required split policy and the split-related risks
 observed from current metadata and code. The generated artifact does not make
 any Glucose result manuscript-ready. Baseline and training entrypoints have
-consumed it in smoke mode and in later full same-split runs. The overall gate
-still remains blocked by source/licence audit, final metric definitions,
-multi-seed model evidence, and a final leakage pass.
+consumed the old public-preprocessed artifact in smoke mode and later full
+same-split runs. That old artifact is now historical engineering evidence only
+because `glucose_ml_collection` provenance is closed as unresolved. The overall
+gate still remains blocked by BigIdeas full baseline parity, multi-seed model
+evidence, and a final leakage pass.
 
 The first leakage audit is recorded at
 `projects/glucose/protocols/leakage_audit.md`. It blocks freezing
-`unified_cleaned_glucose.json` and identifies `public_glucose_preprocessed.json`
-as the next source-aware split-audit candidate.
+`unified_cleaned_glucose.json`. `glucose_ml_collection_provenance_closure.md`
+then rejects `public_glucose_preprocessed.json` for manuscript canonical use.
 
 Generated split artifact:
+`projects/glucose/protocols/bigideas_source_aware_split_manifest.json`.
+
+Historical split artifact:
 `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`.
 
 | Field | Value |
 |---|---|
-| dataset | `projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json` |
-| dataset SHA-256 | `c40ff621d3ff3a82e45bb69981a5df8b365407170a3e27057d232170a3cefd36` |
+| dataset | `projects/glucose/data/cleaned_dataset/bigideas_glucose_records.json` |
+| dataset SHA-256 | `00ba30752fa04748aa99b7dc1997102b4946d9525379fb86df56497be3a899e8` |
 | split type | group-disjoint |
 | group key | `source + patient_id` |
 | seed | 42 |
 | input horizon | 12 |
 | output horizon | 6 |
-| train groups | 80 |
-| validation groups | 10 |
-| test groups | 10 |
-| train records | 161280 |
-| validation records | 20160 |
-| test records | 20160 |
-| train windows | 159920 |
-| validation windows | 19990 |
-| test windows | 19990 |
+| train groups | 13 |
+| validation groups | 2 |
+| test groups | 1 |
+| train records | 30004 |
+| validation records | 4730 |
+| test records | 2164 |
+| train windows | 29783 |
+| validation windows | 4696 |
+| test windows | 2147 |
 | privacy boundary | no row-level glucose values or raw patient IDs |
 
 ## Entry Point Smoke Evidence
@@ -48,6 +54,8 @@ Generated split artifact:
 |---|---|---|---|
 | `external_validation_and_baselines.py` | `--models persistence,linear --max-windows-per-split 512` | wrote `outputs/glucose_baselines_source_aware_smoke/split_manifest_baseline_report.json` | smoke only |
 | `run_glucose_training.py` | `--models lstm --epochs 1 --max_windows_per_split 32` | wrote `TRAIN/outputs/exp_20260610_154849/split_manifest_training_results.json` | smoke only |
+| `external_validation_and_baselines.py` on BigIdeas-only | `--models persistence,linear --max-windows-per-split 512` | wrote `outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json` | smoke only |
+| `run_glucose_training.py` on BigIdeas-only | `--models lstm --epochs 1 --max_windows_per_split 32` | wrote `TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json`; includes inverse-scaled mg/dL metrics | smoke only |
 
 ## Full Same-Split Evidence
 
@@ -57,13 +65,16 @@ Generated split artifact:
 | GluFormer 3-epoch pilot | `glucose_candidate_rerun_result_summary.json` | local-pilot |
 | GluFormer 10-epoch triage | `glucose_candidate_10epoch_triage_result_summary.json` | local-triage |
 
+These runs used the old public-preprocessed candidate. After provenance
+closure, they are not comparable to future BigIdeas-only reruns.
+
 ## Default Horizon And Ratio Targets
 
 | Field | Current target | Evidence |
 |---|---|---|
 | input horizon | 12 steps | prior result config and Glucose README command use `--in_len 12` |
 | output horizon | 6 steps | prior result config and Glucose README command use `--out_len 6` |
-| sampling interval | 5 minutes for `public_glucose_preprocessed` | preprocess report `window_frequency_minutes=5` |
+| sampling interval | approximately 5 minutes for BigIdeas Dexcom EGV records | observed Dexcom timestamps and PhysioNet dataset description |
 | train ratio | 0.8 | prior enhanced prediction config |
 | validation ratio | 0.1 for prior enhanced prediction; 0.2 in `EnhancedGlucosePredictionSystem` | conflicting active code paths |
 | test ratio | 0.1 for prior enhanced prediction | not present in `EnhancedGlucosePredictionSystem.train_complete_system` path |
@@ -74,7 +85,7 @@ Generated split artifact:
 | Requirement | Policy |
 |---|---|
 | patient or user independence | use disjoint groups when reliable subject identifiers exist |
-| source-aware grouping | use `source + patient_id` for `public_glucose_preprocessed` because `patient_id` repeats across sources |
+| source-aware grouping | use `source + patient_id` for BigIdeas-only so subject groups stay disjoint and future multi-source candidates remain namespaced |
 | temporal boundary | sort by timestamp within each patient or source-patient group before building windows |
 | window boundary | no input or target window may cross train, validation, or test boundaries |
 | normalization | fit scalers and feature normalization parameters on training data only |
@@ -86,9 +97,10 @@ Generated split artifact:
 | Dataset candidate | Split unit | Status | Risk |
 |---|---|---|---|
 | `unified_cleaned_glucose.json` | `patient_id` | blocked | leakage audit found 243107 null timestamps and 4529 duplicate `patient_id + timestamp` groups |
-| `public_glucose_preprocessed.json` | `source + patient_id` | preliminary split artifact created | report shows 100 per-patient entries but only 50 unique `patient_id` values; generated artifact uses hashed source-patient groups |
+| `public_glucose_preprocessed.json` | `source + patient_id` | rejected for manuscript canonical use | `glucose_ml_collection` provenance closure blocks source identity |
+| `bigideas_glucose_records.json` | `source + patient_id` | preliminary verified-source split artifact created | only 16 subjects; validation/test group counts are small |
 | `unified_cleaned_glucose.csv` | `patient_id` | blocked-unverified | must verify equivalence with JSON before use |
-| BigIdeas raw mirror | subject folder ID | blocked-unverified | raw mirror and working-copy relationship not reconciled |
+| BigIdeas raw mirror | subject folder ID plus source label | draft split artifact created | only 16 subjects; final leakage pass still required |
 
 ## Observed Code Paths
 
@@ -107,8 +119,8 @@ Generated split artifact:
 | scaler leakage | observed risk | at least one trainer calls `fit_transform` before train/validation/test split |
 | feature-normalization leakage | observed risk | engineered feature normalization is computed before shuffle and split in one path |
 | overlapping sliding windows | not audited | adjacent windows can share most input values if split after windowing |
-| patient overlap | resolved for public-preprocessed candidate only | generated split artifact uses disjoint `source + patient_id` groups; other candidates remain unaudited |
-| source-level ID collision | observed risk | public preprocess report repeats patient IDs across two sources |
+| patient overlap | resolved for BigIdeas draft candidate only | generated split artifact uses disjoint `source + patient_id` groups |
+| source-level ID collision | resolved for BigIdeas-only candidate | single source label `physionet_big_ideas` |
 | generated patient IDs | observed risk | some code creates IDs from row order when missing |
 | test-set reuse | not audited | no run-level selection rule or frozen test artifact exists |
 
@@ -139,15 +151,14 @@ groups with hashed IDs, partition, source, record count, window count, timestamp
 
 ## Minimum Acceptable Split For Next Rerun
 
-For the next Glucose rerun, use the generated group-disjoint split artifact
-unless a later source/licence audit rejects the public-preprocessed candidate.
-If a within-group temporal split is needed for personalization, create a
-separate artifact and do not reuse this one.
+For the next Glucose rerun, use the BigIdeas-only group-disjoint split artifact
+after full baseline parity and final leakage checks are recorded. Do not use
+the old public-preprocessed split for manuscript claims.
 
 | Policy | Use case | Minimum condition |
 |---|---|---|
 | group-disjoint split | cross-patient or cross-user generalization | reliable group key exists and no group appears in more than one partition |
 | within-group temporal split | personalization or within-patient forecasting | each group is split by timestamp, with a gap of at least `input_horizon + output_horizon` steps between partitions |
 
-For 5-minute public-preprocessed data with 12 input steps and 6 output steps,
-the minimum temporal gap is 18 steps, equal to 90 minutes.
+For approximately 5-minute BigIdeas Dexcom data with 12 input steps and 6
+output steps, the minimum temporal gap is 18 steps, equal to about 90 minutes.
