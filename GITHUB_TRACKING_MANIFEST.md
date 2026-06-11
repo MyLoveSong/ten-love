@@ -31,6 +31,8 @@ git add \
   system/projects/glucose/protocols/split_manifest.md \
   system/projects/glucose/protocols/leakage_audit.md \
   system/projects/glucose/protocols/baseline_parity_table.md \
+  system/projects/glucose/protocols/metric_definitions.md \
+  system/projects/glucose/protocols/data_availability_audit.md \
   system/projects/glucose/protocols/glucose_result_summary_schema.md \
   system/projects/glucose/protocols/glucose_baseline_parity_result_summary.json \
   system/projects/glucose/protocols/glucose_candidate_rerun_budget.md \

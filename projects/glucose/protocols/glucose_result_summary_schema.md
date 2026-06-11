@@ -24,12 +24,13 @@ summary and does not upgrade any claim level.
 | `input_horizon` | Input steps |
 | `output_horizon` | Forecast steps |
 | `normalization_scope` | Must be train-only |
-| `mae` | Overall MAE with unit |
-| `rmse` | Overall RMSE with unit |
-| `r2` | Overall R2 |
+| `metric_definitions` | Path to the active metric definition artifact |
+| `mae` | Overall MAE with unit, defined by `metric_definitions.md` |
+| `rmse` | Overall RMSE with unit, defined by `metric_definitions.md` |
+| `r2` | Overall R2, defined by `metric_definitions.md` |
 | `per_horizon_metrics` | Metrics for `t+1` through `t+6` when output horizon is 6 |
 | `leakage_audit` | Path and pass/fail status |
-| `data_availability_status` | Source, licence, and access-route status |
+| `data_availability_status` | Source, licence, and access-route status, linked to `data_availability_audit.md` |
 | `claim_level` | `smoke`, `local`, `local-pilot`, `local-triage`, `dataset-level`, `external-validation`, or `clinical` |
 
 ## Current Smoke Runs
@@ -42,6 +43,13 @@ summary and does not upgrade any claim level.
 | source-aware GluFormer candidate pilot | `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json` | full split, 3 epochs, GluFormer only | committed lightweight summary | local-pilot |
 | source-aware GluFormer 10-epoch triage | `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json` | full split, 10 epochs, seed 42, GluFormer only | committed lightweight summary | local-triage |
 | source-aware GluFormer failure analysis | `projects/glucose/protocols/gluformer_failure_analysis.md` | full split, 3-epoch pilot versus MLPRegressor | committed protocol analysis | local-pilot |
+
+## Definition Artifacts
+
+| Artifact | Scope | Status |
+|---|---|---|
+| `metric_definitions.md` | MAE, RMSE, R2, per-horizon MAE/RMSE, unit and selection rules | active local definition |
+| `data_availability_audit.md` | reused source audit, access route, redistribution boundary, required citations | preliminary, blocking |
 
 ## Non-Requirements
 

@@ -24,7 +24,8 @@ Status: not passed.
 | split manifest | train/validation/test policy, patient/user exclusivity, time-order rule, seed list | preliminary group split artifact created: `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`; baseline and training smoke runs consumed it |
 | seed record | all random seeds and deterministic settings used for each run | partial: baseline and candidate summaries record seed; 10-epoch triage records Python, NumPy, Torch, CUDA, CuBLAS, and cuDNN settings; multi-seed policy still missing |
 | baseline parity table | same split, same input horizon, same output horizon, same metric definitions | full baseline parity completed for persistence, LinearRegression, GBM, and MLPRegressor; see `projects/glucose/protocols/baseline_parity_table.md` |
-| metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | missing |
+| metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | active local definition created: `projects/glucose/protocols/metric_definitions.md`; final multi-seed runs should emit inverse-scaled metrics directly |
+| data availability audit | reused data sources, licence or DUA terms, access route, redistribution boundary, citation actions | preliminary blocking audit created: `projects/glucose/protocols/data_availability_audit.md`; `glucose_ml_collection` provenance unresolved |
 | leakage audit | duplicates, overlapping windows, patient overlap, generated IDs, scaler leakage, target leakage, test reuse | preliminary audit created: `projects/glucose/protocols/leakage_audit.md`; audit does not pass |
 | result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary, GluFormer pilot summary, 10-epoch triage summary, and failure analysis created; claim remains local-pilot |
 | claim boundary | local, dataset-level, external-validation, or clinical claim level | partial: current summaries are local, local-pilot, or local-triage; final manuscript claim level missing |
@@ -83,4 +84,6 @@ Do not commit raw glucose data, processed large datasets, model checkpoints, row
 - `gluformer_failure_analysis.md` records the current cause analysis: validation loss and MAE were still improving at epoch 3, best epoch was the final epoch, learning-rate warmup reached 0.001 only at epoch 3, feature engineering was disabled in the split-manifest path, and the result is single-seed only.
 - `run_glucose_training.py` now records explicit split-manifest seed settings for Python, NumPy, Torch, CUDA, CuBLAS, and cuDNN.
 - A 10-epoch seed-42 GluFormer triage is recorded in `glucose_candidate_10epoch_triage_result_summary.json`. It is mixed versus MLPRegressor: RMSE and R2 improve slightly, but MAE remains worse.
-- The gate remains not passed until a seed policy, metric definitions for final comparison, source/licence audit, leakage audit, and a stronger candidate strategy all pass.
+- `metric_definitions.md` now defines local MAE, RMSE, R2, and per-horizon MAE/RMSE rules for source-aware comparisons. It does not define clinical-range or safety metrics.
+- `data_availability_audit.md` records that OhioT1DM is controlled access and that `glucose_ml_collection` is unresolved against an authoritative release, commit, and source licence chain.
+- The gate remains not passed until source/licence/access-route resolution, a final leakage pass, multi-seed policy, and a stronger candidate strategy all pass.

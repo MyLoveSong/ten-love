@@ -36,6 +36,8 @@
   - [x] 3.8.e Record 10-epoch single-seed triage without claim upgrade.
   - [ ] 3.8.f Record final candidate results only after all required gate artifacts exist.
 - [x] 3.9 Add explicit seed control to split-manifest training and record seed metadata.
+- [x] 3.10 Create local metric definitions for MAE, RMSE, R2, and per-horizon metrics without claim upgrade.
+- [x] 3.11 Create preliminary data availability/source audit; audit remains blocking because `glucose_ml_collection` provenance is unresolved.
 
 ## 4. Verification
 

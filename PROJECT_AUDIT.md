@@ -104,5 +104,8 @@
 - baseline 和训练入口已在 smoke mode 消费 split artifact：baseline smoke 使用 512 windows per split 的 persistence 和 LinearRegression；training smoke 使用 32 windows per split、1 epoch、LSTM only。
 - full baseline parity 已运行：persistence、LinearRegression、GBM、MLPRegressor 使用同一 split artifact，同一 input/output horizon 和同一 metric set，聚合结果写入 `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`。
 - GluFormer candidate pilot 已运行：full split，3 epochs，聚合结果写入 `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`；它没有超过 MLPRegressor baseline。
-- 在 seed list、metric definitions、leakage audit pass、数据可用性审计和下一轮 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
+- GluFormer 10-epoch seed-42 triage 已运行：结果是 mixed，RMSE/R2 略优于 MLPRegressor，但 MAE 仍差，不能升级 claim。
+- `metric_definitions.md` 已补齐本地 MAE、RMSE、R2 和 per-horizon MAE/RMSE 定义，但不覆盖临床范围或安全性指标。
+- `data_availability_audit.md` 已创建且仍 blocking：OhioT1DM 是受控访问，`glucose_ml_collection` 尚未追溯到明确 upstream release、commit、file list 和 licence chain。
+- 在 source/licence/access-route resolution、leakage audit pass、multi-seed policy 和下一轮 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
 - 该 gate 不移动数据、不删除数据、不升级 claim。

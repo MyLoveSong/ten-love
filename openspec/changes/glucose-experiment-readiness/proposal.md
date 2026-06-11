@@ -12,6 +12,8 @@ Before using these results as a top-journal manuscript basis, the repository nee
 - Add a source-aware split manifest generator for the public-preprocessed glucose candidate.
 - Add a lightweight split artifact at `projects/glucose/protocols/public_glucose_source_aware_split_manifest.json`.
 - Add source-aware split consumers for baseline and training entrypoints, with smoke-run limits.
+- Add local metric definitions for MAE, RMSE, R2, and per-horizon t+1 through t+6 metrics.
+- Add a preliminary data availability and source audit for reused glucose datasets.
 - Add a lightweight result summary schema for future manuscript-facing result artifacts.
 - Add Superpowers design and implementation-plan records for executing the gate later.
 - Update README, result ledger, project audit, and GitHub tracking manifest to point to the active gate.
@@ -34,6 +36,8 @@ Affected areas:
 - `docs/superpowers/plans/2026-06-10-glucose-experiment-readiness.md`
 - `projects/glucose/protocols/experiment_readiness_gate.md`
 - `projects/glucose/protocols/baseline_parity_table.md`
+- `projects/glucose/protocols/metric_definitions.md`
+- `projects/glucose/protocols/data_availability_audit.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_rerun_budget.md`

@@ -53,8 +53,10 @@
 - GluFormer candidate pilot：`projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`，full split，3 epochs，test MAE 9.1689 mg/dL、RMSE 13.5598 mg/dL、R2 0.7417。它优于 persistence、LinearRegression 和 GBM，但没有超过 MLPRegressor，因此不能写作“优于所有 baseline”。
 - GluFormer failure analysis：`projects/glucose/protocols/gluformer_failure_analysis.md`，当前最强解释是 3 epoch 预算不足和单 seed 不足。验证集 loss/MAE 到第 3 epoch 仍在下降，best epoch 是最后一轮，learning rate 到第 3 epoch 才到 0.001。该分析要求把 MLPRegressor 作为当前强 baseline，并先补 seed 控制和更长预算 rerun。
 - GluFormer 10-epoch triage：`projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`，full split，seed 42，test MAE 9.1781 mg/dL、RMSE 13.4444 mg/dL、R2 0.7461。相对 MLPRegressor：MAE 差 0.0198 mg/dL，RMSE 好 0.0170 mg/dL，R2 好 0.0006。这是 mixed result，不能写作模型优越性。
+- metric definitions：`projects/glucose/protocols/metric_definitions.md`，定义当前 source-aware gate 使用的 MAE、RMSE、R2、t+1 到 t+6 per-horizon MAE/RMSE、mg/dL 报告单位和 mixed-result selection rule。它不支持临床范围、安全性或治疗决策 claim。
+- data availability audit：`projects/glucose/protocols/data_availability_audit.md`，确认当前 `public_glucose_preprocessed.json` 仍不能作为 Nature-ready 可共享数据源。OhioT1DM 是受控访问；`glucose_ml_collection` 仍需追溯 upstream release、commit、file list 和 licence chain。
 - OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
-- 在 seed policy、metric definition、leakage audit pass、数据可用性审计和更强 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
+- 在 source/licence/access-route resolution、leakage audit pass、multi-seed policy 和更强 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
 
 可写结论：
 - 已有多步血糖预测本地训练结果，t+1 到 t+6 有指标。
@@ -94,8 +96,9 @@
 
 ## 下一步证据 gate
 
-1. 按 failure analysis 执行 30 epoch、至少 3 seeds 的 GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
-2. 在 seed policy、metric definitions、leakage audit 和数据可用性审计完成前，不升级 claim。
-3. 若多 seed 结果仍不能同时改善 MAE、RMSE 和 R2，应把论文叙事转为 MLP 强 baseline 和 GluFormer failure analysis。
-4. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
-5. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。
+1. 先追溯 `glucose_ml_collection` 的 upstream release、commit、file list 和 licence chain；无法确认时，重建 canonical candidate。
+2. 按 failure analysis 执行 30 epoch、至少 3 seeds 的 GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
+3. 在 source/licence/access-route resolution、leakage audit pass 和 multi-seed candidate summary 完成前，不升级 claim。
+4. 若多 seed 结果仍不能同时改善 MAE、RMSE 和 R2，应把论文叙事转为 MLP 强 baseline 和 GluFormer failure analysis。
+5. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
+6. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。

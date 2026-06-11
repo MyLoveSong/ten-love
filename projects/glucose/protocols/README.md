@@ -23,8 +23,10 @@ outputs stay outside Git.
 | 8 | `glucose_candidate_rerun_result_summary.json` | lightweight 3-epoch summary | GluFormer did not beat MLPRegressor |
 | 9 | `gluformer_failure_analysis.md` | failure analysis plus 10-epoch triage completed | no superiority claim |
 | 10 | `glucose_candidate_10epoch_triage_result_summary.json` | lightweight 10-epoch summary | mixed result versus MLPRegressor |
-| 11 | `glucose_result_summary_schema.md` | active schema | local evidence only |
-| 12 | `experiment_readiness_gate.md` | gate status document | gate not passed |
+| 11 | `metric_definitions.md` | active local metric definition | not a clinical metric charter |
+| 12 | `data_availability_audit.md` | preliminary, blocking | source/licence/access route not Nature-ready |
+| 13 | `glucose_result_summary_schema.md` | active schema | local evidence only |
+| 14 | `experiment_readiness_gate.md` | gate status document | gate not passed |
 
 ## Current Decision
 
@@ -35,8 +37,8 @@ same-split baseline.
 
 ## Remaining Gate Blockers
 
-- Source, licence, and access-route audit for the public preprocessed dataset.
-- Final metric definition table for MAE, RMSE, R2, and per-horizon metrics.
+- Source, licence, and access-route resolution for `glucose_ml_collection`.
+- Final data availability statement after source reconciliation.
 - Multi-seed policy and 30-epoch GluFormer rerun.
 - Final leakage pass for the chosen canonical dataset.
 - Claim-boundary decision after the above artifacts exist.

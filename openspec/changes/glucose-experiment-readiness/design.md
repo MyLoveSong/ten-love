@@ -35,13 +35,14 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 3. **Baseline gate:** all baselines use the same canonical split, input horizon, prediction horizon, training budget, and metric definitions.
 4. **Metric gate:** reports include MAE, RMSE, R2, and per-horizon t+1 through t+6 metrics. Clinical range metrics should be reported only if labels and thresholds are audited.
 5. **Leakage gate:** audit covers duplicate rows, overlapping windows, patient overlap, generated patient IDs, normalization fitted outside training data, target leakage, and reuse of test data for model or hyperparameter selection.
-6. **Result-summary gate:** manuscript-facing results are exported as lightweight JSON or Markdown tables, excluding raw data, model weights, and row-level predictions.
-7. **Claim-boundary gate:** the final claim states local algorithmic performance only unless external validation, clinical review, and data-use permissions support stronger claims.
+6. **Data availability gate:** reused data sources, licence or DUA terms, access route, redistribution boundary, and dataset citations are audited before manuscript use.
+7. **Result-summary gate:** manuscript-facing results are exported as lightweight JSON or Markdown tables, excluding raw data, model weights, and row-level predictions.
+8. **Claim-boundary gate:** the final claim states local algorithmic performance only unless external validation, clinical review, and data-use permissions support stronger claims.
 
 ## Decisions
 
 1. Use `glucose-experiment-readiness` as a gate definition with smoke execution records, not as a completed manuscript experiment.
-2. Mark the current gate status as not passed until full same-split baselines, a predefined main-model budget, metric summaries, source/licence review, and leakage blockers are resolved.
+2. Mark the current gate status as not passed until full same-split baselines, a predefined main-model budget, metric summaries, source/licence review, data availability blockers, and leakage blockers are resolved.
 3. Reuse prior protocol material only as input. It is not treated as evidence of completed validation.
 4. Prefer conservative evidence promotion: B-level local results can become A-level only after split, seed, baseline, metric, and leakage artifacts are present.
 5. Keep large data and outputs local. Git should receive only protocol files, summaries, and reproducibility metadata.
@@ -51,6 +52,7 @@ The Glucose line is not ready for manuscript-level claims until all of the follo
 - Existing high metrics may drop after stricter split and leakage audit. That is acceptable and should be recorded as a finding.
 - Patient identifiers may be missing or generated from row order in some sources. Those cases must be classified as weaker evidence.
 - Public glucose datasets may have repeated subjects or mirrored files across `dataset/` and `projects/glucose/data/`. The canonical data gate must resolve this before training.
+- Reused human-participant CGM data may have controlled-access or third-party redistribution limits. The data availability gate must resolve these before manuscript submission.
 - The source-aware split artifact for `public_glucose_preprocessed.json` resolves group overlap for that candidate only. Smoke runs verify entrypoint wiring, but do not prove full baseline parity or model performance.
 - A strict gate delays manuscript writing, but reduces rejection risk from unsupported claims and unclear reproducibility.
 

@@ -6,6 +6,7 @@
   "run_patch_first_committed_as": "45a1cae6ea1885a94a5cecaaea23f2b82b312c02",
   "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
   "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
+  "metric_definitions": "projects/glucose/protocols/metric_definitions.md",
   "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
   "baseline_summary": "projects/glucose/protocols/glucose_baseline_parity_result_summary.json",
   "candidate_3epoch_summary": "projects/glucose/protocols/glucose_candidate_rerun_result_summary.json",
@@ -165,6 +166,10 @@
   "selection_rule": "This 10-epoch triage is a mixed result versus MLPRegressor: R2 and RMSE improve slightly, but MAE remains worse. It does not support a superiority claim.",
   "leakage_audit": {
     "path": "projects/glucose/protocols/leakage_audit.md",
+    "status": "blocked-unverified"
+  },
+  "data_availability_audit": {
+    "path": "projects/glucose/protocols/data_availability_audit.md",
     "status": "blocked-unverified"
   },
   "data_availability_status": "blocked-unverified: source, licence, and access route are not Nature-ready",

@@ -2,7 +2,7 @@
 
 ### Requirement: Glucose claim upgrades require an experiment-readiness gate
 
-Glucose results SHALL NOT be promoted from local observation to manuscript-level evidence until the experiment-readiness gate records canonical data, split, baseline, metric, leakage, and claim-boundary artifacts.
+Glucose results SHALL NOT be promoted from local observation to manuscript-level evidence until the experiment-readiness gate records canonical data, split, baseline, metric, data-availability, leakage, and claim-boundary artifacts.
 
 #### Scenario: Existing Glucose result is cited
 - **WHEN** documentation cites a prior Glucose training or evaluation result
@@ -16,6 +16,7 @@ Glucose results SHALL NOT be promoted from local observation to manuscript-level
 - **AND** the gate contains a frozen split manifest
 - **AND** the gate contains a baseline parity table
 - **AND** the gate contains metric definitions and per-horizon results
+- **AND** the gate contains a data availability and source-access audit
 - **AND** the gate contains a leakage audit
 - **AND** the gate contains a claim-boundary statement
 
@@ -59,3 +60,16 @@ The Glucose experiment line SHALL complete a leakage audit before any high-perfo
 - **THEN** the audit checks duplicate rows, overlapping windows, patient overlap, generated patient IDs, target leakage, scaler leakage, and test-set reuse
 - **AND** unresolved leakage risks are recorded as blockers
 - **AND** the claim level remains local or exploratory until blockers are resolved
+
+### Requirement: Reused glucose data must have audited availability before manuscript use
+
+The Glucose experiment line SHALL NOT rely on reused human-participant CGM data
+for a manuscript claim unless source identity, access route, licence or DUA
+terms, redistribution boundary, and dataset citations are recorded.
+
+#### Scenario: Reused dataset source is included
+- **WHEN** a source-labelled derived glucose dataset is selected as canonical
+- **THEN** every source label maps to an authoritative dataset release, repository, or controlled-access route
+- **AND** source-specific licence, DUA, or use restrictions are recorded
+- **AND** row-level data are excluded from Git unless redistribution is explicitly permitted
+- **AND** unresolved source-access findings block claim upgrade

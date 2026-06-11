@@ -4,6 +4,7 @@
   "git_commit": "1ac1978",
   "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
   "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
+  "metric_definitions": "projects/glucose/protocols/metric_definitions.md",
   "candidate_budget": "projects/glucose/protocols/glucose_candidate_rerun_budget.md",
   "baseline_summary": "projects/glucose/protocols/glucose_baseline_parity_result_summary.json",
   "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
@@ -82,6 +83,10 @@
   "selection_rule": "The candidate is not promoted as outperforming all baselines because MLPRegressor has slightly better test MAE, RMSE, and R2 under the same split.",
   "leakage_audit": {
     "path": "projects/glucose/protocols/leakage_audit.md",
+    "status": "blocked-unverified"
+  },
+  "data_availability_audit": {
+    "path": "projects/glucose/protocols/data_availability_audit.md",
     "status": "blocked-unverified"
   },
   "data_availability_status": "blocked-unverified: source, licence, and access route are not Nature-ready",

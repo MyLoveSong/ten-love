@@ -7,4 +7,6 @@ Status: gate defined, not yet passed.
 
 The gate does not run new training, move data, delete data, or upgrade any
 claim. It records the conditions that must be satisfied before prior local
-Glucose results can support manuscript figures or main claims.
+Glucose results can support manuscript figures or main claims. Current
+metric definitions are local-only, and the data availability audit remains
+blocking until reused source provenance and access terms are resolved.

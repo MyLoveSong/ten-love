@@ -99,10 +99,10 @@ Use the following rule before any rerun:
 | `public_glucose_preprocessed` duplicates patient IDs across sources | patient-level split leaks if `patient_id` is used without source namespace |
 | `unified_cleaned_glucose` lacks source field in observed schema | source-level duplicate and provenance audit cannot be done from schema alone |
 | BigIdeas mirror not reconciled across `dataset/` and `projects/glucose/data/` | raw versus working-copy relationship is not fixed |
-| training and baseline entrypoints do not consume the split artifact | current result remains B-level local observation |
+| data availability audit blocks source freeze | `glucose_ml_collection` has not been traced to an authoritative release, commit, file list, and per-dataset licence chain |
 
 ## Next Minimal Step
 
-Update training and baseline entrypoints to consume
-`public_glucose_source_aware_split_manifest.json`, then rerun metrics with
-train-only normalization and a lightweight result summary.
+Resolve `glucose_ml_collection` provenance and licence/access terms. If that
+source cannot be verified, rebuild the canonical candidate and split artifact
+from sources with clear access routes.
