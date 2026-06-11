@@ -1,0 +1,166 @@
+{
+  "run_id": "glucose_candidate_gluformer_public_source_aware_10epoch_seed42_20260611_124005",
+  "generated_at": "2026-06-11T12:49:42+08:00",
+  "git_commit_before_run": "6e5fee84db468036ba7d443704af260109d39bf6",
+  "run_code_status": "dirty working tree with split-manifest seed-control patch; patch is committed with this summary",
+  "canonical_dataset_manifest": "projects/glucose/protocols/canonical_dataset_manifest.md",
+  "split_manifest": "projects/glucose/protocols/public_glucose_source_aware_split_manifest.json",
+  "dataset_path": "projects/glucose/data/cleaned_dataset/public_glucose_preprocessed.json",
+  "baseline_summary": "projects/glucose/protocols/glucose_baseline_parity_result_summary.json",
+  "candidate_3epoch_summary": "projects/glucose/protocols/glucose_candidate_rerun_result_summary.json",
+  "source_report_path": "TRAIN/outputs/exp_20260611_124005/split_manifest_training_results.json",
+  "source_report_sha256": "e677e52e00540e1bdedfa4e7c321e0f5ed9085c7c6d0e81d0e8cb9ef8eabe1f7",
+  "artifact_policy": "source report and model checkpoint are gitignored; this file contains only aggregate metrics",
+  "seed": {
+    "value": 42,
+    "python_random": 42,
+    "numpy": 42,
+    "torch": 42,
+    "torch_cuda": 42,
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms": true,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true
+  },
+  "training_budget": {
+    "evaluation_scope": "full_split",
+    "max_windows_per_split": null,
+    "train_windows": 159920,
+    "validation_windows": 19990,
+    "test_windows": 19990,
+    "model": "gluformer",
+    "requested_epochs": 10,
+    "observed_total_epochs": 10,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "augmentation": "disabled",
+    "feature_engineering": "disabled",
+    "monitoring": "disabled",
+    "normalization": "train_sequences_only"
+  },
+  "normalized_metrics": {
+    "validation_best_loss": 0.251369,
+    "validation_best_epoch": 8,
+    "validation_final_loss": 0.251825,
+    "validation_final_mae": 0.344093,
+    "test_mae": 0.343984,
+    "test_rmse": 0.503883,
+    "test_r2": 0.74606
+  },
+  "test_metrics_mg_dl_estimate": {
+    "mae": 9.178063,
+    "rmse": 13.444419,
+    "r2": 0.74606,
+    "per_horizon_metrics": {
+      "t+1": {
+        "mae": 7.779601,
+        "rmse": 10.799943
+      },
+      "t+2": {
+        "mae": 8.316283,
+        "rmse": 11.971636
+      },
+      "t+3": {
+        "mae": 8.915671,
+        "rmse": 13.009006
+      },
+      "t+4": {
+        "mae": 9.419316,
+        "rmse": 13.942641
+      },
+      "t+5": {
+        "mae": 10.016604,
+        "rmse": 14.805957
+      },
+      "t+6": {
+        "mae": 10.620906,
+        "rmse": 15.546955
+      }
+    }
+  },
+  "candidate_vs_baseline_test_delta_mg_dl": {
+    "vs_mlp": {
+      "mae_delta": 0.019768,
+      "rmse_delta": -0.017006,
+      "r2_delta": 0.000643
+    }
+  },
+  "candidate_vs_3epoch_delta_mg_dl": {
+    "mae_delta": 0.009197,
+    "rmse_delta": -0.115371,
+    "r2_delta": 0.004377
+  },
+  "training_history": {
+    "train_loss": [
+      0.355866,
+      0.293044,
+      0.283542,
+      0.278933,
+      0.276111,
+      0.273793,
+      0.271351,
+      0.269484,
+      0.267377,
+      0.266038
+    ],
+    "val_loss": [
+      0.273215,
+      0.25961,
+      0.253605,
+      0.257175,
+      0.255727,
+      0.25262,
+      0.252094,
+      0.251369,
+      0.252072,
+      0.251825
+    ],
+    "train_mae": [
+      0.418141,
+      0.375982,
+      0.36847,
+      0.364797,
+      0.362015,
+      0.360372,
+      0.358531,
+      0.357059,
+      0.355605,
+      0.354409
+    ],
+    "val_mae": [
+      0.359558,
+      0.352809,
+      0.344541,
+      0.354004,
+      0.344414,
+      0.346874,
+      0.345434,
+      0.343975,
+      0.340653,
+      0.344093
+    ],
+    "learning_rate": [
+      0.0003,
+      0.000533,
+      0.000767,
+      0.001,
+      0.000951,
+      0.000814,
+      0.000615,
+      0.000395,
+      0.000196,
+      0.000059
+    ]
+  },
+  "warning_observations": {
+    "cublas_determinism_warning": "not observed after setting CUBLAS_WORKSPACE_CONFIG before torch import",
+    "scheduler_deprecation_warning": "observed once from torch.optim.lr_scheduler; not treated as metric-invalidating"
+  },
+  "selection_rule": "This 10-epoch triage is a mixed result versus MLPRegressor: R2 and RMSE improve slightly, but MAE remains worse. It does not support a superiority claim.",
+  "leakage_audit": {
+    "path": "projects/glucose/protocols/leakage_audit.md",
+    "status": "blocked-unverified"
+  },
+  "data_availability_status": "blocked-unverified: source, licence, and access route are not Nature-ready",
+  "claim_level": "local-triage"
+}

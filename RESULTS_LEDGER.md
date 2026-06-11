@@ -52,6 +52,7 @@
 - full source-aware baseline parity：`projects/glucose/protocols/glucose_baseline_parity_result_summary.json`，full split，train/validation/test windows 为 159920/19990/19990，test metrics：persistence MAE 12.6028、RMSE 18.3948、R2 0.5246；LinearRegression MAE 11.4788、RMSE 16.4071、R2 0.6218；GBM MAE 9.8045、RMSE 14.2221、R2 0.7158；MLPRegressor MAE 9.1583、RMSE 13.4614、R2 0.7454。该结果是同 split baseline 证据，但仍是 local claim。
 - GluFormer candidate pilot：`projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`，full split，3 epochs，test MAE 9.1689 mg/dL、RMSE 13.5598 mg/dL、R2 0.7417。它优于 persistence、LinearRegression 和 GBM，但没有超过 MLPRegressor，因此不能写作“优于所有 baseline”。
 - GluFormer failure analysis：`projects/glucose/protocols/gluformer_failure_analysis.md`，当前最强解释是 3 epoch 预算不足和单 seed 不足。验证集 loss/MAE 到第 3 epoch 仍在下降，best epoch 是最后一轮，learning rate 到第 3 epoch 才到 0.001。该分析要求把 MLPRegressor 作为当前强 baseline，并先补 seed 控制和更长预算 rerun。
+- GluFormer 10-epoch triage：`projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`，full split，seed 42，test MAE 9.1781 mg/dL、RMSE 13.4444 mg/dL、R2 0.7461。相对 MLPRegressor：MAE 差 0.0198 mg/dL，RMSE 好 0.0170 mg/dL，R2 好 0.0006。这是 mixed result，不能写作模型优越性。
 - OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
 - 在 seed policy、metric definition、leakage audit pass、数据可用性审计和更强 candidate strategy 完成前，Glucose 结果保持 B 级本地证据。
 
@@ -93,8 +94,8 @@
 
 ## 下一步证据 gate
 
-1. 为 split-manifest training 增加显式 seed 控制，并记录 torch、numpy、random 的 seed。
-2. 按 failure analysis 执行更长预算和多 seed GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
-3. 在 seed policy、metric definitions、leakage audit 和数据可用性审计完成前，不升级 claim。
+1. 按 failure analysis 执行 30 epoch、至少 3 seeds 的 GluFormer rerun，同时保留 MLPRegressor 为强 baseline。
+2. 在 seed policy、metric definitions、leakage audit 和数据可用性审计完成前，不升级 claim。
+3. 若多 seed 结果仍不能同时改善 MAE、RMSE 和 R2，应把论文叙事转为 MLP 强 baseline 和 GluFormer failure analysis。
 4. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
 5. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。

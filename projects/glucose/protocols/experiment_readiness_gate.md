@@ -26,7 +26,7 @@ Status: not passed.
 | baseline parity table | same split, same input horizon, same output horizon, same metric definitions | full baseline parity completed for persistence, LinearRegression, GBM, and MLPRegressor; see `projects/glucose/protocols/baseline_parity_table.md` |
 | metric definition table | MAE, RMSE, R2, per-horizon t+1 through t+6 metrics, unit definitions | missing |
 | leakage audit | duplicates, overlapping windows, patient overlap, generated IDs, scaler leakage, target leakage, test reuse | preliminary audit created: `projects/glucose/protocols/leakage_audit.md`; audit does not pass |
-| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary, GluFormer pilot summary, and failure analysis created; claim remains local-pilot |
+| result summary | lightweight JSON or Markdown table, no raw data, no checkpoints, no row-level predictions | baseline summary, GluFormer pilot summary, 10-epoch triage summary, and failure analysis created; claim remains local-pilot |
 | claim boundary | local, dataset-level, external-validation, or clinical claim level | missing |
 
 ## Default Protocol
@@ -81,4 +81,6 @@ Do not commit raw glucose data, processed large datasets, model checkpoints, row
 - A 3-epoch full-split GluFormer pilot run has now been executed under `glucose_candidate_rerun_budget.md`, with aggregate metrics recorded in `glucose_candidate_rerun_result_summary.json`.
 - The GluFormer pilot improves over persistence, LinearRegression, and GBM, but does not outperform MLPRegressor under the same split. Therefore, no superiority claim is allowed.
 - `gluformer_failure_analysis.md` records the current cause analysis: validation loss and MAE were still improving at epoch 3, best epoch was the final epoch, learning-rate warmup reached 0.001 only at epoch 3, feature engineering was disabled in the split-manifest path, and the result is single-seed only.
+- `run_glucose_training.py` now records explicit split-manifest seed settings for Python, NumPy, Torch, CUDA, CuBLAS, and cuDNN.
+- A 10-epoch seed-42 GluFormer triage is recorded in `glucose_candidate_10epoch_triage_result_summary.json`. It is mixed versus MLPRegressor: RMSE and R2 improve slightly, but MAE remains worse.
 - The gate remains not passed until a seed policy, metric definitions for final comparison, source/licence audit, leakage audit, and a stronger candidate strategy all pass.

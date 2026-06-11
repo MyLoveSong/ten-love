@@ -1,7 +1,12 @@
 import os
+
+DEFAULT_CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', DEFAULT_CUBLAS_WORKSPACE_CONFIG)
+
 import json
 import argparse
 import logging
+import random
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Tuple, DefaultDict
@@ -20,6 +25,38 @@ logger = logging.getLogger(__name__)
 ID_CANDIDATE_KEYS = [
     'patient_id', 'pid', 'user_id', 'subject', 'subject_id', 'patient', 'id'
 ]
+
+
+def set_reproducible_seed(seed: int) -> Dict[str, Any]:
+    if seed < 0:
+        raise ValueError('--seed must be non-negative')
+
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.use_deterministic_algorithms(True, warn_only=True)
+
+    torch_cuda_seed = None
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+        torch_cuda_seed = seed
+
+    if hasattr(torch.backends, 'cudnn'):
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+
+    return {
+        'value': seed,
+        'python_random': seed,
+        'numpy': seed,
+        'torch': seed,
+        'torch_cuda': torch_cuda_seed,
+        'cublas_workspace_config': os.environ.get('CUBLAS_WORKSPACE_CONFIG'),
+        'deterministic_algorithms': True,
+        'cudnn_benchmark': False,
+        'cudnn_deterministic': True,
+    }
 
 
 def _select_best_numeric_series(candidates: Dict[str, List[float]]) -> List[float]:
@@ -422,7 +459,9 @@ def train_with_split_manifest(
     max_windows_per_split: int | None = None,
     epochs: int | None = None,
     model_names: List[str] | None = None,
+    seed: int = 42,
 ) -> Dict[str, Any]:
+    seed_record = set_reproducible_seed(seed)
     logger.info("Loading source-aware split manifest...")
     split_data = load_source_aware_split_windows(
         dataset_path,
@@ -434,6 +473,7 @@ def train_with_split_manifest(
     data_dict = split_to_tensor_dict(split_data)
 
     config = get_default_config(out_dir)
+    config['seed'] = seed_record
     if epochs is not None:
         if epochs <= 0:
             raise ValueError('--epochs must be positive')
@@ -474,6 +514,7 @@ def train_with_split_manifest(
         'training_scope': 'smoke_subset' if max_windows_per_split is not None else 'full_split',
         'max_windows_per_split': max_windows_per_split,
         'epochs': config['training']['epochs'],
+        'seed': seed_record,
         'models': list(config['models'].keys()),
         'individual_models': training_results,
         'test_metrics': test_metrics,
@@ -498,6 +539,7 @@ def main():
     parser.add_argument('--max_windows_per_split', type=int, default=None, help='Deterministic smoke limit per split')
     parser.add_argument('--epochs', type=int, default=None, help='Override training epochs for split-manifest runs')
     parser.add_argument('--models', type=str, default=None, help='Comma-separated model names for split-manifest runs')
+    parser.add_argument('--seed', type=int, default=42, help='Random seed for split-manifest runs')
     parser.add_argument('--run_lora', action='store_true')
     parser.add_argument('--use_patient_ids', action='store_true', help='Group personalization by real patient IDs if available')
     args = parser.parse_args()
@@ -519,6 +561,7 @@ def main():
             max_windows_per_split=args.max_windows_per_split,
             epochs=args.epochs,
             model_names=parse_training_models(args.models, get_default_config(out_dir)['models']),
+            seed=args.seed,
         )
         logger.info(f'All done. Results at: {out_dir}')
         return 0

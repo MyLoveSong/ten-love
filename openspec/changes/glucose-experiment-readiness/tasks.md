@@ -26,13 +26,16 @@
   - [x] 3.7.b Populate a full baseline-parity summary.
   - [x] 3.7.c Populate a candidate-model pilot summary after fixed-budget GluFormer execution.
   - [x] 3.7.d Record failure analysis for the GluFormer pilot that did not outperform MLPRegressor.
-  - [ ] 3.7.e Populate a final candidate strategy summary after seed policy and leakage audit pass.
+  - [x] 3.7.e Populate a 10-epoch single-seed GluFormer triage summary without claim upgrade.
+  - [ ] 3.7.f Populate a final candidate strategy summary after multi-seed policy and leakage audit pass.
 - [ ] 3.8 Update `RESULTS_LEDGER.md` only after the gate artifacts exist.
   - [x] 3.8.a Record smoke-only outputs in `RESULTS_LEDGER.md` without claim upgrade.
   - [x] 3.8.b Record full baseline parity results without claim upgrade.
   - [x] 3.8.c Record candidate-model pilot results without claim upgrade.
   - [x] 3.8.d Record candidate-model failure analysis without claim upgrade.
-  - [ ] 3.8.e Record final candidate results only after all required gate artifacts exist.
+  - [x] 3.8.e Record 10-epoch single-seed triage without claim upgrade.
+  - [ ] 3.8.f Record final candidate results only after all required gate artifacts exist.
+- [x] 3.9 Add explicit seed control to split-manifest training and record seed metadata.
 
 ## 4. Verification
 
@@ -40,3 +43,4 @@
 - [x] 4.2 Run targeted Python compile checks for Glucose entrypoints.
 - [x] 4.3 Run stale reference search for the new gate.
 - [x] 4.4 Run `git diff --check`.
+- [x] 4.5 Run split-manifest seed-control and baseline regression tests.

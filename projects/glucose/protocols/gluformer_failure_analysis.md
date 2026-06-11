@@ -1,6 +1,6 @@
 # GluFormer Failure Analysis
 
-Status: local failure analysis completed, gate not passed.
+Status: local failure analysis plus 10-epoch triage completed, gate not passed.
 
 ## Verdict
 
@@ -11,6 +11,11 @@ improving at the final requested epoch, and the learning-rate warmup reached
 0.001 only at epoch 3. This is a negative candidate result against the current
 MLP baseline, not evidence that the GluFormer architecture is intrinsically
 invalid.
+
+A follow-up 10-epoch single-seed triage was run after adding explicit seed
+control to the split-manifest training path. It remains a mixed result: R2 and
+RMSE are slightly better than MLPRegressor, but MAE remains worse. It still
+does not support a superiority claim.
 
 ## Compared Runs
 
@@ -72,17 +77,39 @@ reported as outperforming all baselines.
 - The next candidate run should test whether GluFormer catches or exceeds MLP
   under a budget that can actually reach convergence.
 
+## 10-Epoch Triage Update
+
+Lightweight summary:
+`projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`.
+
+Source output:
+`TRAIN/outputs/exp_20260611_124005/split_manifest_training_results.json`.
+
+| Field | Value |
+|---|---:|
+| seed | 42 |
+| epochs | 10 |
+| best validation epoch | 8 |
+| test MAE, mg/dL | 9.1781 |
+| test RMSE, mg/dL | 13.4444 |
+| test R2 | 0.7461 |
+| MAE delta versus MLPRegressor, mg/dL | +0.0198 |
+| RMSE delta versus MLPRegressor, mg/dL | -0.0170 |
+| R2 delta versus MLPRegressor | +0.0006 |
+
+Interpretation: the 10-epoch triage improves RMSE and R2 relative to MLP, but
+does not improve MAE. The result is too small and mixed to justify a model
+claim, especially because it is still single-seed and the leakage/data
+availability gates remain blocked.
+
 ## Required Next Experiment
 
 Before another manuscript-facing candidate claim:
 
-1. Add explicit seed control to `run_glucose_training.py` for split-manifest
-   training.
-2. Run GluFormer on the same split with an extended budget, at minimum 10
-   epochs for triage and 30 epochs for a serious comparison.
-3. Run at least three seeds, for example 42, 123, and 456.
-4. Report mean and standard deviation for MAE, RMSE, R2, and per-horizon MAE.
-5. Keep MLPRegressor as the comparison baseline unless a stronger published or
+1. Run GluFormer on the same split with a serious 30-epoch budget.
+2. Run at least three seeds, for example 42, 123, and 456.
+3. Report mean and standard deviation for MAE, RMSE, R2, and per-horizon MAE.
+4. Keep MLPRegressor as the comparison baseline unless a stronger published or
    domain-standard baseline is added under the same split.
 
 Candidate single-seed triage command:
@@ -95,19 +122,23 @@ Candidate single-seed triage command:
   --in_len 12 \
   --out_len 6 \
   --epochs 10 \
-  --models gluformer
+  --models gluformer \
+  --seed 42
 ```
 
-This command is proposed, not executed in this failure analysis.
+This 10-epoch command has now been executed once for triage. The next serious
+comparison should increase `--epochs` to 30 and run multiple seeds.
 
 ## Artifact Boundary
 
 Source candidate output remains ignored by Git:
 `TRAIN/outputs/exp_20260611_004421/split_manifest_training_results.json`.
+`TRAIN/outputs/exp_20260611_124005/split_manifest_training_results.json`.
 
 Committed lightweight summaries:
 
 - `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`
+- `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
 
 No raw glucose rows, row-level predictions, model checkpoints, or patient IDs
