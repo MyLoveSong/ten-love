@@ -123,6 +123,7 @@ BigIdeas full-split test metrics:
 | GluFormer candidate | full split pilot | yes | yes | MAE, RMSE, R2, per horizon | local-pilot; did not outperform MLPRegressor; failure analysis completed |
 | GluFormer 10-epoch triage | full split | yes | yes | MAE, RMSE, R2, per horizon | local-triage; mixed versus MLPRegressor |
 | BigIdeas MLPRegressor strong baseline | full split | yes | yes | MAE, RMSE, R2, per horizon | local; strongest BigIdeas-only baseline so far |
+| BigIdeas GluFormer 30-epoch multi-seed | full split | yes | yes | MAE, RMSE, R2, per horizon | local; mixed versus MLPRegressor, no superiority claim |
 
 ## Commands To Run In A Full Environment
 
@@ -145,5 +146,5 @@ python3 projects/glucose/src/run_glucose_training.py \
 
 - A stronger predefined candidate strategy is still required after BigIdeas
   baseline parity.
-- A 30-epoch, multi-seed GluFormer rerun on the BigIdeas-only split is required
-  before any candidate model claim is reconsidered.
+- A claim-boundary decision is required because the BigIdeas GluFormer
+  multi-seed result improves RMSE/R2 but not MAE versus MLPRegressor.

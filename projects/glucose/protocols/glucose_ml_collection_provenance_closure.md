@@ -55,10 +55,11 @@ Old `public_glucose_preprocessed` baseline and GluFormer summaries remain
 useful for debugging the training path and same-split comparison code. They do
 not support manuscript claims after this closure.
 
-BigIdeas-only baseline results now remain local evidence after full baseline
-parity and the baseline-specific final leakage pass. They cannot support a
-candidate-model claim until candidate reruns, multi-seed summary, and final
-data availability statement are completed on the BigIdeas split.
+BigIdeas-only baseline and candidate results now remain local evidence after
+full baseline parity, the baseline-specific final leakage pass, and the
+GluFormer multi-seed summary. They cannot support a manuscript claim until
+final data availability and claim-boundary review are completed on the
+BigIdeas split.
 
 ## Source Basis
 
@@ -71,6 +72,5 @@ data availability statement are completed on the BigIdeas split.
 
 ## Next Minimal Step
 
-Run 30-epoch multi-seed GluFormer comparisons on
-`bigideas_source_aware_split_manifest.json`, using the BigIdeas MLPRegressor
-result as the current strong baseline.
+Complete claim-boundary review for the BigIdeas mixed result, using the
+BigIdeas MLPRegressor result as the current strong baseline.

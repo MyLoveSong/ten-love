@@ -48,6 +48,7 @@ the actual figure/result claims.
 | source report | `projects/glucose/protocols/bigideas_glucose_source_report.json` |
 | split artifact | `projects/glucose/protocols/bigideas_source_aware_split_manifest.json` |
 | baseline summary | `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json` |
+| candidate summary | `projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json` |
 | final leakage audit | `projects/glucose/protocols/bigideas_final_leakage_audit.md` |
 | raw source | PhysioNet BigIdeas v1.0.0 local mirror |
 | access route | public PhysioNet dataset |
@@ -173,6 +174,5 @@ rg -n "ohio_t1dm|glucose_ml_collection|url|license|licence|access" projects/gluc
 
 ## Next Minimal Step
 
-Complete BigIdeas-only 30-epoch multi-seed candidate comparison. If the
-BigIdeas result line is kept, replace the draft Data Availability text with a
-claim-specific final statement and dataset citation list.
+If the BigIdeas result line is kept, replace the draft Data Availability text
+with a claim-specific final statement and dataset citation list.

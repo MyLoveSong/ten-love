@@ -106,10 +106,11 @@
 - full baseline parity 已运行：persistence、LinearRegression、GBM、MLPRegressor 使用同一 split artifact，同一 input/output horizon 和同一 metric set，聚合结果写入 `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`。
 - BigIdeas-only full baseline parity 已运行：同一 BigIdeas split artifact 下，MLPRegressor 是当前 strongest baseline，test MAE 5.2368 mg/dL、RMSE 8.6506 mg/dL、R2 0.7700；聚合结果写入 `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json`。
 - BigIdeas final leakage pass 已写入 `projects/glucose/protocols/bigideas_final_leakage_audit.md`：重复 key、空字段、partition overlap 和 train-only scaler 检查通过；该 pass 只支持 local baseline parity，不升级 manuscript claim。
+- BigIdeas-only GluFormer 30 epoch multi-seed 已运行：seeds 42/123/456，mean test MAE 5.3346 mg/dL、RMSE 8.3588 mg/dL、R2 0.7852；结果写入 `projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`。相对 MLPRegressor，RMSE/R2 改善但 MAE 更差，因此不能升级为模型优越性 claim。
 - GluFormer candidate pilot 已运行：full split，3 epochs，聚合结果写入 `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`；它没有超过 MLPRegressor baseline。
 - GluFormer 10-epoch seed-42 triage 已运行：结果是 mixed，RMSE/R2 略优于 MLPRegressor，但 MAE 仍差，不能升级 claim。
 - `metric_definitions.md` 已补齐本地 MAE、RMSE、R2 和 per-horizon MAE/RMSE 定义，但不覆盖临床范围或安全性指标。
 - `data_availability_audit.md` 已创建且仍 blocking：OhioT1DM 是受控访问；`glucose_ml_collection` 已关闭为 unresolved；BigIdeas 路线有公开 PhysioNet access route 和 ODC-By licence，但仍需 final claim-specific Data Availability statement。
 - BigIdeas baseline smoke 和 LSTM training smoke 已运行，训练入口现在导出 inverse-scaled mg/dL overall/per-horizon metrics；这些仍是 smoke evidence。
-- 在 BigIdeas GluFormer 30 epoch multi-seed comparison、multi-seed policy 和下一轮 claim strategy 完成前，Glucose 结果保持本地工程证据，不升级 claim。
+- 在 final Data Availability statement、claim-boundary review 和可能的外部验证完成前，Glucose 结果保持本地工程证据，不升级 claim。
 - 该 gate 不移动数据、不删除数据、不升级 claim。

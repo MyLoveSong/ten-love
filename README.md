@@ -98,9 +98,12 @@ BigIdeas final leakage pass 已写入
 旧 public-preprocessed 上的 full baseline parity、3-epoch GluFormer pilot、
 failure analysis 和 10-epoch triage 仍保留为工程链路证据。它们不能升级为
 manuscript claim。BigIdeas-only 当前最强 baseline 是 MLPRegressor，test
-MAE 5.2368 mg/dL、RMSE 8.6506 mg/dL、R2 0.7700。该结果仍是 local baseline
-evidence，因为 BigIdeas 只有 16 个 subject groups，test partition 只有 1 个
-subject group。下一步仍需 30 epoch multi-seed GluFormer rerun 后再决定 claim。
+MAE 5.2368 mg/dL、RMSE 8.6506 mg/dL、R2 0.7700。BigIdeas-only GluFormer
+30 epoch、seeds 42/123/456 已完成，mean test MAE 5.3346 mg/dL、RMSE
+8.3588 mg/dL、R2 0.7852。该结果是 mixed：RMSE/R2 优于 MLPRegressor，但
+MAE 更差，因此不能写作 GluFormer 全面优于 strong baseline。BigIdeas 只有
+16 个 subject groups，test partition 只有 1 个 subject group，所以结果仍是
+local evidence。
 
 关键文件：
 - `openspec/changes/glucose-experiment-readiness/`
@@ -113,6 +116,7 @@ subject group。下一步仍需 30 epoch multi-seed GluFormer rerun 后再决定
 - `projects/glucose/protocols/bigideas_glucose_source_report.json`
 - `projects/glucose/protocols/bigideas_source_aware_split_manifest.json`
 - `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json`
+- `projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`
 - `projects/glucose/protocols/bigideas_final_leakage_audit.md`
 - `projects/glucose/protocols/glucose_result_summary_schema.md`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
@@ -146,8 +150,8 @@ subject group。下一步仍需 30 epoch multi-seed GluFormer rerun 后再决定
 
 ## 后续建议
 
-1. 按 `gluformer_failure_analysis.md` 跑 BigIdeas-only 30 epoch、seeds 42, 123, 456 的 GluFormer 正式比较。
-2. 将 GluFormer 多 seed 结果与 MLPRegressor strong baseline 做同 split、同 metric 比较。
-3. 若多 seed 结果不能同时改善 MAE、RMSE 和 R2，将论文叙事转为 MLP 强 baseline、GluFormer failure analysis 和数据治理贡献。
+1. 对 BigIdeas-only mixed result 做 claim-boundary review：保留 MLPRegressor strong baseline，GluFormer 只能写作 RMSE/R2 局部改善。
+2. 补 final Data Availability statement 和 dataset citation list，明确 PhysioNet BigIdeas v1.0.0 与 ODC-By attribution。
+3. 若论文主线需要泛化 claim，补额外公开数据或外部验证；仅靠当前 16-subject BigIdeas split 不够。
 4. 后续再为 `projects/nutrition/` 固定最小可复现命令。
 5. 对 `data/`、`dataset/`、`projects/glucose/data/` 做 hash 级重复清单，再决定归档或去重。

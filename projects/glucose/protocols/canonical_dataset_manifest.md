@@ -115,6 +115,6 @@ Use the following rule before any rerun:
 
 ## Next Minimal Step
 
-Run 30-epoch GluFormer multi-seed reruns on the BigIdeas-only split with seeds
-42, 123, and 456. Keep the BigIdeas MLPRegressor result as the current strong
-baseline until a same-split candidate summary proves otherwise.
+Write a claim-boundary decision for the BigIdeas mixed result and finalize the
+Data Availability statement if this line remains the manuscript candidate.
+Keep the BigIdeas MLPRegressor result as the current strong baseline.

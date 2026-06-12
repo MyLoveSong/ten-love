@@ -81,6 +81,7 @@ claim could be considered.
 Follow-up status: explicit split-manifest seed control has since been added, and
 a 10-epoch seed-42 triage is recorded in
 `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`.
-That triage is mixed versus MLPRegressor. After provenance closure, the next
-serious comparison must be a 30-epoch, multi-seed rerun on the BigIdeas-only
-split after BigIdeas full baseline parity and final leakage checks.
+That triage is mixed versus MLPRegressor. After provenance closure, the
+BigIdeas-only 30-epoch, multi-seed rerun is recorded in
+`projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`.
+It is also mixed versus MLPRegressor, so no superiority claim is allowed.

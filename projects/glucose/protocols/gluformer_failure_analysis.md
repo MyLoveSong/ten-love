@@ -1,6 +1,6 @@
 # GluFormer Failure Analysis
 
-Status: local failure analysis plus 10-epoch triage completed, gate not passed.
+Status: local failure analysis plus BigIdeas 30-epoch multi-seed comparison completed, gate not passed.
 
 ## Verdict
 
@@ -22,6 +22,10 @@ are historical engineering evidence on the old public-preprocessed candidate.
 The optimization lessons still inform the next budget, but future manuscript
 candidate runs must use `bigideas_source_aware_split_manifest.json` or another
 verified-source split.
+
+The BigIdeas-only 30-epoch multi-seed rerun has now been completed for seeds
+42, 123, and 456. It remains mixed versus the BigIdeas MLPRegressor strong
+baseline: mean RMSE and R2 improve, but mean MAE is worse.
 
 ## Compared Runs
 
@@ -78,11 +82,11 @@ reported as outperforming all baselines.
 
 - Do not claim GluFormer superiority.
 - Treat MLPRegressor as the current strongest same-split baseline.
-- Keep the Glucose claim level at local engineering evidence until BigIdeas
-  full baseline parity, final leakage audit, Data Availability statement, and
-  seed policy are complete.
-- The next candidate run should test whether GluFormer catches or exceeds MLP
-  under a budget that can actually reach convergence.
+- Keep the Glucose claim level at local engineering evidence until final Data
+  Availability wording, claim-boundary review, and any required external
+  validation are complete.
+- Treat the BigIdeas MLPRegressor as the strong baseline unless a later
+  candidate improves the selected metric set under the same split.
 
 ## 10-Epoch Triage Update
 
@@ -109,15 +113,46 @@ does not improve MAE. The result is too small and mixed to justify a model
 claim, especially because it is still single-seed and the leakage/data
 availability gates remain blocked.
 
-## Required Next Experiment
+## BigIdeas 30-Epoch Multi-Seed Update
+
+Lightweight summary:
+`projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`.
+
+Source outputs:
+
+- `TRAIN/outputs/exp_20260612_165133/split_manifest_training_results.json`
+- `TRAIN/outputs/exp_20260612_165345/split_manifest_training_results.json`
+- `TRAIN/outputs/exp_20260612_165515/split_manifest_training_results.json`
+
+| Field | Value |
+|---|---:|
+| seeds | 42, 123, 456 |
+| requested epochs | 30 |
+| observed total epochs | 10, 8, 12 |
+| best epochs | 7, 4, 8 |
+| mean test MAE, mg/dL | 5.3346 |
+| sample std test MAE, mg/dL | 0.0932 |
+| mean test RMSE, mg/dL | 8.3588 |
+| sample std test RMSE, mg/dL | 0.0898 |
+| mean test R2 | 0.7852 |
+| sample std test R2 | 0.0046 |
+| MAE delta versus MLPRegressor, mg/dL | +0.0979 |
+| RMSE delta versus MLPRegressor, mg/dL | -0.2918 |
+| R2 delta versus MLPRegressor | +0.0152 |
+
+Interpretation: the 30-epoch multi-seed BigIdeas run improves mean RMSE and
+R2 relative to MLPRegressor, but it does not improve mean MAE. Under the active
+selection rule, this does not support a GluFormer superiority claim.
+
+## Required Next Review
 
 Before another manuscript-facing candidate claim:
 
-1. Run GluFormer on the same split with a serious 30-epoch budget.
-2. Run at least three seeds, for example 42, 123, and 456.
-3. Report mean and standard deviation for MAE, RMSE, R2, and per-horizon MAE.
-4. Keep MLPRegressor as the comparison baseline unless a stronger published or
+1. Decide whether the paper's main selection rule prioritizes all aggregate
+   metrics or a primary metric with secondary metrics.
+2. Keep MLPRegressor as the comparison baseline unless a stronger published or
    domain-standard baseline is added under the same split.
+3. If GluFormer is retained, report it as mixed rather than superior.
 
 Candidate single-seed triage command:
 
@@ -134,20 +169,24 @@ Candidate single-seed triage command:
 ```
 
 The old 10-epoch command has already been executed once for triage on the old
-public-preprocessed candidate. The next serious comparison should use the
-BigIdeas-only split with `--epochs 30` and run multiple seeds.
+public-preprocessed candidate. The BigIdeas-only 30-epoch multi-seed command
+has now also been executed and summarized.
 
 ## Artifact Boundary
 
 Source candidate output remains ignored by Git:
 `TRAIN/outputs/exp_20260611_004421/split_manifest_training_results.json`.
 `TRAIN/outputs/exp_20260611_124005/split_manifest_training_results.json`.
+`TRAIN/outputs/exp_20260612_165133/split_manifest_training_results.json`.
+`TRAIN/outputs/exp_20260612_165345/split_manifest_training_results.json`.
+`TRAIN/outputs/exp_20260612_165515/split_manifest_training_results.json`.
 
 Committed lightweight summaries:
 
 - `projects/glucose/protocols/glucose_candidate_rerun_result_summary.json`
 - `projects/glucose/protocols/glucose_candidate_10epoch_triage_result_summary.json`
 - `projects/glucose/protocols/glucose_baseline_parity_result_summary.json`
+- `projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`
 
 No raw glucose rows, row-level predictions, model checkpoints, or patient IDs
 are included in this document.

@@ -27,7 +27,7 @@
   - [x] 3.7.c Populate a candidate-model pilot summary after fixed-budget GluFormer execution.
   - [x] 3.7.d Record failure analysis for the GluFormer pilot that did not outperform MLPRegressor.
   - [x] 3.7.e Populate a 10-epoch single-seed GluFormer triage summary without claim upgrade.
-  - [ ] 3.7.f Populate a final candidate strategy summary after multi-seed policy and leakage audit pass.
+  - [x] 3.7.f Populate a final candidate strategy summary after multi-seed policy and leakage audit pass.
 - [ ] 3.8 Update `RESULTS_LEDGER.md` only after the gate artifacts exist.
   - [x] 3.8.a Record smoke-only outputs in `RESULTS_LEDGER.md` without claim upgrade.
   - [x] 3.8.b Record full baseline parity results without claim upgrade.
@@ -35,6 +35,7 @@
   - [x] 3.8.d Record candidate-model failure analysis without claim upgrade.
   - [x] 3.8.e Record 10-epoch single-seed triage without claim upgrade.
   - [ ] 3.8.f Record final candidate results only after all required gate artifacts exist.
+  - [x] 3.8.g Record BigIdeas 30-epoch multi-seed mixed result without claim upgrade.
 - [x] 3.9 Add explicit seed control to split-manifest training and record seed metadata.
 - [x] 3.10 Create local metric definitions for MAE, RMSE, R2, and per-horizon metrics without claim upgrade.
 - [x] 3.11 Create preliminary data availability/source audit; audit remains blocking because `glucose_ml_collection` provenance is unresolved.
@@ -44,7 +45,8 @@
 - [x] 3.15 Run BigIdeas-only baseline and training smoke checks without claim upgrade.
 - [x] 3.16 Run BigIdeas-only full baseline parity for persistence, LinearRegression, GBM, and MLPRegressor without claim upgrade.
 - [x] 3.17 Record BigIdeas-only final leakage pass for baseline parity, with limitations from the 16-subject cohort and 1-subject test partition.
-- [ ] 3.18 Run BigIdeas-only 30-epoch GluFormer comparison for seeds 42, 123, and 456.
+- [x] 3.18 Run BigIdeas-only 30-epoch GluFormer comparison for seeds 42, 123, and 456.
+- [ ] 3.19 Complete claim-boundary review for the BigIdeas mixed result.
 
 ## 4. Verification
 

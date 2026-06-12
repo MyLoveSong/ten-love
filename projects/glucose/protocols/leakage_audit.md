@@ -118,5 +118,5 @@ The training and baseline entrypoints now consume
 assignment, and fit normalization on the training partition only.
 `data_availability_audit.md` now records the BigIdeas source/access route and
 the old `glucose_ml_collection` closure. The next minimal audit step is a
-BigIdeas 30-epoch multi-seed GluFormer comparison against the current
-MLPRegressor strong baseline before any claim upgrade.
+claim-boundary review for the BigIdeas mixed GluFormer result before any claim
+upgrade.

@@ -68,6 +68,7 @@ Historical split artifact:
 | GluFormer 10-epoch triage | `glucose_candidate_10epoch_triage_result_summary.json` | local-triage |
 | BigIdeas baseline parity | `glucose_bigideas_baseline_parity_result_summary.json` | local |
 | BigIdeas final leakage pass | `bigideas_final_leakage_audit.md` | local baseline pass with limitations |
+| BigIdeas GluFormer 30-epoch multi-seed | `glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json` | local mixed result |
 
 These runs used the old public-preprocessed candidate. After provenance
 closure, they are not comparable to future BigIdeas-only reruns.
@@ -85,7 +86,7 @@ verified-source baseline evidence for the next candidate comparison.
 | train ratio | 0.8 | prior enhanced prediction config |
 | validation ratio | 0.1 for prior enhanced prediction; 0.2 in `EnhancedGlucosePredictionSystem` | conflicting active code paths |
 | test ratio | 0.1 for prior enhanced prediction | not present in `EnhancedGlucosePredictionSystem.train_complete_system` path |
-| seed list | 42, 123, 456, 789, 101112 | inherited from earlier protocol; not yet tied to a frozen run |
+| seed list | 42, 123, 456 | tied to the BigIdeas GluFormer 30-epoch multi-seed summary; older candidate seeds 789 and 101112 remain unexecuted |
 
 ## Required Split Policy
 

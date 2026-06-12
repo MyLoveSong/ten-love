@@ -10,6 +10,7 @@ claim. It records the conditions that must be satisfied before prior local
 Glucose results can support manuscript figures or main claims. Current
 metric definitions are local-only. The old public-preprocessed candidate is
 closed as unresolved for manuscript canonical use. The new BigIdeas-only draft
-candidate has full baseline parity and a final baseline-specific leakage pass,
-but still requires 30-epoch multi-seed GluFormer comparison, final Data
-Availability wording, and claim-boundary review.
+candidate has full baseline parity, a final baseline-specific leakage pass, and
+a 30-epoch multi-seed GluFormer comparison. The GluFormer comparison is mixed,
+so the gate still requires final Data Availability wording and claim-boundary
+review.

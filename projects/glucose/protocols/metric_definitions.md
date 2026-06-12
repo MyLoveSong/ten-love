@@ -107,10 +107,11 @@ CGM values or model outputs.
 |---|---|
 | R2 implementation differs from scikit-learn `force_finite=True` behavior when targets are constant | low risk for current summaries, but should be unit-tested before a final manuscript table |
 | old GluFormer summaries converted normalized metrics to mg/dL estimates after the fact | historical limitation for old public-preprocessed runs; future runs should use direct training export |
-| no confidence intervals or multi-seed mean/std yet | blocking for manuscript-level comparison |
+| no confidence intervals yet | blocking for manuscript-level comparison |
 | clinical glucose metrics are not defined | blocks clinical or safety claims |
 
 ## Next Minimal Step
 
-Compute direct inverse-scaled mean and standard deviation across seeds 42, 123,
-and 456 under this definition table for the BigIdeas-only GluFormer comparison.
+Use the BigIdeas-only multi-seed summary to write a claim-boundary decision.
+Do not describe GluFormer as superior unless the selected rule explicitly
+accepts mixed MAE/RMSE/R2 outcomes.

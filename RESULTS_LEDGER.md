@@ -41,6 +41,7 @@
 | 公共血糖预处理报告 | `projects/glucose/data/cleaned_dataset/public_glucose_preprocess_report.json` | sources: ohio_t1dm、glucose_ml_collection；patients_kept 100；total_samples 201600 | C | `glucose_ml_collection` provenance 已关闭为 unresolved；仅保留为工程历史 |
 | BigIdeas-only source report | `projects/glucose/protocols/bigideas_glucose_source_report.json` | 16 个 Dexcom source files；36898 条 EGV records；16 个 subjects；ODC-By | C | verified-source draft candidate，已完成 baseline parity 和 local leakage pass，但样本规模仍限制 claim |
 | BigIdeas-only full baseline parity | `projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json` | MLPRegressor test MAE 5.2368 mg/dL、RMSE 8.6506 mg/dL、R2 0.7700；LinearRegression test MAE 5.3239、RMSE 8.8584、R2 0.7588 | C | local baseline evidence；未包含 GluFormer candidate；test partition 只有 1 个 subject group |
+| BigIdeas-only GluFormer 30-epoch multi-seed | `projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json` | seeds 42/123/456；mean test MAE 5.3346 mg/dL、RMSE 8.3588 mg/dL、R2 0.7852 | C | mixed result；RMSE/R2 优于 MLPRegressor，但 MAE 更差，不能写作全面模型优越性 |
 
 当前 gate：
 - `glucose-experiment-readiness` 已定义，但未通过。
@@ -63,8 +64,9 @@
 - BigIdeas-only baseline smoke：`outputs/glucose_baselines_bigideas_source_aware_smoke/split_manifest_baseline_report.json`，512 windows per split，persistence test MAE 6.4443、RMSE 10.2795、R2 0.6443；LinearRegression test MAE 7.3138、RMSE 10.8277、R2 0.6054。该输出被 Git 忽略，只能证明入口可运行。
 - BigIdeas-only training smoke：`TRAIN/outputs/exp_20260611_194606/split_manifest_training_results.json`，32 windows per split，1 epoch，LSTM only，seed 42；输出包含 `test_metrics_inverse_scaled` 和 `val_metrics_inverse_scaled`，单位 mg/dL。该输出被 Git 忽略，只能证明训练入口和 inverse metric export 可运行。
 - BigIdeas-only full baseline parity：`projects/glucose/protocols/glucose_bigideas_baseline_parity_result_summary.json`，full split，train/validation/test windows 为 29783/4696/2147。test metrics：persistence MAE 6.4117、RMSE 10.2676、R2 0.6759；LinearRegression MAE 5.3239、RMSE 8.8584、R2 0.7588；GBM MAE 5.6735、RMSE 8.9541、R2 0.7535；MLPRegressor MAE 5.2368、RMSE 8.6506、R2 0.7700。MLPRegressor 是当前 BigIdeas-only strong baseline。
+- BigIdeas-only GluFormer 30-epoch multi-seed：`projects/glucose/protocols/glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json`，seeds 42/123/456，train/validation/test windows 为 29783/4696/2147。mean test MAE 5.3346 ± 0.0932 mg/dL、RMSE 8.3588 ± 0.0898 mg/dL、R2 0.7852 ± 0.0046。相对 MLPRegressor：MAE 差 0.0979 mg/dL，RMSE 好 0.2918 mg/dL，R2 好 0.0152。这是 mixed result，不能写作全面模型优越性。
 - OpenSpec：`openspec/changes/glucose-experiment-readiness/`。
-- 旧 public-preprocessed 结果在 provenance closure 后保持工程历史证据，不能支持 manuscript claim。BigIdeas-only baseline parity 和 final leakage pass 已完成，但在 multi-seed policy、GluFormer 30 epoch comparison 和 claim-boundary review 完成前仍保持 C 级 local evidence。
+- 旧 public-preprocessed 结果在 provenance closure 后保持工程历史证据，不能支持 manuscript claim。BigIdeas-only baseline parity、final leakage pass 和 GluFormer multi-seed comparison 已完成，但在 final Data Availability、claim-boundary review 和可能的外部验证完成前仍保持 C 级 local evidence。
 
 可写结论：
 - 已有多步血糖预测本地训练结果，t+1 到 t+6 有指标。
@@ -104,8 +106,8 @@
 
 ## 下一步证据 gate
 
-1. 按 failure analysis 执行 BigIdeas-only 30 epoch、seeds 42, 123, 456 的 GluFormer rerun，同时保留 MLPRegressor 为 strong baseline。
-2. 将多 seed GluFormer 结果写入轻量 summary，并明确 selection rule。
-3. 若多 seed 结果不能同时改善 MAE、RMSE 和 R2，应把论文叙事转为 MLP 强 baseline、GluFormer failure analysis 和数据治理贡献。
+1. 做 BigIdeas mixed result 的 claim-boundary review：MLPRegressor 保持 strong baseline，GluFormer 只支持 RMSE/R2 局部改善叙述。
+2. 补 final Data Availability statement、dataset citation list 和 ODC-By attribution。
+3. 若需要泛化 claim，补外部验证或新增 verified-source 数据。
 4. Glucose gate 通过后，再评估是否把证据等级从 B 升为 A。
 5. 后续再对 Nutrition 补泄漏审计，对 Recommendation 跑完整 Recall@K、NDCG@K、Precision@K 评估后更新 claim。

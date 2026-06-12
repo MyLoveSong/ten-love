@@ -10,8 +10,9 @@ full baseline parity summary in
 
 This is a local baseline-parity pass only. It does not make a manuscript result
 claim pass, because the BigIdeas-only split contains 16 subject groups and the
-test partition contains 1 subject group. Candidate-model evidence, multi-seed
-policy, and final claim-specific Data Availability wording are still required.
+test partition contains 1 subject group. Candidate-model multi-seed evidence is
+now recorded as a mixed result, and final claim-specific Data Availability
+wording plus claim-boundary review are still required.
 
 ## Scope
 
@@ -81,7 +82,8 @@ is finalized.
 
 - Only 16 subject groups are available, and the test partition has 1 subject
   group. This limits any cross-subject generalization claim.
-- No GluFormer 30-epoch multi-seed BigIdeas comparison has been run yet.
+- The GluFormer 30-epoch multi-seed BigIdeas comparison is mixed versus
+  MLPRegressor, so it still needs claim-boundary review.
 - No external validation dataset has been added.
 - Final Nature-style Data Availability text still depends on the exact
   manuscript figure and claim scope.
@@ -98,6 +100,5 @@ jq -r '[.groups[] | {group_hash, partition}] | group_by(.group_hash) | map(selec
 
 ## Next Minimal Step
 
-Run GluFormer on the same BigIdeas split for 30 epochs with seeds 42, 123, and
-456, then compare it against MLPRegressor under the same metric definitions and
-claim boundary.
+Write the claim-boundary review for the BigIdeas mixed result, then finalize
+Data Availability wording if this line remains the manuscript candidate.

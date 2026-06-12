@@ -32,23 +32,22 @@ outputs stay outside Git.
 | 17 | `experiment_readiness_gate.md` | gate status document | gate not passed |
 | 18 | `glucose_bigideas_baseline_parity_result_summary.json` | BigIdeas full baseline parity completed | local baseline evidence only |
 | 19 | `bigideas_final_leakage_audit.md` | BigIdeas leakage pass completed with limitations | baseline parity pass only |
+| 20 | `glucose_bigideas_gluformer_30epoch_multiseed_result_summary.json` | BigIdeas GluFormer 30-epoch multi-seed comparison completed | mixed local evidence only |
 
 ## Current Decision
 
 `glucose_ml_collection` provenance has been closed as unresolved for the
 current local derived dataset. The old `public_glucose_preprocessed` split and
 results remain engineering evidence only. The next candidate line is
-BigIdeas-only, with `bigideas_glucose_source_report.json` and
-`bigideas_source_aware_split_manifest.json` as the draft verified-source
-artifacts.
+BigIdeas-only, with source report, split manifest, baseline parity, leakage
+pass, and GluFormer multi-seed summary now recorded as draft verified-source
+artifacts. The GluFormer result is mixed versus MLPRegressor, so no model
+superiority claim is allowed.
 
 ## Remaining Gate Blockers
 
-- GluFormer 30-epoch rerun on the BigIdeas-only split for seeds 42, 123, and
-  456.
 - Final data availability statement for the selected BigIdeas-only claim level.
-- Multi-seed policy summary and claim-boundary decision after the above
-  artifacts exist.
+- Claim-boundary decision for the BigIdeas mixed result.
 - Additional data or external validation if the manuscript needs a
   generalization claim beyond the 16-subject BigIdeas cohort.
 
